@@ -1,0 +1,5 @@
+viết chương trình in ra kí số lớn nhất của số nguyên N được nhập bởi người dùng
+viết chương trình in ra số lượng kí số của số nguyên N được nhập bởi người dùng 
+viết chương trình <>
+viết chương trình nhập vào độ dài 3 cạnh cho biết 3 cạnh đó tạo nên tam giác gì
+viết chương trình giải phương trình bậc 2 khi biết 3 số a b c
