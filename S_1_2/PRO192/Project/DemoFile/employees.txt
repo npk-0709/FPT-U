@@ -1,0 +1,5 @@
+Employee{id=E001, name=John Doe, department=IT, basic_salary=50000.0}
+Employee{id=E002, name=Jane Doe, department=IT, basic_salary=52000.0}
+Employee{id=E003, name=Nguyen Van Ba, department=IT, basic_salary=50000.0}
+Employee{id=E004, name=Tran Thi Bon, department=HR, basic_salary=60000.0}
+Employee{id=E005, name=Le Van Nam, department=Finance, basic_salary=55000.0}

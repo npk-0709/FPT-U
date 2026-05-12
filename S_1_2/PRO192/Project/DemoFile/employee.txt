@@ -1,0 +1,2 @@
+Employee{id=SE1, name=NVA, department=ITER, basic_salary=60000.0}
+Employee{id=SE2, name=NPK, department=ITER, basic_salary=99000.0}
