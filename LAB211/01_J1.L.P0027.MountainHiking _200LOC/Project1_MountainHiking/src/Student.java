@@ -1,15 +1,13 @@
-import java.io.Serializable;
 import java.util.Locale;
+import java.util.Objects;
 
-public class Student implements Serializable {
+public class Student extends Person implements Comparable<Student> {
 
     private static final long serialVersionUID = 1L;
 
     public static final double DEFAULT_FEE = 6_000_000;
     public static final double DISCOUNT_RATE = 0.35;
 
-    private String id;
-    private String name;
     private String phone;
     private String email;
     private String mountainCode;
@@ -20,28 +18,16 @@ public class Student implements Serializable {
 
     public Student(String id, String name, String phone, String email,
                    String mountainCode, double tuitionFee) {
-        this.id = id;
-        this.name = name;
+        super(id, name);
         this.phone = phone;
         this.email = email;
         this.mountainCode = mountainCode;
         this.tuitionFee = tuitionFee;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    @Override
+    public String getDisplayInfo() {
+        return toString();
     }
 
     public String getPhone() {
@@ -100,7 +86,42 @@ public class Student implements Serializable {
     }
 
     public String toCsv() {
-        return id + "," + name + "," + phone + "," + email + ","
-                + mountainCode + "," + tuitionFee;
+        return csv(id) + "," + csv(name) + "," + csv(phone) + ","
+                + csv(email) + "," + csv(mountainCode) + ","
+                + String.format(Locale.US, "%.0f", tuitionFee);
+    }
+
+    private String csv(String value) {
+        if (value == null) {
+            return "";
+        }
+        return "\"" + value.replace("\"", "\"\"") + "\"";
+    }
+
+    @Override
+    public int compareTo(Student other) {
+        if (other == null) {
+            return 1;
+        }
+        String thisId = id == null ? "" : id;
+        String otherId = other.id == null ? "" : other.id;
+        return thisId.compareToIgnoreCase(otherId);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof Student)) {
+            return false;
+        }
+        Student other = (Student) obj;
+        return id != null && other.id != null && id.equalsIgnoreCase(other.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id == null ? "" : id.toUpperCase());
     }
 }

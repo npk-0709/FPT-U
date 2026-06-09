@@ -20,10 +20,10 @@ public class Inputter {
                 try {
                     return Integer.parseInt(input);
                 } catch (NumberFormatException e) {
-                    System.out.println("[Error] Number is too large, please try again.");
+                    System.out.println("Number is too large, please try again.");
                 }
             } else {
-                System.out.println("[Error] Please enter a valid integer.");
+                System.out.println("Please enter a valid integer.");
             }
         }
     }
@@ -35,10 +35,10 @@ public class Inputter {
                 try {
                     return Double.parseDouble(input);
                 } catch (NumberFormatException e) {
-                    System.out.println("[Error] Invalid number, please try again.");
+                    System.out.println("Invalid number, please try again.");
                 }
             } else {
-                System.out.println("[Error] Please enter a valid number.");
+                System.out.println("Please enter a valid number.");
             }
         }
     }
@@ -49,7 +49,7 @@ public class Inputter {
             if (Acceptable.isValid(input, pattern)) {
                 return input;
             }
-            System.out.println("[Error] Invalid format, please re-enter.");
+            System.out.println("Invalid format, please re-enter.");
         }
     }
 
@@ -62,7 +62,7 @@ public class Inputter {
             if (Acceptable.isValid(input, pattern)) {
                 return input;
             }
-            System.out.println("[Error] Invalid format, please re-enter (or press Enter to keep old value).");
+            System.out.println("Invalid format, please re-enter (or press Enter to keep old value).");
         }
     }
 
@@ -80,7 +80,7 @@ public class Inputter {
                     return value;
                 }
             }
-            System.out.println("[Error] Please choose a number from " + min + " to " + max + ".");
+            System.out.println("Please choose a number from " + min + " to " + max + ".");
         }
     }
 }

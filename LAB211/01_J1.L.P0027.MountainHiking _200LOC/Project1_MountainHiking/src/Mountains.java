@@ -18,6 +18,8 @@ public class Mountains extends ArrayList<Mountain> {
         readFromFile();
     }
 
+
+
     public Mountain get(String mountainCode) {
         if (mountainCode == null) {
             return null;
@@ -58,6 +60,7 @@ public class Mountains extends ArrayList<Mountain> {
             System.out.println("[Warning] Mountain list file not found: " + pathFile);
             return;
         }
+        this.clear();
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line;
             boolean firstLine = true;
@@ -72,12 +75,12 @@ public class Mountains extends ArrayList<Mountain> {
                     }
                 }
                 Mountain m = dataToObject(line);
-                if (m != null) {
+                if (m != null && !isValidMountainCode(m.getMountainCode())) {
                     this.add(m);
                 }
             }
         } catch (IOException e) {
-            System.out.println("[Error] Could not read mountain list: " + e.getMessage());
+            System.out.println("Could not read mountain list: " + e.getMessage());
         }
     }
 

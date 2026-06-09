@@ -1,10 +1,13 @@
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Students extends ArrayList<Student> {
@@ -34,6 +37,9 @@ public class Students extends ArrayList<Student> {
 
     @Override
     public boolean add(Student x) {
+        if (x == null || searchById(x.getId()) != null) {
+            return false;
+        }
         boolean ok = super.add(x);
         if (ok) {
             markUnsaved();
@@ -93,6 +99,7 @@ public class Students extends ArrayList<Student> {
             }
         }
         return result;
+    
     }
 
     public List<Student> filterByCampusCode(String campusCode) {
@@ -118,12 +125,14 @@ public class Students extends ArrayList<Student> {
             System.out.println("No students have registered yet.");
             return;
         }
+        List<Student> sortedList = new ArrayList<>(list);
+        Collections.sort(sortedList);
         String line = "------------------------------------------------------------------------------------------------------";
         System.out.println(line);
         System.out.printf("%-10s | %-20s | %-12s | %-25s | %-9s | %12s%n",
                 "StudentID", "Name", "Phone", "Email", "PeakCode", "Fee");
         System.out.println(line);
-        for (Student s : list) {
+        for (Student s : sortedList) {
             System.out.println(s);
         }
         System.out.println(line);
@@ -160,15 +169,33 @@ public class Students extends ArrayList<Student> {
     public boolean saveToFile() {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(pathFile))) {
             oos.writeObject(new ArrayList<>(this));
+            exportToCsv();
             this.isSaved = true;
             return true;
         } catch (IOException e) {
-            System.out.println("[Error] Could not save registration data: " + e.getMessage());
+            System.out.println("Could not save registration data: " + e.getMessage());
             return false;
         }
     }
 
     public String getPathFile() {
         return pathFile;
+    }
+
+    public String getCsvPathFile() {
+        return "registrations.csv";
+    }
+
+    private void exportToCsv() throws IOException {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(getCsvPathFile()))) {
+            bw.write("StudentID,Name,Phone,Email,MountainCode,TuitionFee");
+            bw.newLine();
+            List<Student> sortedList = new ArrayList<>(this);
+            Collections.sort(sortedList);
+            for (Student s : sortedList) {
+                bw.write(s.toCsv());
+                bw.newLine();
+            }
+        }
     }
 }

@@ -1,3 +1,5 @@
+import java.util.Objects;
+
 public class Mountain {
 
     private String mountainCode;
@@ -52,5 +54,23 @@ public class Mountain {
         return String.format("%-5s | %-25s | %-15s | %s",
                 mountainCode, mountain, province,
                 description == null ? "" : description);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof Mountain)) {
+            return false;
+        }
+        Mountain other = (Mountain) obj;
+        return mountainCode != null && other.mountainCode != null
+                && mountainCode.equalsIgnoreCase(other.mountainCode);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(mountainCode == null ? "" : mountainCode.toUpperCase());
     }
 }

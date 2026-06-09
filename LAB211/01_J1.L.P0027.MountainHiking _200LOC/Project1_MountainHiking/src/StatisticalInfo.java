@@ -55,6 +55,7 @@ public class StatisticalInfo {
         this.totalCost += fee;
     }
 
+
     @Override
     public String toString() {
         return String.format(Locale.US,
