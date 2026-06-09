@@ -31,8 +31,5 @@ public abstract class Person implements Serializable {
         this.name = name;
     }
 
-    /**
-     * Mỗi lớp con tự định nghĩa cách hiển thị thông tin.
-     */
     public abstract String getDisplayInfo();
 }

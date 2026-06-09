@@ -99,7 +99,7 @@ public class Students extends ArrayList<Student> {
             }
         }
         return result;
-    
+
     }
 
     public List<Student> filterByCampusCode(String campusCode) {

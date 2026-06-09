@@ -43,12 +43,7 @@ public class Volunteer extends Person implements Comparable<Volunteer> {
         this.shiftsToday = shiftsToday;
     }
 
-    /**
-     * Assign volunteer vào một ca.
-     * Kiểm tra không vượt maxShiftsPerDay.
-     *
-     * @return true nếu assign thành công, false nếu đã đạt giới hạn.
-     */
+
     public boolean assign() {
         if (shiftsToday >= maxShiftsPerDay) {
             return false;
@@ -57,13 +52,7 @@ public class Volunteer extends Person implements Comparable<Volunteer> {
         return true;
     }
 
-    /**
-     * Kiểm tra volunteer có đủ skill cho slot yêu cầu không.
-     * Slot cần MEDIC chỉ nhận người có skill MEDIC.
-     *
-     * @param requiredSkill Skill mà slot yêu cầu (null nếu slot GENERAL)
-     * @return true nếu phù hợp
-     */
+
     public boolean hasSkillFor(Skill requiredSkill) {
         if (requiredSkill == null) {
             return true; // slot GENERAL, ai cũng được
