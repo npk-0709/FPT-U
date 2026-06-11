@@ -1,0 +1,244 @@
+================================================================================
+     UPDATE AI AUDIT LOG - VOLUNTEER FEATURE (TOPIC 31 - Volunteer)
+     ADDITIONAL 3 ENTRIES FOR VOLUNTEER FEATURE
+     (Continuing from ENTRY #020 in original AI_AUDIT_LOG.txt)
+================================================================================
+
+# ==============================================================================
+# INSTRUCTIONS:
+# - The 3 entries below correspond to the 3 core prompts required in TOPIC 31:
+#     Entry #021: Decision - Volunteer extends Person
+#     Entry #022: Verification - Skill enum and MEDIC constraint
+#     Entry #023: Algorithms - Limit maxShiftsPerDay
+# - Catch >= 1 hallucination (Entry #022 contains HALLUCINATION CASE #4)
+# - Each entry has all 4 Human Delta questions
+# - Exact references to actual source code
+# ==============================================================================
+
+METADATA UPDATE (append to original SECTION 1):
+-----------------------------------------------------------------
+Total Prompts Used (all AI tools) : ~135 (updated)
+Core Prompts Logged               : 23   (within LAB211 range 16-24)
+Selection Ratio                   : 23 / 135 = 17.0%
+Hallucination Detected            : 4    (required >= 2)
+
+DISTRIBUTION UPDATE (append to original table):
+-----------------------------------------------------------------
+| DTC Component         | Number of Prompts | Entry IDs (added)                     |
+|-----------------------|-------------------|---------------------------------------|
+| Decomposition         | 6  (+1)           | 001-005, 021                          |
+| Pattern Recognition   | 6  (+1)           | 006-010, 022                          |
+| Algorithms            | 6  (+1)           | 016-020, 023                          |
+| TOTAL                 | 23                |                                       |
+
+ADDITIONAL RELATED FILES:
+-----------------------------------------------------------------
+- src/Person.java            ( 36 lines) - abstract class, base for Student & Volunteer
+- src/Skill.java             ( 20 lines) - enum MEDIC, LOGISTIC, GUIDE_ASSIST
+- src/Volunteer.java         (115 lines) - entity extends Person
+- src/Volunteers.java        (150 lines) - collection extends ArrayList<Volunteer>
+- src/Acceptable.java        ( 29 lines) - added VOLUNTEER_ID, VOLUNTEER_NAME_VALID, SHIFT_VALID
+- src/Main.java              (448 lines) - added volunteerManagement() + 5 sub-functions
+- volunteers.dat / .csv      - persisted data for Volunteer
+
+
+================================================================================
+SECTION 2 (CONTINUED) - 3 NEW ENTRIES FOR VOLUNTEER FEATURE
+================================================================================
+
+
+--------------------------------------------------------------------------------
+ENTRY #021
+--------------------------------------------------------------------------------
+Prompt Type        : DECISION-MAKING
+Stage / Component  : Decomposition
+Problem / Context  : Topic 31 requires adding a Volunteer entity with id (^VL\d{3}$),
+                     name (3..30), skill (enum), maxShiftsPerDay (1..3),
+                     shiftsToday. The project already has a Student class extending Person.
+                     Question: Should Volunteer be a standalone class, or extend Person
+                     like Student?
+
+Prompt to AI       :
+"I already have an abstract class Person (id, name) and Student extends Person.
+Now I need to add a Volunteer entity with id (VL + 3 digits), name (3-30 chars),
+skill (enum MEDIC/LOGISTIC/GUIDE_ASSIST), maxShiftsPerDay (1-3), shiftsToday.
+Should Volunteer extend Person or be a standalone class? What about the
+Volunteers collection - should it also extend ArrayList like Students?"
+
+AI Response (Summary):
+AI suggests: Volunteer should extend Person because they BOTH have id + name, this is a valid IS-A
+relationship. Volunteers extends ArrayList<Volunteer> following the same pattern
+as Students. AI also advises creating an "Assignable" interface for the assign() method
+to abstract the concept of "assigning to a slot".
+
+Human Delta & Reflection:
+- Critical Thinking : AI is right about Person inheritance (DRY, reuses id/name).
+  BUT suggesting an "Assignable" interface is OVER-ENGINEERING for a 200 LOC project.
+  Only Volunteer needs it.
+- Contextualization : Existing Person.java works well for Student. Inheriting it
+  for Volunteer is natural and saves duplicate code.
+- Creative Synthesis: I decided: Volunteer extends Person, Volunteers extends
+  ArrayList<Volunteer>. I DID NOT create an Assignable interface to avoid over-engineering.
+- Decision Ownership: Chose inheritance to reuse fields and stay consistent
+  with Student. Rejected the interface as it's an anti-pattern for a single class.
+
+Evidence           : Person.java (36 lines, abstract class); Volunteer.java
+                     line 4 (extends Person implements Comparable<Volunteer>);
+                     Volunteer.java line 6 (serialVersionUID = 2L);
+                     Volunteer.java lines 15-20 (constructor calls super(id, name));
+                     Volunteers.java line 13 (extends ArrayList<Volunteer>).
+
+
+--------------------------------------------------------------------------------
+ENTRY #022 *** HALLUCINATION CASE #4 ***
+--------------------------------------------------------------------------------
+Prompt Type        : VERIFICATION
+Stage / Component  : Pattern Recognition
+Problem / Context  : Topic 31 requires skill to be an enum {MEDIC, LOGISTIC, GUIDE_ASSIST}
+                     and constraint: "MEDIC slot only accepts people with MEDIC skill".
+                     Need to verify how to implement enum + constraint to check skill
+                     when assigning to a MEDIC slot.
+
+Prompt to AI       :
+"In Java, I have an enum Skill { MEDIC, LOGISTIC, GUIDE_ASSIST }. When assigning
+a volunteer to a MEDIC slot, only volunteers with skill == MEDIC should be
+accepted. What's the best practice: use enum.compareTo() to check skill match,
+or use == operator? Also, should I use Enum.valueOf(String) to parse user input
+or a custom getByIndex() method?"
+
+AI Response (Summary):
+AI advises: use == for enum comparison (type-safe, no NullPointerException
+like equals()). For parsing input, AI says: "Since Java 14, Enum has a built-in
+method Enum.valueOfIgnoreCase(String) that does case-insensitive lookup. You
+can use Skill.valueOfIgnoreCase(userInput) directly."
+AI also says using compareTo() to check skill is WRONG because compareTo() compares
+ordinal, not value.
+
+Human Delta & Reflection:
+- Critical Thinking : **HALLUCINATION TYPE: Fabrication of API**. AI is right about
+  using `==` for enum comparison. BUT `Enum.valueOfIgnoreCase(String)` DOES NOT EXIST
+  in Java (it fabricated it).
+- Contextualization : User selects skill via a number menu, so parsing text isn't needed.
+- Creative Synthesis: I implemented `Skill.getByIndex(int)` for safe UI selection
+  and `Volunteer.hasSkillFor(Skill)` using `==` to strictly enforce the MEDIC constraint.
+- Decision Ownership: Used `==` and numeric menu index to avoid text parsing issues
+  and the hallucinated API, ensuring safe logic encapsulation.
+
+Evidence           : Screenshot Javadoc Enum class (only has valueOf(Class,String),
+                     NO valueOfIgnoreCase); Skill.java lines 1-19
+                     (enum + getByIndex); Volunteer.java lines 56-61 (hasSkillFor);
+                     Main.java lines 384-395 (MEDIC check before assign);
+
+
+--------------------------------------------------------------------------------
+ENTRY #023
+--------------------------------------------------------------------------------
+Prompt Type        : PROBLEM-SOLVING
+Stage / Component  : Algorithms
+Problem / Context  : Topic 31 requires constraint "Do not exceed maxShiftsPerDay":
+                     each volunteer has maxShiftsPerDay (1-3), each assign increments
+                     shiftsToday by 1, if shiftsToday >= maxShiftsPerDay then
+                     DO NOT allow assign anymore. Need a simple + accurate blocking algorithm.
+
+Prompt to AI       :
+"My Volunteer has maxShiftsPerDay (1-3) and shiftsToday (counter). When assigning
+to a shift, I must check shiftsToday < maxShiftsPerDay before incrementing.
+Should I use a try-catch with custom OverShiftException, or a simple boolean
+return from assign()? Also, when should shiftsToday be reset to 0?"
+
+AI Response (Summary):
+AI suggests 2 approaches:
+  (1) Boolean return: assign() returns false if max reached. Caller checks return.
+  (2) Custom exception: throw OverShiftLimitException(). Caller try-catch.
+AI advises using (2) because "exceptions make the contract explicit and are the
+standard pattern in enterprise Java". For reset, AI says: "Use a ScheduledExecutor
+to reset shiftsToday at midnight automatically."
+
+Human Delta & Reflection:
+- Critical Thinking : AI suggests custom exceptions and ScheduledExecutor.
+  This is OVER-ENGINEERING for a console app and unnecessary.
+- Contextualization : The requirement just needs a simple block if shifts
+  exceed the limit. A simple boolean check is enough.
+- Creative Synthesis: I implemented a simple `boolean assign()` method that checks
+  `shiftsToday >= maxShiftsPerDay`. The caller handles the false return to print
+  "Over shift limit!".
+- Decision Ownership: Chose a simple boolean return (O(1) logic) over exceptions
+  to keep code short and appropriate for the project scope.
+
+Evidence           : Volunteer.java lines 47-53 (assign() method);
+                     Main.java lines 397-405 (caller logic);
+                     Test scenario (following exact requirement):
+                       Input: VL001, name="Nguyen Van A", skill=MEDIC, max=2
+                       -> Assign shift 1: "Assigned successfully! 1/2" ✓
+                       -> Assign shift 2: "Assigned successfully! 2/2" ✓
+                       -> Assign shift 3: "Over shift limit! ... max shifts (2)"
+
+
+================================================================================
+SECTION 3 (ADDED) - HALLUCINATION DETECTION LOG
+================================================================================
+
+----------------------------------------------------------------------
+Case #4 - Entry #022
+----------------------------------------------------------------------
+Hallucination Type   : Fabrication of API
+AI's Claim           : "Since Java 14, Enum has a built-in method
+                       Enum.valueOfIgnoreCase(String) that does
+                       case-insensitive lookup."
+Reality Check        : Official Oracle Java 8/11/14/17/21 Javadoc
+                       DOES NOT have valueOfIgnoreCase() method in
+                       java.lang.Enum class. Only valueOf(Class<T>, String)
+                       requires EXACT MATCH case-sensitive. Calling
+                       Skill.valueOf("medic") will throw
+                       IllegalArgumentException because constant is "MEDIC".
+How Detected         : Read Oracle Javadoc directly:
+                       https://docs.oracle.com/javase/17/docs/api/java/lang/Enum.html
+                       + tried to compile code Skill.valueOfIgnoreCase("medic")
+                       -> compile error "cannot find symbol".
+                       Cross-check StackOverflow: "java enum case insensitive
+                       valueOf" -> no built-in method, must write custom
+                       loop or use stream.
+Corrective Action    : Do not use valueOf() or "valueOfIgnoreCase()". Instead
+                       use menu index (Skill.getByIndex(int)) for user to
+                       choose skill via number, completely avoiding text parsing issue.
+                       Wrote custom getByIndex() method with bounds check (Skill.java
+                       lines 12-18).
+
+
+================================================================================
+SELF-ASSESSMENT CHECKLIST (FOR 3 NEW ENTRIES)
+================================================================================
+
+A. CHECK QUALITY OF EACH ENTRY (Pass >= 4/5)
+-----------------------------------------------------------------
+| # | Criteria                                                            | #021 | #022 | #023 |
+|---|---------------------------------------------------------------------|------|------|------|
+| 1 | Does prompt affect important decision?                              | [x]  | [x]  | [x]  |
+| 2 | If no prompt, would project change architecture/design?             | [x]  | [x]  | [x]  |
+| 3 | Can I explain reason for choosing/not choosing AI suggestion?       | [x]  | [x]  | [x]  |
+| 4 | Is there specific evidence?                                         | [x]  | [x]  | [x]  |
+| 5 | Does prompt reflect critical thinking?                              | [x]  | [x]  | [x]  |
+
+B. OVERALL CHECK (UPDATED)
+-----------------------------------------------------------------
+| # | Criteria                                          | Pass | Current Value          |
+|---|---------------------------------------------------|------|------------------------|
+| 1 | Number of entries (16-24)?                        | [x]  | 23                     |
+| 2 | Each DTC has >= 1 core prompt?                    | [x]  | D:6, P:6, Ab:5, Al:6  |
+| 3 | >= 2 hallucinations?                              | [x]  | 4                      |
+| 4 | Each entry has 4 Human Delta questions?           | [x]  | 23/23                  |
+| 5 | Evidence >= 70%?                                  | [x]  | 23/23 = 100%           |
+
+C. PREPARE FOR ORAL VIVAS (ADDED)
+-----------------------------------------------------------------
++------+--------------------------------------------------------------+------------+------------+
+|Entry | Can I explain why?                                           | Mem AI res?|Evid ready? |
++------+--------------------------------------------------------------+------------+------------+
+| 021  | Volunteer inherits Person? -> DRY, reuse id/name.            |   [x]      |   [x]      |
+| 022  | Enum skill check how? -> ==, getByIndex, hasSkillFor.        |   [x]      |   [x]      |
+| 023  | Limit max shift how? -> boolean assign(), O(1).              |   [x]      |   [x]      |
++------+--------------------------------------------------------------+------------+------------+
+
+================================================================================
+                           END OF UPDATE AI AUDIT LOG
+================================================================================

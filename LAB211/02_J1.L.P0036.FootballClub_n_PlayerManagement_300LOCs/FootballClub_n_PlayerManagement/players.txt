@@ -1,0 +1,10 @@
+P0001,CL-0001,Marcus Rashford,Forward,10
+P0002,CL-0001,Bruno Fernandes,Midfielder,8
+P0003,CL-0002,Jude Bellingham,Midfielder,5
+P0004,CL-0002,Vinicius Junior,Winger,7
+P0005,CL-0003,Robert Lewandowski,Forward,9
+P0006,CL-0003,Pedri Gonzalez,Midfielder,8
+P0007,CL-0004,Harry Kane,Forward,9
+P0008,CL-0004,Jamal Musiala,Midfielder,42
+P0009,CL-0005,Mohamed Salah,Forward,11
+P0010,CL-0005,Virgil van Dijk,Defender,4

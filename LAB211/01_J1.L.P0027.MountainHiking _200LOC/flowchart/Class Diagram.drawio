@@ -1,0 +1,185 @@
+<mxfile host="Electron">
+  <diagram name="Page-1" id="R6HcomP-7J5fBIuoJHb8">
+    <mxGraphModel dx="1341" dy="929" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" background="#ffffff" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="2" parent="1" style="text;html=1;strokeColor=#006EAF;fontColor=#006EAF;fillColor=#dae8fc;align=center;verticalAlign=top;spacingTop=0;fontSize=12;fontStyle=1;rounded=1;" value="&lt;b&gt;&lt;i&gt;«interface»&lt;/i&gt;Acceptable&lt;/b&gt;" vertex="1">
+          <mxGeometry height="30" width="260" x="900" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="3" parent="1" style="text;html=1;strokeColor=#006EAF;fontColor=#006EAF;fillColor=#dae8fc;align=left;verticalAlign=top;spacingLeft=5;fontSize=11;" value="«constants»&lt;br&gt;STUDENT_ID : String&lt;br&gt;CAMPUS_CODE : String&lt;br&gt;NAME_VALID : String&lt;br&gt;DOUBLE_VALID : String&lt;br&gt;INTEGER_VALID : String&lt;br&gt;PHONE_VALID : String&lt;br&gt;VIETTEL_VALID : String&lt;br&gt;VNPT_VALID : String&lt;br&gt;EMAIL_VALID : String&lt;br&gt;YES_NO_VALID : String&lt;br&gt;MENU_VALID : String" vertex="1">
+          <mxGeometry height="165" width="260" x="900" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="4" parent="1" style="text;html=1;strokeColor=#006EAF;fontColor=#006EAF;fillColor=#dae8fc;align=left;verticalAlign=top;spacingLeft=5;fontSize=11;" value="«static»&lt;br&gt;+ isValid(data: String, pattern: String) : boolean" vertex="1">
+          <mxGeometry height="35" width="260" x="900" y="235" as="geometry" />
+        </mxCell>
+        <mxCell id="10" parent="1" style="text;html=1;strokeColor=#666666;fontColor=#333333;fillColor=#f5f5f5;align=center;verticalAlign=top;spacingTop=0;fontSize=12;fontStyle=1;rounded=1;" value="&lt;b&gt;Inputter&lt;/b&gt;" vertex="1">
+          <mxGeometry height="30" width="320" x="50" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="11" parent="1" style="text;html=1;strokeColor=#666666;fontColor=#333333;fillColor=#f5f5f5;align=left;verticalAlign=top;spacingLeft=5;fontSize=11;" value="- ndl : Scanner" vertex="1">
+          <mxGeometry height="25" width="320" x="50" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="12" parent="1" style="text;html=1;strokeColor=#666666;fontColor=#333333;fillColor=#f5f5f5;align=left;verticalAlign=top;spacingLeft=5;fontSize=11;" value="+ Inputter()&lt;br&gt;+ getString(mess: String) : String&lt;br&gt;+ getInt(mess: String) : int&lt;br&gt;+ getDouble(mess: String) : double&lt;br&gt;+ inputAndLoop(mess: String, pattern: String) : String&lt;br&gt;+ inputAndLoopAllowEmpty(mess: String, pattern: String) : String&lt;br&gt;+ confirmYesNo(mess: String) : boolean&lt;br&gt;+ getMenuChoice(mess: String, min: int, max: int) : int" vertex="1">
+          <mxGeometry height="130" width="320" x="50" y="95" as="geometry" />
+        </mxCell>
+        <mxCell id="20" parent="1" style="text;html=1;strokeColor=#666666;fontColor=#333333;fillColor=#f5f5f5;align=center;verticalAlign=top;spacingTop=0;fontSize=12;fontStyle=1;rounded=1;" value="&lt;b&gt;Mountain&lt;/b&gt;" vertex="1">
+          <mxGeometry height="30" width="300" x="50" y="500" as="geometry" />
+        </mxCell>
+        <mxCell id="21" parent="1" style="text;html=1;strokeColor=#666666;fontColor=#333333;fillColor=#f5f5f5;align=left;verticalAlign=top;spacingLeft=5;fontSize=11;" value="- mountainCode : String&lt;br&gt;- mountain : String&lt;br&gt;- province : String&lt;br&gt;- description : String" vertex="1">
+          <mxGeometry height="70" width="300" x="50" y="530" as="geometry" />
+        </mxCell>
+        <mxCell id="22" parent="1" style="text;html=1;strokeColor=#666666;fontColor=#333333;fillColor=#f5f5f5;align=left;verticalAlign=top;spacingLeft=5;fontSize=11;" value="+ Mountain()&lt;br&gt;+ Mountain(mountainCode, mountain, province, description)&lt;br&gt;+ getMountainCode() : String&lt;br&gt;+ setMountainCode(mountainCode: String) : void&lt;br&gt;+ getMountain() : String&lt;br&gt;+ setMountain(mountain: String) : void&lt;br&gt;+ getProvince() : String&lt;br&gt;+ setProvince(province: String) : void&lt;br&gt;+ getDescription() : String&lt;br&gt;+ setDescription(description: String) : void&lt;br&gt;+ toString() : String&lt;br&gt;+ equals(obj: Object) : boolean&lt;br&gt;+ hashCode() : int" vertex="1">
+          <mxGeometry height="200" width="300" x="50" y="600" as="geometry" />
+        </mxCell>
+        <mxCell id="30" parent="1" style="text;html=1;strokeColor=#666666;fontColor=#333333;fillColor=#f5f5f5;align=center;verticalAlign=top;spacingTop=0;fontSize=12;fontStyle=1;rounded=1;" value="&lt;b&gt;Mountains&lt;/b&gt;&lt;br&gt;&lt;i&gt;extends ArrayList&amp;lt;Mountain&amp;gt;&lt;/i&gt;" vertex="1">
+          <mxGeometry height="40" width="290" x="500" y="500" as="geometry" />
+        </mxCell>
+        <mxCell id="31" parent="1" style="text;html=1;strokeColor=#666666;fontColor=#333333;fillColor=#f5f5f5;align=left;verticalAlign=top;spacingLeft=5;fontSize=11;" value="- pathFile : String" vertex="1">
+          <mxGeometry height="25" width="290" x="500" y="540" as="geometry" />
+        </mxCell>
+        <mxCell id="32" parent="1" style="text;html=1;strokeColor=#666666;fontColor=#333333;fillColor=#f5f5f5;align=left;verticalAlign=top;spacingLeft=5;fontSize=11;" value="+ Mountains()&lt;br&gt;+ Mountains(pathFile: String)&lt;br&gt;+ get(mountainCode: String) : Mountain&lt;br&gt;+ isValidMountainCode(mountainCode: String) : boolean&lt;br&gt;+ dataToObject(text: String) : Mountain&lt;br&gt;+ readFromFile() : void&lt;br&gt;+ showAll() : void" vertex="1">
+          <mxGeometry height="120" width="290" x="500" y="565" as="geometry" />
+        </mxCell>
+        <mxCell id="40" parent="1" style="text;html=1;strokeColor=#666666;fontColor=#333333;fillColor=#f5f5f5;align=center;verticalAlign=top;spacingTop=0;fontSize=12;fontStyle=1;rounded=1;" value="&lt;b&gt;Student&lt;/b&gt;&lt;br&gt;&lt;i&gt;implements Serializable, Comparable&amp;lt;Student&amp;gt;&lt;/i&gt;" vertex="1">
+          <mxGeometry height="40" width="310" x="900" y="500" as="geometry" />
+        </mxCell>
+        <mxCell id="41" parent="1" style="text;html=1;strokeColor=#666666;fontColor=#333333;fillColor=#f5f5f5;align=left;verticalAlign=top;spacingLeft=5;fontSize=11;" value="«static final»&lt;br&gt;+ DEFAULT_FEE : double = 6_000_000&lt;br&gt;+ DISCOUNT_RATE : double = 0.35&lt;br&gt;- serialVersionUID : long = 1L&lt;hr&gt;- id : String&lt;br&gt;- name : String&lt;br&gt;- phone : String&lt;br&gt;- email : String&lt;br&gt;- mountainCode : String&lt;br&gt;- tuitionFee : double" vertex="1">
+          <mxGeometry height="155" width="310" x="900" y="540" as="geometry" />
+        </mxCell>
+        <mxCell id="42" parent="1" style="text;html=1;strokeColor=#666666;fontColor=#333333;fillColor=#f5f5f5;align=left;verticalAlign=top;spacingLeft=5;fontSize=11;" value="+ Student()&lt;br&gt;+ Student(id, name, phone, email, mountainCode, tuitionFee)&lt;br&gt;+ getId() : String&lt;br&gt;+ setId(id: String) : void&lt;br&gt;+ getName() : String&lt;br&gt;+ setName(name: String) : void&lt;br&gt;+ getPhone() : String&lt;br&gt;+ setPhone(phone: String) : void&lt;br&gt;+ getEmail() : String&lt;br&gt;+ setEmail(email: String) : void&lt;br&gt;+ getMountainCode() : String&lt;br&gt;+ setMountainCode(code: String) : void&lt;br&gt;+ getTuitionFee() : double&lt;br&gt;+ setTuitionFee(fee: double) : void&lt;br&gt;+ getCampusCode() : String&lt;br&gt;«static» + calculateFee(phone: String) : double&lt;br&gt;+ toString() : String&lt;br&gt;+ toCsv() : String&lt;br&gt;- csv(value: String) : String&lt;br&gt;+ compareTo(other: Student) : int&lt;br&gt;+ equals(obj: Object) : boolean&lt;br&gt;+ hashCode() : int" vertex="1">
+          <mxGeometry height="320" width="310" x="900" y="695" as="geometry" />
+        </mxCell>
+        <mxCell id="50" parent="1" style="text;html=1;strokeColor=#666666;fontColor=#333333;fillColor=#f5f5f5;align=center;verticalAlign=top;spacingTop=0;fontSize=12;fontStyle=1;rounded=1;" value="&lt;b&gt;Students&lt;/b&gt;&lt;br&gt;&lt;i&gt;extends ArrayList&amp;lt;Student&amp;gt;&lt;/i&gt;" vertex="1">
+          <mxGeometry height="40" width="310" x="1300" y="500" as="geometry" />
+        </mxCell>
+        <mxCell id="51" parent="1" style="text;html=1;strokeColor=#666666;fontColor=#333333;fillColor=#f5f5f5;align=left;verticalAlign=top;spacingLeft=5;fontSize=11;" value="- pathFile : String&lt;br&gt;- isSaved : boolean" vertex="1">
+          <mxGeometry height="40" width="310" x="1300" y="540" as="geometry" />
+        </mxCell>
+        <mxCell id="52" parent="1" style="text;html=1;strokeColor=#666666;fontColor=#333333;fillColor=#f5f5f5;align=left;verticalAlign=top;spacingLeft=5;fontSize=11;" value="+ Students()&lt;br&gt;+ Students(pathFile: String)&lt;br&gt;+ isSaved() : boolean&lt;br&gt;+ markUnsaved() : void&lt;br&gt;+ add(x: Student) : boolean&lt;br&gt;+ update(x: Student) : boolean&lt;br&gt;+ delete(id: String) : boolean&lt;br&gt;+ searchById(id: String) : Student&lt;br&gt;+ searchByName(name: String) : List&amp;lt;Student&amp;gt;&lt;br&gt;+ filterByCampusCode(code: String) : List&amp;lt;Student&amp;gt;&lt;br&gt;+ showAll() : void&lt;br&gt;+ showAll(list: List&amp;lt;Student&amp;gt;) : void&lt;br&gt;+ statisticalizeByMountainPeak(mountains: Mountains) : void&lt;br&gt;+ readFromFile() : void&lt;br&gt;+ saveToFile() : boolean&lt;br&gt;+ getPathFile() : String&lt;br&gt;+ getCsvPathFile() : String&lt;br&gt;- exportToCsv() : void" vertex="1">
+          <mxGeometry height="285" width="310" x="1300" y="580" as="geometry" />
+        </mxCell>
+        <mxCell id="60" parent="1" style="text;html=1;strokeColor=#666666;fontColor=#333333;fillColor=#f5f5f5;align=center;verticalAlign=top;spacingTop=0;fontSize=12;fontStyle=1;rounded=1;" value="&lt;b&gt;StatisticalInfo&lt;/b&gt;" vertex="1">
+          <mxGeometry height="30" width="370" x="1210" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="61" parent="1" style="text;html=1;strokeColor=#666666;fontColor=#333333;fillColor=#f5f5f5;align=left;verticalAlign=top;spacingLeft=5;fontSize=11;" value="- mountainCode : String&lt;br&gt;- mountainName : String&lt;br&gt;- numOfStudent : int&lt;br&gt;- totalCost : double" vertex="1">
+          <mxGeometry height="70" width="370" x="1210" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="62" parent="1" style="text;html=1;strokeColor=#666666;fontColor=#333333;fillColor=#f5f5f5;align=left;verticalAlign=top;spacingLeft=5;fontSize=11;" value="+ StatisticalInfo()&lt;br&gt;+ StatisticalInfo(mountainCode, mountainName, numOfStudent, totalCost)&lt;br&gt;+ getMountainCode() : String&lt;br&gt;+ setMountainCode(code: String) : void&lt;br&gt;+ getMountainName() : String&lt;br&gt;+ setMountainName(name: String) : void&lt;br&gt;+ getNumOfStudent() : int&lt;br&gt;+ setNumOfStudent(n: int) : void&lt;br&gt;+ getTotalCost() : double&lt;br&gt;+ setTotalCost(cost: double) : void&lt;br&gt;+ addStudent(fee: double) : void&lt;br&gt;+ toString() : String" vertex="1">
+          <mxGeometry height="185" width="370" x="1210" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="70" parent="1" style="text;html=1;strokeColor=#666666;fontColor=#333333;fillColor=#f5f5f5;align=center;verticalAlign=top;spacingTop=0;fontSize=12;fontStyle=1;rounded=1;" value="&lt;b&gt;Statistics&lt;/b&gt;&lt;br&gt;&lt;i&gt;extends HashMap&amp;lt;String, StatisticalInfo&amp;gt;&lt;/i&gt;" vertex="1">
+          <mxGeometry height="40" width="310" x="1700" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="71" parent="1" style="text;html=1;strokeColor=#666666;fontColor=#666666;fillColor=#f5f5f5;align=left;verticalAlign=top;spacingLeft=5;fontSize=11;fontStyle=2;" value="(no fields)" vertex="1">
+          <mxGeometry height="20" width="310" x="1700" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="72" parent="1" style="text;html=1;strokeColor=#666666;fontColor=#333333;fillColor=#f5f5f5;align=left;verticalAlign=top;spacingLeft=5;fontSize=11;" value="+ Statistics()&lt;br&gt;+ Statistics(list: List&amp;lt;Student&amp;gt;, mountains: Mountains)&lt;br&gt;+ statisticalize(list: List&amp;lt;Student&amp;gt;, mountains: Mountains) : void&lt;br&gt;+ show() : void" vertex="1">
+          <mxGeometry height="75" width="310" x="1700" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="80" parent="1" style="text;html=1;strokeColor=#666666;fontColor=#333333;fillColor=#f5f5f5;align=center;verticalAlign=top;spacingTop=0;fontSize=12;fontStyle=1;rounded=1;" value="&lt;b&gt;Main&lt;/b&gt;" vertex="1">
+          <mxGeometry height="30" width="160" x="500" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="81" parent="1" style="text;html=1;strokeColor=#666666;fontColor=#333333;fillColor=#f5f5f5;align=left;verticalAlign=top;spacingLeft=5;fontSize=11;" value="«static»&lt;br&gt;- inp : Inputter&lt;br&gt;- mountains : Mountains&lt;br&gt;- students : Students" vertex="1">
+          <mxGeometry height="65" width="160" x="500" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="82" parent="1" style="text;html=1;strokeColor=#666666;fontColor=#333333;fillColor=#f5f5f5;align=left;verticalAlign=top;spacingLeft=5;fontSize=11;" value="+ main(args: String[]) : void&lt;br&gt;- showMenu() : void&lt;br&gt;- addNewRegistration() : void&lt;br&gt;- updateRegistration() : void&lt;br&gt;- displayRegisteredList() : void&lt;br&gt;- deleteRegistration() : void&lt;br&gt;- searchByName() : void&lt;br&gt;- filterByCampus() : void&lt;br&gt;- showStatistics() : void&lt;br&gt;- saveDataToFile() : void&lt;br&gt;- exitProgram() : boolean" vertex="1">
+          <mxGeometry height="180" width="160" x="500" y="135" as="geometry" />
+        </mxCell>
+        <mxCell id="100" edge="1" parent="1" source="10" style="edgeStyle=orthogonalEdgeStyle;dashed=1;endArrow=open;endFill=0;strokeColor=#666666;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="210" y="20" />
+              <mxPoint x="1030" y="20" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="100L" connectable="0" parent="100" style="edgeLabel;fontSize=10;align=center;verticalAlign=bottom;" value="«uses»" vertex="1">
+          <mxGeometry relative="0.5" as="geometry" />
+        </mxCell>
+        <mxCell id="101" edge="1" parent="1" source="40" style="edgeStyle=orthogonalEdgeStyle;dashed=1;endArrow=open;endFill=0;strokeColor=#666666;exitX=0.415;exitY=-0.036;entryX=0.5;entryY=1;exitDx=0;exitDy=0;exitPerimeter=0;" target="4">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1029" y="500" />
+              <mxPoint x="1030" y="500" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="101L" connectable="0" parent="101" style="edgeLabel;fontSize=10;align=center;verticalAlign=bottom;" value="«uses»" vertex="1">
+          <mxGeometry relative="0.5" as="geometry" />
+        </mxCell>
+        <mxCell id="102" edge="1" parent="1" source="30" style="edgeStyle=orthogonalEdgeStyle;endArrow=diamond;endFill=1;strokeColor=#333333;exitX=0;exitY=0.5;entryX=1;entryY=0.5;" target="20">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="350" y="520" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="102L" connectable="0" parent="102" style="edgeLabel;fontSize=10;align=center;verticalAlign=bottom;" value="contains" vertex="1">
+          <mxGeometry relative="0.5" as="geometry" />
+        </mxCell>
+        <mxCell id="103" edge="1" parent="1" source="50" style="edgeStyle=orthogonalEdgeStyle;endArrow=diamond;endFill=1;strokeColor=#333333;exitX=0;exitY=0.5;entryX=1;entryY=0.5;" target="40">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="103L" connectable="0" parent="103" style="edgeLabel;fontSize=10;align=center;verticalAlign=bottom;" value="contains" vertex="1">
+          <mxGeometry relative="0.5" as="geometry" />
+        </mxCell>
+        <mxCell id="104" edge="1" parent="1" source="70" style="edgeStyle=orthogonalEdgeStyle;endArrow=diamond;endFill=1;strokeColor=#333333;exitX=0;exitY=0.5;entryX=1;entryY=0.5;" target="60">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1580" y="60" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="104L" connectable="0" parent="104" style="edgeLabel;fontSize=10;align=center;verticalAlign=bottom;" value="contains" vertex="1">
+          <mxGeometry relative="0.5" as="geometry" />
+        </mxCell>
+        <mxCell id="105" edge="1" parent="1" source="50" style="edgeStyle=orthogonalEdgeStyle;dashed=1;endArrow=open;endFill=0;strokeColor=#666666;exitX=1;exitY=0.5;entryX=0.5;entryY=1;" target="72">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="105L" connectable="0" parent="105" style="edgeLabel;fontSize=10;align=center;verticalAlign=bottom;" value="«creates»" vertex="1">
+          <mxGeometry relative="0.5" as="geometry" />
+        </mxCell>
+        <mxCell id="106" edge="1" parent="1" source="72" style="edgeStyle=orthogonalEdgeStyle;dashed=1;endArrow=open;endFill=0;strokeColor=#666666;exitX=0.75;exitY=1;entryX=0.75;entryY=1;" target="32">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1932" y="1050" />
+              <mxPoint x="717" y="1050" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="106L" connectable="0" parent="106" style="edgeLabel;fontSize=10;align=center;verticalAlign=bottom;" value="«uses»" vertex="1">
+          <mxGeometry relative="0.5" as="geometry" />
+        </mxCell>
+        <mxCell id="107" edge="1" parent="1" source="80" style="edgeStyle=orthogonalEdgeStyle;endArrow=open;endFill=0;strokeColor=#333333;exitX=0;exitY=0.5;entryX=1;entryY=0.5;" target="10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="107L" connectable="0" parent="107" style="edgeLabel;fontSize=10;align=center;verticalAlign=bottom;" value="input" vertex="1">
+          <mxGeometry relative="0.5" as="geometry" />
+        </mxCell>
+        <mxCell id="108" edge="1" parent="1" source="82" style="edgeStyle=orthogonalEdgeStyle;endArrow=open;endFill=0;strokeColor=#333333;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" target="30">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="108L" connectable="0" parent="108" style="edgeLabel;fontSize=10;align=center;verticalAlign=bottom;" value="mountains" vertex="1">
+          <mxGeometry relative="0.5" as="geometry" />
+        </mxCell>
+        <mxCell id="109" edge="1" parent="1" source="82" style="edgeStyle=orthogonalEdgeStyle;endArrow=open;endFill=0;strokeColor=#333333;entryX=0.25;entryY=0;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="640" y="320" />
+              <mxPoint x="641" y="320" />
+              <mxPoint x="641" y="360" />
+              <mxPoint x="1379" y="360" />
+            </Array>
+            <mxPoint x="647.01" y="311.2199999999999" as="sourcePoint" />
+            <mxPoint x="1378.75" y="500" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="109L" connectable="0" parent="109" style="edgeLabel;fontSize=10;align=center;verticalAlign=bottom;" value="students" vertex="1">
+          <mxGeometry relative="0.5" as="geometry">
+            <mxPoint x="36" as="offset" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

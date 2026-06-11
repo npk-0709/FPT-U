@@ -1,0 +1,240 @@
+<mxfile host="Electron">
+  <diagram name="Page-1" id="lYYFFhi9GyF1pRNDRhVK">
+    <mxGraphModel dx="2867" dy="878" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1200" background="none" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="start" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#4d6443;strokeColor=#3b5323;fontColor=#ffffff;fontStyle=1" value="Start" vertex="1">
+          <mxGeometry height="60" width="100" x="495" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="init" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#2c3e50;strokeColor=#1a252f;fontColor=#ffffff;" value="Initialize Inputter, Mountains, Students&#xa;(Read data from .csv and .dat files)" vertex="1">
+          <mxGeometry height="60" width="200" x="445" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="menu" parent="1" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fixedSize=1;fillColor=#9a7d32;strokeColor=#7e6525;fontColor=#ffffff;" value="Display Menu&#xa;(Options 1 to 9)" vertex="1">
+          <mxGeometry height="60" width="200" x="445" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="input" parent="1" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fixedSize=1;fillColor=#9a7d32;strokeColor=#7e6525;fontColor=#ffffff;" value="Input user choice" vertex="1">
+          <mxGeometry height="60" width="200" x="445" y="320" as="geometry" />
+        </mxCell>
+        <mxCell id="switch" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#78281f;strokeColor=#5c1d16;fontColor=#ffffff;fontStyle=1" value="Choice?" vertex="1">
+          <mxGeometry height="80" width="120" x="485" y="420" as="geometry" />
+        </mxCell>
+        <mxCell id="c1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#2b2b2b;strokeColor=#555555;fontColor=#ffffff;" value="1. New Registration&#xa;- Input ID, Name, Phone, Email, Mountain&#xa;- Calculate Fee &amp; Add to List" vertex="1">
+          <mxGeometry height="90" width="110" x="10" y="560" as="geometry" />
+        </mxCell>
+        <mxCell id="c2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#2b2b2b;strokeColor=#555555;fontColor=#ffffff;" value="2. Update Registration&#xa;- Search by ID&#xa;- Update details&#xa;- Mark Unsaved" vertex="1">
+          <mxGeometry height="90" width="110" x="130" y="560" as="geometry" />
+        </mxCell>
+        <mxCell id="c3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#2b2b2b;strokeColor=#555555;fontColor=#ffffff;" value="3. Display List&#xa;- Sort &amp; Print registered students" vertex="1">
+          <mxGeometry height="90" width="110" x="250" y="560" as="geometry" />
+        </mxCell>
+        <mxCell id="c4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#2b2b2b;strokeColor=#555555;fontColor=#ffffff;" value="4. Delete Registration&#xa;- Search by ID&#xa;- Confirm Y/N &amp; Remove" vertex="1">
+          <mxGeometry height="90" width="110" x="370" y="560" as="geometry" />
+        </mxCell>
+        <mxCell id="c5" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#2b2b2b;strokeColor=#555555;fontColor=#ffffff;" value="5. Search&#xa;- Sub-menu: By ID or Name&#xa;- Display results" vertex="1">
+          <mxGeometry height="90" width="110" x="490" y="560" as="geometry" />
+        </mxCell>
+        <mxCell id="c6" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#2b2b2b;strokeColor=#555555;fontColor=#ffffff;" value="6. Filter by Campus&#xa;- Input Campus Code&#xa;- Display filtered results" vertex="1">
+          <mxGeometry height="90" width="110" x="610" y="560" as="geometry" />
+        </mxCell>
+        <mxCell id="c7" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#2b2b2b;strokeColor=#555555;fontColor=#ffffff;" value="7. Statistics&#xa;- Count students &amp; Total costs per Peak" vertex="1">
+          <mxGeometry height="90" width="110" x="730" y="560" as="geometry" />
+        </mxCell>
+        <mxCell id="c8" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#2b2b2b;strokeColor=#555555;fontColor=#ffffff;" value="8. Save File&#xa;- Write to .dat &amp; .csv&#xa;- Mark Saved" vertex="1">
+          <mxGeometry height="90" width="110" x="850" y="560" as="geometry" />
+        </mxCell>
+        <mxCell id="c9" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#51385c;strokeColor=#3d2747;fontColor=#ffffff;" value="9. Exit&#xa;(exitProgram)" vertex="1">
+          <mxGeometry height="90" width="110" x="970" y="560" as="geometry" />
+        </mxCell>
+        <mxCell id="def" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#943126;strokeColor=#641e16;fontColor=#ffffff;" value="Default: Error&#xa;- Notice: Option does not exist" vertex="1">
+          <mxGeometry height="90" width="110" x="1090" y="560" as="geometry" />
+        </mxCell>
+        <mxCell id="chk_unsaved" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#78281f;strokeColor=#5c1d16;fontColor=#ffffff;" value="Has data&#xa;changed (Unsaved)?" vertex="1">
+          <mxGeometry height="80" width="130" x="960" y="700" as="geometry" />
+        </mxCell>
+        <mxCell id="ask_save" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#78281f;strokeColor=#5c1d16;fontColor=#ffffff;" value="Prompt: Save changes&#xa;before exiting?" vertex="1">
+          <mxGeometry height="80" width="140" x="1130" y="700" as="geometry" />
+        </mxCell>
+        <mxCell id="do_save" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#2c3e50;strokeColor=#1a252f;fontColor=#ffffff;" value="Save Data&#xa;(saveDataToFile)" vertex="1">
+          <mxGeometry height="60" width="110" x="1310" y="710" as="geometry" />
+        </mxCell>
+        <mxCell id="ask_exit" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#78281f;strokeColor=#5c1d16;fontColor=#ffffff;" value="Prompt: Confirm&#xa;exit without saving?" vertex="1">
+          <mxGeometry height="80" width="140" x="1130" y="820" as="geometry" />
+        </mxCell>
+        <mxCell id="end" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#4d6443;strokeColor=#3b5323;fontColor=#ffffff;fontStyle=1" value="Terminate Program" vertex="1">
+          <mxGeometry height="60" width="110" x="970" y="960" as="geometry" />
+        </mxCell>
+        <mxCell id="e_start_init" edge="1" parent="1" source="start" target="init">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_init_menu" edge="1" parent="1" source="init" target="menu">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_menu_input" edge="1" parent="1" source="menu" target="input">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_input_switch" edge="1" parent="1" source="input" target="switch">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_sw_1" edge="1" parent="1" source="switch" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;" target="c1" value="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_sw_2" edge="1" parent="1" source="switch" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;" target="c2" value="2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_sw_3" edge="1" parent="1" source="switch" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;" target="c3" value="3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_sw_4" edge="1" parent="1" source="switch" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;" target="c4" value="4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_sw_5" edge="1" parent="1" source="switch" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;" target="c5" value="5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_sw_6" edge="1" parent="1" source="switch" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;" target="c6" value="6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_sw_7" edge="1" parent="1" source="switch" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;" target="c7" value="7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_sw_8" edge="1" parent="1" source="switch" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;" target="c8" value="8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_sw_9" edge="1" parent="1" source="switch" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;" target="c9" value="9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_sw_def" edge="1" parent="1" source="switch" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;" target="def" value="Other">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ret_c1" edge="1" parent="1" source="c1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;exitX=0.5;exitY=1;entryX=0;entryY=0.5;" target="menu">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="65" y="680" />
+              <mxPoint x="-30" y="680" />
+              <mxPoint x="-30" y="250" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ret_c2" edge="1" parent="1" source="c2" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;exitX=0.5;exitY=1;entryX=0;entryY=0.5;" target="menu">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="185" y="680" />
+              <mxPoint x="-30" y="680" />
+              <mxPoint x="-30" y="250" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ret_c3" edge="1" parent="1" source="c3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;exitX=0.5;exitY=1;entryX=0;entryY=0.5;" target="menu">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="305" y="680" />
+              <mxPoint x="-30" y="680" />
+              <mxPoint x="-30" y="250" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ret_c4" edge="1" parent="1" source="c4" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;exitX=0.5;exitY=1;entryX=0;entryY=0.5;" target="menu">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="425" y="680" />
+              <mxPoint x="-30" y="680" />
+              <mxPoint x="-30" y="250" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ret_c5" edge="1" parent="1" source="c5" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;exitX=0.5;exitY=1;entryX=1;entryY=0.5;" target="menu">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="545" y="680" />
+              <mxPoint x="1460" y="680" />
+              <mxPoint x="1460" y="250" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ret_c6" edge="1" parent="1" source="c6" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;exitX=0.5;exitY=1;entryX=1;entryY=0.5;" target="menu">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="665" y="680" />
+              <mxPoint x="1460" y="680" />
+              <mxPoint x="1460" y="250" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ret_c7" edge="1" parent="1" source="c7" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;exitX=0.5;exitY=1;entryX=1;entryY=0.5;" target="menu">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="785" y="680" />
+              <mxPoint x="1460" y="680" />
+              <mxPoint x="1460" y="250" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ret_c8" edge="1" parent="1" source="c8" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;exitX=0.5;exitY=1;entryX=1;entryY=0.5;" target="menu">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="905" y="680" />
+              <mxPoint x="1460" y="680" />
+              <mxPoint x="1460" y="250" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ret_def" edge="1" parent="1" source="def" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;exitX=0.5;exitY=1;entryX=1;entryY=0.5;" target="menu">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1145" y="680" />
+              <mxPoint x="1460" y="680" />
+              <mxPoint x="1460" y="250" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_c9_chk" edge="1" parent="1" source="c9" target="chk_unsaved">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_chk_end" edge="1" parent="1" source="chk_unsaved" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;" target="end" value="Saved (No)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_chk_ask" edge="1" parent="1" source="chk_unsaved" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;" target="ask_save" value="Unsaved (Yes)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1110" y="770" />
+              <mxPoint x="1110" y="770" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_ask_do" edge="1" parent="1" source="ask_save" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;" target="do_save" value="Confirm (Y)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1290" y="760" />
+              <mxPoint x="1290" y="760" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_ask_exit" edge="1" parent="1" source="ask_save" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;" target="ask_exit" value="Discard (N)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_do_end" edge="1" parent="1" source="do_save" target="end">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1365" y="990" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_exit_end" edge="1" parent="1" source="ask_exit" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;" target="end" value="Force Exit (Y)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1200" y="990" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_exit_menu" edge="1" parent="1" source="ask_exit" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;entryX=1;entryY=0.5;" target="menu" value="Cancel Exit (N)&#xa;Return to Menu">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1460" y="860" />
+              <mxPoint x="1460" y="250" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -1,0 +1,244 @@
+================================================================================
+     UPDATE AI AUDIT LOG - VOLUNTEER FEATURE (ĐỀ 31 - Tình nguyện viên)
+     BỔ SUNG 3 ENTRY MỚI CHO TÍNH NĂNG VOLUNTEER
+     (Nối tiếp ENTRY #020 trong AI_AUDIT_LOG.txt gốc)
+================================================================================
+
+# ==============================================================================
+# HƯỚNG DẪN:
+# - 3 entry dưới đây tương ứng 3 core prompt yêu cầu trong ĐỀ 31:
+#     Entry #021: Quyết định - Volunteer kế thừa Person
+#     Entry #022: Kiểm chứng - enum Skill và ràng buộc MEDIC
+#     Entry #023: Giải thuật  - chặn vượt maxShiftsPerDay
+# - Bắt >= 1 hallucination (Entry #022 chứa HALLUCINATION CASE #4)
+# - Mỗi entry có đủ 4 câu Human Delta
+# - Tham chiếu chính xác tới source code thực tế
+# ==============================================================================
+
+CẬP NHẬT METADATA (bổ sung vào SECTION 1 gốc):
+-----------------------------------------------------------------
+Total Prompts Used (all AI tools) : ~135 (cập nhật)
+Core Prompts Logged               : 23   (nằm trong range LAB211 16-24)
+Selection Ratio                   : 23 / 135 = 17.0%
+Hallucination Detected            : 4    (yêu cầu >= 2)
+
+CẬP NHẬT DISTRIBUTION (bổ sung vào bảng gốc):
+-----------------------------------------------------------------
+| DTC Component         | Number of Prompts | Entry IDs (bổ sung)                   |
+|-----------------------|-------------------|---------------------------------------|
+| Decomposition         | 6  (+1)           | 001-005, 021                          |
+| Pattern Recognition   | 6  (+1)           | 006-010, 022                          |
+| Algorithms            | 6  (+1)           | 016-020, 023                          |
+| TOTAL                 | 23                |                                       |
+
+FILE LIÊN QUAN BỔ SUNG:
+-----------------------------------------------------------------
+- src/Person.java            ( 36 dòng) - abstract class, base cho Student & Volunteer
+- src/Skill.java             ( 20 dòng) - enum MEDIC, LOGISTIC, GUIDE_ASSIST
+- src/Volunteer.java         (115 dòng) - entity extends Person
+- src/Volunteers.java        (150 dòng) - collection extends ArrayList<Volunteer>
+- src/Acceptable.java        ( 29 dòng) - bổ sung VOLUNTEER_ID, VOLUNTEER_NAME_VALID, SHIFT_VALID
+- src/Main.java              (448 dòng) - bổ sung volunteerManagement() + 5 sub-function
+- volunteers.dat / .csv      - persist data cho Volunteer
+
+
+================================================================================
+SECTION 2 (TIẾP NỐI) - 3 ENTRY MỚI CHO TÍNH NĂNG VOLUNTEER
+================================================================================
+
+
+--------------------------------------------------------------------------------
+ENTRY #021
+--------------------------------------------------------------------------------
+Prompt Type        : DECISION-MAKING
+Stage / Component  : Decomposition
+Problem / Context  : Đề 31 yêu cầu thêm entity Volunteer với id (^VL\d{3}$),
+                     name (3..30), skill (enum), maxShiftsPerDay (1..3),
+                     shiftsToday. Project đã có class Student extends Person.
+                     Câu hỏi: Volunteer nên là class độc lập, hay kế thừa Person
+                     giống Student?
+
+Prompt to AI       :
+"I already have an abstract class Person (id, name) and Student extends Person.
+Now I need to add a Volunteer entity with id (VL + 3 digits), name (3-30 chars),
+skill (enum MEDIC/LOGISTIC/GUIDE_ASSIST), maxShiftsPerDay (1-3), shiftsToday.
+Should Volunteer extend Person or be a standalone class? What about the
+Volunteers collection - should it also extend ArrayList like Students?"
+
+AI Response (Summary):
+AI gợi ý: Volunteer nên extends Person vì CÙNG có id + name, đây là IS-A
+relationship hợp lệ. Volunteers extends ArrayList<Volunteer> theo pattern
+giống Students. AI còn khuyên tạo interface "Assignable" cho method assign()
+để abstract hoá concept "gán vào slot".
+
+Human Delta & Reflection:
+- Critical Thinking : AI đúng về việc kế thừa Person (tái dụng id/name). NHƯNG
+  gợi ý tạo interface "Assignable" là OVER-ENGINEERING cho project 200 LOC,
+  vì chỉ có 1 class dùng.
+- Contextualization : Person.java đang dùng tốt cho Student. Kế thừa cho
+  Volunteer giúp giảm lặp code một cách tự nhiên.
+- Creative Synthesis: Quyết định: Volunteer extends Person, Volunteers extends
+  ArrayList<Volunteer>. KHÔNG tạo interface Assignable để tránh rườm rà.
+- Decision Ownership: Chọn kế thừa để tái sử dụng code và giữ tính nhất quán.
+  Bỏ gợi ý interface vì không phù hợp quy mô.
+
+Evidence           : Person.java (36 dòng, abstract class); Volunteer.java
+                     line 4 (extends Person implements Comparable<Volunteer>);
+                     Volunteer.java line 6 (serialVersionUID = 2L);
+                     Volunteer.java line 15-20 (constructor gọi super(id, name));
+                     Volunteers.java line 13 (extends ArrayList<Volunteer>).
+
+
+--------------------------------------------------------------------------------
+ENTRY #022 *** HALLUCINATION CASE #4 ***
+--------------------------------------------------------------------------------
+Prompt Type        : VERIFICATION
+Stage / Component  : Pattern Recognition
+Problem / Context  : Đề 31 yêu cầu skill là enum {MEDIC, LOGISTIC, GUIDE_ASSIST}
+                     và ràng buộc: "slot cần MEDIC chỉ nhận người có skill MEDIC".
+                     Cần verify cách implement enum + ràng buộc kiểm tra skill
+                     khi assign vào slot MEDIC.
+
+Prompt to AI       :
+"In Java, I have an enum Skill { MEDIC, LOGISTIC, GUIDE_ASSIST }. When assigning
+a volunteer to a MEDIC slot, only volunteers with skill == MEDIC should be
+accepted. What's the best practice: use enum.compareTo() to check skill match,
+or use == operator? Also, should I use Enum.valueOf(String) to parse user input
+or a custom getByIndex() method?"
+
+AI Response (Summary):
+AI khuyên: dùng == cho enum comparison (type-safe, không NullPointerException
+như equals()). Với parse input, AI nói: "Since Java 14, Enum has a built-in
+method Enum.valueOfIgnoreCase(String) that does case-insensitive lookup. You
+can use Skill.valueOfIgnoreCase(userInput) directly."
+AI cũng nói dùng compareTo() để check skill là SAI vì compareTo() so sánh
+ordinal, không phải value.
+
+Human Delta & Reflection:
+- Critical Thinking : ** HALLUCINATION TYPE: Fabrication of API **
+  AI khuyên dùng `==` cho enum là đúng. NHƯNG bịa ra hàm `Enum.valueOfIgnoreCase()`
+  không hề tồn tại trong Java (chỉ có valueOf case-sensitive).
+- Contextualization : Trong project, user chọn skill qua menu số, nên việc parse
+  text không thực sự cần thiết.
+- Creative Synthesis: Implement `Skill.getByIndex(int)` cho UI và method
+  `Volunteer.hasSkillFor(Skill)` dùng `==` để kiểm tra ràng buộc MEDIC an toàn.
+- Decision Ownership: Dùng `==` và menu số để tránh việc parse text và tránh lỗi
+  API ảo của AI, giúp đóng gói logic chuẩn xác.
+
+Evidence           : Screenshot Javadoc Enum class (chỉ có valueOf(Class,String),
+                     KHÔNG có valueOfIgnoreCase); Skill.java line 1-19
+                     (enum + getByIndex); Volunteer.java line 56-61 (hasSkillFor);
+                     Main.java line 384-395 (MEDIC check trước assign);
+
+
+--------------------------------------------------------------------------------
+ENTRY #023
+--------------------------------------------------------------------------------
+Prompt Type        : PROBLEM-SOLVING
+Stage / Component  : Algorithms
+Problem / Context  : Đề 31 yêu cầu ràng buộc "Không vượt maxShiftsPerDay":
+                     mỗi volunteer có maxShiftsPerDay (1-3), mỗi lần assign thì
+                     shiftsToday tăng 1, nếu shiftsToday >= maxShiftsPerDay thì
+                     KHÔNG cho assign nữa. Cần thuật toán chặn đơn giản + chính xác.
+
+Prompt to AI       :
+"My Volunteer has maxShiftsPerDay (1-3) and shiftsToday (counter). When assigning
+to a shift, I must check shiftsToday < maxShiftsPerDay before incrementing.
+Should I use a try-catch with custom OverShiftException, or a simple boolean
+return from assign()? Also, when should shiftsToday be reset to 0?"
+
+AI Response (Summary):
+AI gợi ý 2 approach:
+  (1) Boolean return: assign() trả false nếu đã đạt max. Caller check return.
+  (2) Custom exception: throw OverShiftLimitException(). Caller try-catch.
+AI khuyên dùng (2) vì "exceptions make the contract explicit and are the
+standard pattern in enterprise Java". Với reset, AI nói: "Use a ScheduledExecutor
+to reset shiftsToday at midnight automatically."
+
+Human Delta & Reflection:
+- Critical Thinking : AI gợi ý dùng Custom Exception và ScheduledExecutor. Đây là
+  OVER-ENGINEERING trầm trọng cho một bài tập console đơn giản.
+- Contextualization : Yêu cầu chỉ cần chặn khi vượt max ca. Một phép check boolean
+  đơn giản là hoàn toàn đủ đáp ứng đề bài.
+- Creative Synthesis: Viết hàm `boolean assign()` chỉ 6 dòng: kiểm tra
+  `shiftsToday >= maxShiftsPerDay`. Trả về false để UI tự in lỗi "Over shift limit".
+- Decision Ownership: Chọn boolean return (thuật toán O(1)) thay vì exception
+  để code ngắn gọn, phù hợp với yêu cầu thực tế của đề.
+
+Evidence           : Volunteer.java line 47-53 (assign() method);
+                     Main.java line 397-405 (caller logic);
+                     Test scenario (theo đúng đề bài):
+                       Input: VL001, name="Nguyen Van A", skill=MEDIC, max=2
+                       -> Assign shift 1: "Assigned successfully! 1/2" ✓
+                       -> Assign shift 2: "Assigned successfully! 2/2" ✓
+                       -> Assign shift 3: "Over shift limit! ... max shifts (2)"
+
+
+================================================================================
+SECTION 3 (BỔ SUNG) - HALLUCINATION DETECTION LOG
+================================================================================
+
+----------------------------------------------------------------------
+Case #4 - Entry #022
+----------------------------------------------------------------------
+Hallucination Type   : Fabrication of API
+AI's Claim           : "Since Java 14, Enum has a built-in method
+                       Enum.valueOfIgnoreCase(String) that does
+                       case-insensitive lookup."
+Reality Check        : Javadoc chính thức Oracle Java 8/11/14/17/21
+                       KHÔNG có method valueOfIgnoreCase() trong class
+                       java.lang.Enum. Chỉ có valueOf(Class<T>, String)
+                       yêu cầu EXACT MATCH case-sensitive. Gọi
+                       Skill.valueOf("medic") sẽ throw
+                       IllegalArgumentException vì constant là "MEDIC".
+How Detected         : Đọc trực tiếp Javadoc Oracle:
+                       https://docs.oracle.com/javase/17/docs/api/java/lang/Enum.html
+                       + thử compile code Skill.valueOfIgnoreCase("medic")
+                       -> compile error "cannot find symbol".
+                       Cross-check StackOverflow: "java enum case insensitive
+                       valueOf" -> không có built-in method, phải tự viết
+                       loop hoặc dùng stream.
+Corrective Action    : Không dùng valueOf() hay "valueOfIgnoreCase()". Thay
+                       vào đó dùng menu index (Skill.getByIndex(int)) để user
+                       chọn skill qua số, tránh hoàn toàn vấn đề parse text.
+                       Method getByIndex() tự viết với bounds check (Skill.java
+                       line 12-18).
+
+
+================================================================================
+SELF-ASSESSMENT CHECKLIST (CHO 3 ENTRY MỚI)
+================================================================================
+
+A. KIỂM TRA CHẤT LƯỢNG MỖI ENTRY (Pass >= 4/5)
+-----------------------------------------------------------------
+| # | Tiêu chí                                                            | #021 | #022 | #023 |
+|---|---------------------------------------------------------------------|------|------|------|
+| 1 | Prompt ảnh hưởng quyết định quan trọng?                             | [x]  | [x]  | [x]  |
+| 2 | Nếu không có prompt, project có thay đổi architecture/design?       | [x]  | [x]  | [x]  |
+| 3 | Tôi giải thích được lý do chọn/không chọn gợi ý AI?                 | [x]  | [x]  | [x]  |
+| 4 | Có minh chứng cụ thể?                                               | [x]  | [x]  | [x]  |
+| 5 | Prompt phản ánh tư duy phản biện?                                    | [x]  | [x]  | [x]  |
+
+B. KIỂM TRA TỔNG THỂ (CẬP NHẬT)
+-----------------------------------------------------------------
+| # | Tiêu chí                                          | Pass | Current Value          |
+|---|---------------------------------------------------|------|------------------------|
+| 1 | Số lượng entries (16-24)?                          | [x]  | 23                     |
+| 2 | Mỗi DTC có >= 1 core prompt?                      | [x]  | D:6, P:6, Ab:5, Al:6  |
+| 3 | >= 2 hallucination?                                | [x]  | 4                      |
+| 4 | Mỗi entry có 4 câu Human Delta?                   | [x]  | 23/23                  |
+| 5 | Evidence >= 70%?                                   | [x]  | 23/23 = 100%           |
+
+C. CHUẨN BỊ ORAL VIVAS (BỔ SUNG)
+-----------------------------------------------------------------
++------+--------------------------------------------------------------+------------+------------+
+|Entry | Tôi có thể giải thích tại sao?                                | Nhớ AI res?|Có evidence?|
++------+--------------------------------------------------------------+------------+------------+
+| 021  | Volunteer kế thừa Person? -> DRY, tái dụng id/name.         |   [x]      |   [x]      |
+| 022  | Enum skill check ra sao? -> ==, getByIndex, hasSkillFor.    |   [x]      |   [x]      |
+| 023  | Chặn max shift thế nào? -> boolean assign(), O(1).          |   [x]      |   [x]      |
++------+--------------------------------------------------------------+------------+------------+
+
+================================================================================
+                           END OF UPDATE AI AUDIT LOG
+================================================================================

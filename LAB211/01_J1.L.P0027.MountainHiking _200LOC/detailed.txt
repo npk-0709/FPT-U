@@ -1,0 +1,786 @@
+
+
+bạn chỉ nói theo AI Response (Summary): thôi 
+
+--------------------------------------------------------------------------------
+ENTRY #001
+--------------------------------------------------------------------------------
+Prompt Type        : DECISION-MAKING
+Stage / Component  : Decomposition
+Problem / Context  : Đề bài yêu cầu chương trình quản lý đăng ký Mountain Hiking
+                     với 9 chức năng (CRUD + search + filter + statistics + save).
+                     <Cần chia nhỏ thành class nào để vừa hợp OOP vừa giữ  200 LOC.
+
+Prompt to AI       :
+"I'm building a Java console program for managing mountain hiking registrations
+(LAB211). It has 9 menu options: add, update, list, delete, search by name,
+filter by campus, statistics by mountain, save to file, exit. The total LOC
+limit is ~200 per file. Suggest a class decomposition that follows SRP."
+
+AI Response (Summary):
+AI đề xuất 7 class: Main, Student, Mountain, StudentManager, MountainManager,
+FileIO, ValidationUtil. Khuyến nghị đặt mọi I/O Scanner vào util class riêng,
+và tách Statistics thành class độc lập để giữ SRP.
+
+Human Delta & Reflection:
+- Critical Thinking : AI gợi ý hợp lý nhưng đặt tên không nhất quán với LAB211.
+  Convention LAB211 thường dùng dạng "danh từ số nhiều" cho collection class
+  (Students, Mountains) thay vì "...Manager". Ngoài ra việc tách FileIO riêng
+  với chương trình 200 LOC là OVER-ENGINEERING.
+- Contextualization : Project chỉ ~200 LOC, dùng 1 file CSV (MountainList.csv)
+  và 1 file binary (registrations.dat). Việc gom I/O vào trong chính class
+  Students/Mountains đỡ tăng số file mà vẫn giữ SRP ở mức chấp nhận được.
+- Creative Synthesis: Tôi gộp lại còn 9 class thực tế:
+    Main, Inputter, Acceptable(interface), Student, Students,
+    Mountain, Mountains, Statistics, StatisticalInfo.
+  Trong đó Statistics+StatisticalInfo tách riêng vì lý do "1 entity =
+  1 class" (giống Mountain + Mountains).
+- Decision Ownership: Chọn 9 class theo phương án của tôi vì:
+    (1) Vừa đủ SRP, (2) Tên class nhất quán dạng "X / Xs", (3) Không tạo
+    file thừa cho project chỉ 200 LOC.
+
+Evidence           : Sơ đồ class hand-drawn (đính kèm), so sánh số file
+                     trước/sau khi refactor (7 file AI gợi ý vs 9 file thực tế).
+
+
+--------------------------------------------------------------------------------
+ENTRY #002
+--------------------------------------------------------------------------------
+Prompt Type        : DECISION-MAKING
+Stage / Component  : Decomposition
+Problem / Context  : Class Main đã có 9 case switch + nhiều logic nhập liệu.
+                     Cần quyết định: gọi Scanner trực tiếp trong Main hay tách ra.
+
+Prompt to AI       :
+"In my console Java app, the Main class is becoming bloated with many
+input prompts (validate phone, email, ID, menu choice...). Should I keep
+Scanner inside Main or extract a separate Inputter class?"
+
+AI Response (Summary):
+AI khuyên tách ra class Inputter chuyên trách: chứa Scanner, các hàm
+getString/getInt/inputAndLoop/confirmYesNo. Lý do: Main chỉ orchestrate
+business logic, Inputter chỉ lo I/O. Tuân thủ Separation of Concerns.
+
+Human Delta & Reflection:
+- Critical Thinking : Đề xuất đúng nhưng AI bỏ qua điều quan trọng:
+  Scanner phải SINGLETON cho cả program để tránh "NoSuchElementException"
+  khi 2 Scanner cùng đọc System.in. AI không nhắc tới.
+- Contextualization : Project chạy console, có vòng menu lặp. Nếu mỗi
+  function mở Scanner mới sẽ crash sau vài lần gọi (lỗi đã gặp khi
+  prototype lần đầu).
+- Creative Synthesis: Tôi để Scanner final = new Scanner(System.in)
+  như 1 field của Inputter, và class Main tạo 1 instance final static
+  duy nhất (Main.java line 6).
+- Decision Ownership: Quyết định tạo class Inputter với 7 method
+  (getString, getInt, getDouble, inputAndLoop, inputAndLoopAllowEmpty,
+  confirmYesNo, getMenuChoice). Lý do: tái sử dụng cho mọi form input,
+  không lặp vòng while validation ở Main.
+
+Evidence           : So sánh Main.java trước/sau refactor (đo bằng
+                     wc -l: Main giảm ~40 dòng).
+bạn chỉ nói theo AI Response (Summary): thôi 
+
+--------------------------------------------------------------------------------
+ENTRY #003
+--------------------------------------------------------------------------------
+Prompt Type        : DECISION-MAKING
+Stage / Component  : Decomposition
+Problem / Context  : Cần nơi tập trung mọi regex validation (Student ID, phone,
+                     email, name...) để không rải rác khắp project.
+
+Prompt to AI       :
+"I have multiple validation patterns (student id, phone, email, name, yes/no,
+integer). Should I put them all in one final class with static fields, or in
+an interface? Pros and cons in Java?"
+
+AI Response (Summary):
+AI nói cả hai đều được. Class với constructor private là "Java idiomatic"
+như java.lang.Math; interface với constant tự động public static final
+là cách "cũ trước Java 8" và không khuyên dùng vì abuse interface.
+
+Human Delta & Reflection:
+- Critical Thinking : AI hơi cứng nhắc. Trong project nhỏ (200 LOC) cần
+  hiệu năng tối thiểu, interface với constant gọn hơn vì KHÔNG cần khai báo
+  "public static final" lặp lại, và còn cho phép thêm static method
+  isValid() làm "utility" mặc định.
+- Contextualization : Tiêu chuẩn LAB211 chấp nhận cả 2 cách. Giảng viên
+  quan tâm tới "có dùng được không, có rõ ràng không" hơn là idiom.
+- Creative Synthesis: Tôi chọn dùng INTERFACE Acceptable với 10 hằng số
+  (STUDENT_ID, CAMPUS_CODE, NAME_VALID, DOUBLE_VALID, INTEGER_VALID,
+  PHONE_VALID, VIETTEL_VALID, VNPT_VALID, EMAIL_VALID, YES_NO_VALID,
+  MENU_VALID) + 1 static method isValid(data, pattern). Cách này gọn,
+  có thể implement interface nếu cần mở rộng.
+- Decision Ownership: Dùng interface vì code Acceptable.java chỉ
+  ~33 dòng nhưng phục vụ cho 5 class khác. Đánh đổi: chấp nhận
+  "interface constant anti-pattern" để tiết kiệm boilerplate trong
+  project quy mô nhỏ.
+
+Evidence           : File src/Acceptable.java (33 dòng) - so sánh với
+                     phương án "final class with private constructor"
+                     (sẽ tốn 42 dòng).
+bạn chỉ nói theo AI Response (Summary): thôi 
+
+--------------------------------------------------------------------------------
+ENTRY #004
+--------------------------------------------------------------------------------
+Prompt Type        : DECISION-MAKING
+Stage / Component  : Decomposition
+Problem / Context  : Yêu cầu chức năng 7 là "Statistics of Registration Numbers
+                     by Location". Có thể nhét vào Students hoặc tách class riêng.
+
+Prompt to AI       :
+"For a registration system, the statistics function aggregates students by
+mountain code, counts participants, sums tuition fees. Should I put this
+inside the Students list class or create a Statistics class?"
+
+AI Response (Summary):
+AI gợi ý tách Statistics riêng và dùng Map<String, Counter>. Khuyên tránh
+"god object" Students chứa quá nhiều trách nhiệm. Statistics nên extend
+HashMap hoặc có field Map bên trong.
+
+Human Delta & Reflection:
+- Critical Thinking : AI đúng phần SRP, nhưng đề xuất Map<String, Counter>
+  với "Counter" chỉ là Integer wrapper. Tôi nhận thấy thống kê còn cần
+  thêm Total Cost theo từng đỉnh, nên cần 1 DTO chứ không chỉ Integer.
+- Contextualization : Yêu cầu hiển thị bảng 4 cột: Code | Peak Name |
+  Number of Participants | Total Cost. Không phải chỉ đếm số lượng.
+- Creative Synthesis: Tôi tạo 2 class:
+    + StatisticalInfo (DTO với code, name, numOfStudent, totalCost,
+      method addStudent(fee) tự tăng count + cộng tiền).
+    + Statistics extends HashMap<String, StatisticalInfo> với
+      constructor nhận List<Student> + Mountains để aggregate.
+  Cách này "tự nhiên" như Mountains/Students extends ArrayList.
+- Decision Ownership: Tách Statistics + StatisticalInfo. Ưu điểm: dễ
+  thêm cột thống kê khác (max fee, avg fee...) sau này.
+
+Evidence           : File Statistics.java + StatisticalInfo.java
+                     (tổng 58 + 64 dòng).
+
+
+--------------------------------------------------------------------------------
+ENTRY #005
+--------------------------------------------------------------------------------
+Prompt Type        : DECISION-MAKING
+Stage / Component  : Decomposition
+Problem / Context  : MountainList.csv có cấu trúc Code,Mountain,Province,Description.
+                     Có nên tạo class Mountain riêng, hay đọc luôn vào Map<String,String>?
+
+Prompt to AI       :
+"I have a CSV file of mountains: code, name, province, description (~13 rows).
+Is it overkill to create a Mountain class? Could I just use Map<String,String>
+for lookup by code?"
+
+AI Response (Summary):
+AI nói với <20 record dùng Map cũng được, nhưng nếu sau này thêm field
+(elevation, difficulty) sẽ phải refactor. Khuyến nghị Mountain class cho
+khả năng mở rộng.
+
+Human Delta & Reflection:
+- Critical Thinking : AI hợp lý. Tuy nhiên AI không cảnh báo: nếu dùng
+  Map<String,String> sẽ mất type-safety và phải parse string từng lần.
+- Contextualization : Đề bài có cột "Description" có thể chứa dấu phẩy
+  (ví dụ "Co Tien Mountain... peak 1; peak 2 or 3 (with steeper slopes...)").
+  Map<String,String> sẽ rất khó tách field bằng split.
+- Creative Synthesis: Tạo Mountain class với 4 field; Mountains extends
+  ArrayList<Mountain> phụ trách đọc CSV và lookup theo code (method
+  get(String mountainCode) và isValidMountainCode()).
+- Decision Ownership: Tạo Mountain + Mountains. Lý do: parser tập trung,
+  hỗ trợ mở rộng, dễ overload toString() format bảng.
+
+Evidence           : File Mountain.java (56 dòng) + Mountains.java
+                     (98 dòng) + MountainList.csv (14 dòng).
+
+
+--------------------------------------------------------------------------------
+ENTRY #006
+--------------------------------------------------------------------------------
+Prompt Type        : PROBLEM-SOLVING
+Stage / Component  : Pattern Recognition
+Problem / Context  : Student ID phải có dạng campusPrefix + 6 chữ số. Phải
+                     viết regex chính xác cho prefix CE / DE / HE / QE / SE.
+
+Prompt to AI       :
+"Write a Java regex to validate FPT student ID format: starts with one of
+SE, HE, DE, QE, CE (case insensitive), followed by exactly 6 digits.
+Total length 8."
+
+AI Response (Summary):
+AI đề xuất: ^(SE|HE|DE|QE|CE)\d{6}$ và gợi ý dùng
+Pattern.compile(... , Pattern.CASE_INSENSITIVE).
+
+Human Delta & Reflection:
+- Critical Thinking : Regex AI đưa đúng nhưng dùng Pattern.matches() (cách
+  tôi đã dùng trong Acceptable.isValid) thì flag CASE_INSENSITIVE truyền
+  ngoài hơi rườm. Tôi nhận ra mình có thể inline flag (?i) ngay đầu pattern.
+- Contextualization : Trong Acceptable.java, tất cả pattern dùng chung
+  Pattern.matches(pattern, data). Nếu thêm flag ngoài cho từng pattern sẽ
+  phá kiến trúc thống nhất.
+- Creative Synthesis: Tôi sửa thành "^(?i)(SE|HE|DE|QE|CE)\\d{6}$" (xem
+  Acceptable.STUDENT_ID). Cùng cách áp dụng cho CAMPUS_CODE và YES_NO_VALID.
+- Decision Ownership: Dùng inline flag (?i) để KHÔNG phá hợp đồng
+  isValid(String,String). Bonus: vẫn .toUpperCase() trước khi lưu để
+  giữ dữ liệu chuẩn hoá (Main.java line 54, 82, 129, 161).
+
+Evidence           : Acceptable.java line 5-7; Main.java line 54.
+                     Screenshot test SE190001 (PASS) và se190001 (PASS).
+
+
+--------------------------------------------------------------------------------
+ENTRY #007 *** HALLUCINATION CASE #1 ***
+--------------------------------------------------------------------------------
+Prompt Type        : VERIFICATION
+Stage / Component  : Pattern Recognition
+Problem / Context  : Đề bài yêu cầu giảm 35% học phí nếu phone thuộc Viettel
+                     hoặc Vinaphone (VNPT). Cần danh sách prefix CHÍNH XÁC.
+
+Prompt to AI       :
+"List all current mobile carrier prefixes in Vietnam (10-digit format) for
+Viettel and Vinaphone. I need to write a regex to detect discount-eligible
+phone numbers."
+
+AI Response (Summary):
+AI liệt kê: Viettel = 032-038, 096, 097, 098. Vinaphone = 081-088, 091, 094.
+AI nói rất tự tin "These are all official prefixes in Vietnam".
+
+Human Delta & Reflection:
+- Critical Thinking : ** HALLUCINATION TYPE: Oversimplification / Outdated **
+  AI bỏ sót 039 (Viettel) và 086 (Viettel). Đồng thời gom 086, 087, 088 vào
+  Vinaphone là SAI - 088 mới là Vinaphone, còn 086 thuộc Viettel, 087 thuộc
+  Itelecom (không thuộc Viettel/VNPT cho discount).
+- Contextualization : Đề bài LAB211 dùng theo Quyết định 798/QĐ-BTTTT về
+  chuyển đổi đầu số 11 số sang 10 số. Sau chuyển đổi: Viettel có thêm
+  086 (vốn từ EVN Telecom merge); 039 cũng là Viettel.
+- Creative Synthesis: Tôi cross-check bằng Gemini + trang chính thức của
+  Bộ Thông tin Truyền thông. Kết quả chính xác:
+    Viettel  : 032 033 034 035 036 037 038 039 096 097 098 086
+    Vinaphone: 081 082 083 084 085 088 091 094
+- Decision Ownership: Viết regex theo danh sách đúng (Acceptable.VIETTEL_VALID
+  và Acceptable.VNPT_VALID). Method Student.calculateFee() check 2 pattern
+  này, nếu match -> giảm 35%; nếu không -> 6,000,000 VND đầy đủ.
+
+Evidence           : Screenshot Gemini đối chứng (đính kèm). Screenshot
+                     trang Wikipedia "Vietnamese mobile telephone prefixes".
+                     File Acceptable.java line 17-19. Test case:
+                         0961234567 -> 3,900,000 (Viettel: 60% mặc định)
+                         0901234567 -> 6,000,000 (Mobifone, không discount)
+
+
+--------------------------------------------------------------------------------
+ENTRY #008
+--------------------------------------------------------------------------------
+Prompt Type        : PROBLEM-SOLVING
+Stage / Component  : Pattern Recognition
+Problem / Context  : Chức năng 6 "Filter by Campus" cần lọc theo campus code,
+                     nhưng Student không có field campus tách riêng - chỉ có Student ID.
+
+Prompt to AI       :
+"My Student class only stores Student ID like SE190123 or HE180456. The
+'campus' (first 2 chars) is implicit. How should I extract campus for
+filtering without adding a redundant field?"
+
+AI Response (Summary):
+AI khuyên KHÔNG lưu campus như field riêng (DRY principle), thay vào đó
+tạo method getCampusCode() trả về id.substring(0, 2).toUpperCase().
+
+Human Delta & Reflection:
+- Critical Thinking : AI đúng. Tránh duplicate dữ liệu (nếu lưu campus
+  riêng có thể bị lệch với id khi update).
+- Contextualization : Student ID là single source of truth cho campus.
+  Khi search-by-campus, đơn giản là so sánh prefix.
+- Creative Synthesis: Tôi thêm method getCampusCode() trong Student.java
+  (line 80-85), CÓ check id.length() >= 2 để tránh NullPointer hoặc
+  StringIndexOutOfBounds.
+- Decision Ownership: Lấy campus từ id substring. Lợi ích: 1 sự thật duy
+  nhất, không cần field thừa, code Students.filterByCampusCode() ngắn gọn.
+
+Evidence           : Student.java line 80-85 (getCampusCode);
+                     Students.java line 98-110 (filterByCampusCode);
+                     Main.java line 158-169 (filterByCampus).
+
+
+--------------------------------------------------------------------------------
+ENTRY #009
+--------------------------------------------------------------------------------
+Prompt Type        : DECISION-MAKING
+Stage / Component  : Pattern Recognition
+Problem / Context  : MountainList.csv có header dòng đầu, một số cell trống,
+                     dấu phẩy trong Description. Phải parse "an toàn".
+
+Prompt to AI       :
+"What's a safe way to parse a simple CSV in Java (no library), where the
+first line is header, some cells may be empty, and the last column may
+contain commas?"
+
+AI Response (Summary):
+AI gợi ý dùng BufferedReader, split(",", -1) để giữ trailing empty fields,
+skip dòng header bằng cách kiểm tra startsWith("code") (case-insensitive),
+và dùng parts.length >= 4 để fallback description = "".
+
+Human Delta & Reflection:
+- Critical Thinking : AI khá sát. NHƯNG split(",", -1) sẽ làm vỡ Description
+  có dấu phẩy! Ví dụ dòng 14 trong file: "...peak 2 or 3 (with steeper
+  slopes, more challenging cliffs)" -> sẽ bị tách thành nhiều cell.
+- Contextualization : Project chỉ có 13 mountain, có thể chấp nhận giới
+  hạn: Description không chứa dấu phẩy nội bộ; HOẶC dùng split với limit
+  để gộp các phần dư.
+- Creative Synthesis: Tôi quyết định ĐƠN GIẢN HOÁ - sửa MountainList.csv
+  thủ công: bỏ dấu phẩy trong description gốc (thay bằng dấu chấm phẩy).
+  Code chỉ cần split(",", -1) + parts.length >= 3 (Mountains.java
+  line 41-53).
+- Decision Ownership: Chấp nhận trade-off: code parser đơn giản, đổi lại
+  phải đảm bảo dữ liệu input "sạch" trước. Đây là quyết định phù hợp với
+  project < 200 LOC; nếu dữ liệu phức tạp hơn sẽ dùng OpenCSV.
+
+Evidence           : Mountains.java line 37-82 (parser); MountainList.csv
+                     (đã được làm sạch dấu phẩy nội bộ).
+
+
+--------------------------------------------------------------------------------
+ENTRY #010
+--------------------------------------------------------------------------------
+Prompt Type        : PROBLEM-SOLVING
+Stage / Component  : Pattern Recognition
+Problem / Context  : Cần một "input pattern" lặp đi lặp lại: in prompt -> đọc
+                     -> validate -> nếu sai thì in error, lặp lại; nếu đúng trả về.
+
+Prompt to AI       :
+"In my Java console app I write the same loop 7 times: ask, read, validate
+with regex, print error, loop. How can I factor this into a reusable
+function in an Inputter class?"
+
+AI Response (Summary):
+AI viết hàm tổng quát:
+    public String inputAndLoop(String mess, String pattern) {
+        while (true) {
+            String input = getString(mess);
+            if (Pattern.matches(pattern, input)) return input;
+            System.out.println("[Error] Invalid input.");
+        }
+    }
+và đề xuất overload version cho phép empty input (giữ giá trị cũ).
+
+Human Delta & Reflection:
+- Critical Thinking : Đúng pattern. Nhưng AI hardcode error message tiếng
+  Anh, tôi cần thông điệp thân thiện hơn cho user Việt Nam (nhưng vẫn
+  giữ EN cho LAB211 vì code & output đề bài bằng tiếng Anh).
+- Contextualization : Yêu cầu chức năng 2 (Update Registration) cho phép
+  user nhấn Enter để GIỮ giá trị cũ. Phương án "allow empty" rất cần
+  thiết, không phải optional.
+- Creative Synthesis: Tôi tạo 2 hàm:
+    + inputAndLoop(mess, pattern)              -> bắt buộc nhập
+    + inputAndLoopAllowEmpty(mess, pattern)    -> cho phép enter rỗng
+  Cùng dùng method gốc getString() để DRY.
+- Decision Ownership: Tổng cộng có 4 helper trong Inputter.java:
+  getString, inputAndLoop, inputAndLoopAllowEmpty, confirmYesNo. Mọi
+  function ở Main đều dùng các helper này -> không lặp boilerplate.
+
+Evidence           : Inputter.java line 46-67 (2 method); Main.java
+                     update flow line 92-104 (sử dụng AllowEmpty).
+
+
+--------------------------------------------------------------------------------
+ENTRY #011 *** HALLUCINATION CASE #2 ***
+--------------------------------------------------------------------------------
+Prompt Type        : VERIFICATION
+Stage / Component  : Abstraction
+Problem / Context  : Trong project tôi để Students extends ArrayList<Student>.
+                     Một bạn cùng nhóm bảo "extends ArrayList là anti-pattern".
+                     Cần verify.
+
+Prompt to AI       :
+"Is 'class Students extends ArrayList<Student>' considered an anti-pattern
+in Java? Should I use composition (private List<Student> list) instead?
+Please give me the official source."
+
+AI Response (Summary):
+AI khẳng định "YES, this is widely considered an anti-pattern. Joshua Bloch
+in 'Effective Java Item 18' (3rd edition) says: 'Favor composition over
+inheritance'. There is even a SonarQube rule S2160 specifically forbidding
+extending ArrayList."
+
+Human Delta & Reflection:
+- Critical Thinking : ** HALLUCINATION TYPE: Fabrication + Outdated **
+  Tôi tra cứu lại "Effective Java Item 18" - đúng là có nguyên tắc
+  "Favor composition over inheritance", NHƯNG Bloch KHÔNG NÓI thẳng
+  extends ArrayList là anti-pattern. Đó là diễn giải.
+  Tôi tra SonarQube rule S2160 -> rule này nói về clone()/equals() của
+  Cloneable, KHÔNG PHẢI cấm extends ArrayList. AI đã fabricate rule ID.
+  Rule liên quan thực ra là S110 (depth of inheritance) và một số rule
+  khác về Liskov Substitution.
+- Contextualization : Trong LAB211, đề bài J1.L.P0027 và pattern code mẫu
+  của giảng viên ĐỀU dùng cách extends ArrayList vì code ngắn, dễ teach
+  cho sinh viên năm 1. Bối cảnh education khác bối cảnh production code.
+- Creative Synthesis: Tôi cân nhắc 2 phương án:
+    (A) extends ArrayList<Student>  -> code ngắn, dùng được this.add/remove
+        ngay, nhưng leak hết public API của ArrayList (như clear(),
+        ensureCapacity()...).
+    (B) composition: private List<Student> list -> phải forward 1 vài
+        method, code dài hơn ~20 dòng.
+  Quyết định: GIỮ phương án (A) cho cả Students và Mountains, vì:
+    - Phù hợp với phong cách LAB211 mẫu.
+    - Override được add() để markUnsaved() (Students.java line 36-42).
+- Decision Ownership: Dùng extends ArrayList. CHỦ ĐỘNG ghi nhận trade-off:
+  trong real production tôi sẽ dùng composition. Đây là QUYẾT ĐỊNH có
+  ý thức, không phải do bị AI thuyết phục bằng fake citation.
+
+Evidence           : Screenshot ChatGPT (claim sai SonarQube S2160) +
+                     screenshot SonarQube docs trang chính thức của rule
+                     S2160 (về clone() Cloneable). Code Students.java
+                     line 10 + override add() line 36-42.
+
+
+--------------------------------------------------------------------------------
+ENTRY #012
+--------------------------------------------------------------------------------
+Prompt Type        : DECISION-MAKING
+Stage / Component  : Abstraction
+Problem / Context  : Để track "đã thay đổi nhưng chưa save" -> cần một
+                     boolean flag. Đặt nó ở đâu? Cách quản lý?
+
+Prompt to AI       :
+"In a CRUD console app, I want to warn user about unsaved changes when
+they exit. Where should I keep the 'dirty' flag and how do I make sure
+every add/update/delete sets it?"
+
+AI Response (Summary):
+AI khuyên đặt flag trong class Students (boolean isSaved). Override mọi
+method modify (add, update, delete) để gọi markUnsaved(). Khi saveToFile()
+thành công set lại isSaved = true. Khi exit, đọc isSaved để hỏi user.
+
+Human Delta & Reflection:
+- Critical Thinking : Logic đúng. Tôi suy nghĩ thêm: Map<String, Student>
+  cũng cần dirty flag nếu dùng. Cách AI gợi ý chỉ phù hợp với 1 collection
+  duy nhất.
+- Contextualization : Project chỉ có 1 collection "thay đổi" là Students.
+  Mountains chỉ ĐỌC từ CSV, không bao giờ save. Vì vậy flag chỉ cần ở
+  Students.
+- Creative Synthesis: Implement:
+    + Field private boolean isSaved (Students.java line 13).
+    + Constructor đặt true (vì sau readFromFile coi như "đã đồng bộ").
+    + Override add() để gọi markUnsaved() (line 36-42).
+    + update() và delete() cũng markUnsaved() (line 51, 65).
+    + saveToFile() set isSaved = true sau ghi thành công (line 162).
+    + Main.exitProgram() đọc isSaved (line 184-198).
+- Decision Ownership: Quyết định: chỉ Students có flag. Khi tương lai
+  thêm collection khác (vd UserCart), pattern này có thể nhân bản.
+
+Evidence           : Students.java line 27-33, 36-42; Main.java
+                     exitProgram() line 184-199; demo: thêm user mới
+                     -> Ctrl+C qua menu exit -> popup hỏi save.
+
+
+--------------------------------------------------------------------------------
+ENTRY #013
+--------------------------------------------------------------------------------
+Prompt Type        : DECISION-MAKING
+Stage / Component  : Abstraction
+Problem / Context  : Yêu cầu chức năng 8 "Save Data to File". Nên dùng định
+                     dạng nào: txt, csv, json, hay Java Serialization?
+
+Prompt to AI       :
+"Pros and cons of using Java Serializable vs CSV for persisting a list of
+student registrations? Project context: console app, 1 user, no external
+consumer."
+
+AI Response (Summary):
+AI tóm tắt:
+- Serializable: nhanh, đơn giản, type-safe; nhưng file không human-readable
+  và bị khoá vào JVM. Cần serialVersionUID để tránh InvalidClassException.
+- CSV: human-readable, dễ debug, dễ import Excel; nhưng phải tự parse
+  và validate khi load.
+
+Human Delta & Reflection:
+- Critical Thinking : AI thẳng thắn nêu trade-off. Tôi cân nhắc thêm:
+  output cuối cùng cần thị phạm cho giảng viên - file binary có thể
+  khó đọc khi giảng viên muốn xem nhanh.
+- Contextualization : Đề LAB211 thường không yêu cầu format cụ thể;
+  giảng viên thường mở Notepad++ để kiểm tra. Tuy nhiên với assignment
+  J1.L.P0027 (200 LOC), code Serializable ngắn hơn CSV ~25 dòng.
+- Creative Synthesis: Tôi dùng cả hai cách trong code:
+    + Persist chính: file .dat (Java Serializable) - registrations.dat
+      (Students.java line 142-169).
+    + Method bổ trợ: Student.toCsv() (Student.java line 102-105) sẵn sàng
+      cho việc export CSV nếu yêu cầu thay đổi.
+- Decision Ownership: Persist chính dùng Serializable + serialVersionUID =
+  1L. Lý do: code ngắn, ít bug, đủ với scope assignment. Vẫn để mở
+  đường CSV nếu cần.
+
+Evidence           : Student.java line 1 (Serializable), line 6
+                     (serialVersionUID), line 102-105 (toCsv); Students.java
+                     line 142-169 (read/save .dat).
+
+
+--------------------------------------------------------------------------------
+ENTRY #014
+--------------------------------------------------------------------------------
+Prompt Type        : DECISION-MAKING
+Stage / Component  : Abstraction
+Problem / Context  : Chức năng "Statistics" trả ra bảng 4 cột. Cấu trúc dữ
+                     liệu phù hợp để aggregate là gì? (HashMap vs LinkedHashMap
+                     vs TreeMap)
+
+Prompt to AI       :
+"For aggregating students by mountainCode (counting and summing fees),
+should I use HashMap, LinkedHashMap, or TreeMap if I want predictable
+iteration order? Memory and time complexity?"
+
+AI Response (Summary):
+AI giải thích:
+- HashMap: O(1) avg, không guarantee thứ tự.
+- LinkedHashMap: giữ insertion order, slightly slower.
+- TreeMap: sort theo key, O(log n) cho put/get.
+
+Human Delta & Reflection:
+- Critical Thinking : AI đúng về complexity. Nhưng AI bỏ qua một điều:
+  trong project này thứ tự hiển thị statistics có thể KHÔNG quan trọng,
+  vì user đọc theo cột Code/Peak Name chứ không quan tâm thứ tự dòng.
+- Contextualization : Đề bài J1.L.P0027 chỉ yêu cầu show số người + tổng
+  tiền cho từng mountain code XUẤT HIỆN trong registrations (không phải
+  toàn bộ Mountains). Sort không bắt buộc.
+- Creative Synthesis: Tôi để Statistics extends HashMap<String, StatisticalInfo>.
+  Nếu giảng viên yêu cầu sort, chỉ cần đổi sang TreeMap mà không ảnh
+  hưởng method show() (chỉ dùng values()).
+- Decision Ownership: Dùng HashMap. Lý do: hiệu năng tốt nhất; nếu sau
+  này cần sort, chỉ đổi 1 từ "HashMap" -> "TreeMap" do extends polymorphism.
+
+Evidence           : Statistics.java line 4 (extends HashMap),
+                     line 39-56 (show method dùng values()).
+
+
+--------------------------------------------------------------------------------
+ENTRY #015
+--------------------------------------------------------------------------------
+Prompt Type        : DECISION-MAKING
+Stage / Component  : Abstraction
+Problem / Context  : Khi nhập sai format nhiều lần, có nên break vòng lặp
+                     theo số lần thử (max 3) hay lặp vô hạn?
+
+Prompt to AI       :
+"In a console input loop with regex validation, is it better UX to allow
+infinite retries, or to break after 3 failed attempts and return to main
+menu?"
+
+AI Response (Summary):
+AI gợi ý: nếu hệ thống bảo mật (đăng nhập) thì giới hạn 3 lần. Nếu form
+nhập liệu thông thường thì lặp vô hạn cho phép user tự correct.
+
+Human Delta & Reflection:
+- Critical Thinking : Phân tích hợp lý. Nhưng có rủi ro deadlock UI khi
+  user không biết cách nhập đúng - cần thông báo rõ format.
+- Contextualization : LAB211 console app, không có authentication, error
+  message in ra rõ ràng (ví dụ "Student ID [SE/HE/DE/QE/CE + 6 digits]").
+  Lặp vô hạn an toàn.
+- Creative Synthesis: Tôi để vòng while(true) trong inputAndLoop, KÈM
+  THEO error message hiển thị FORMAT KỲ VỌNG ngay trong prompt
+  (vd Main.java line 53 "[SE/HE/DE/QE/CE + 6 digits]"). Cách này cân
+  bằng UX: user luôn biết phải nhập gì.
+- Decision Ownership: Vô hạn retries + rõ ràng format hint. Nếu hệ thống
+  trong tương lai có security yêu cầu giới hạn, sẽ thêm parameter
+  maxAttempts vào Inputter.inputAndLoop.
+
+Evidence           : Inputter.java line 46-54; Main.java line 53, 62, 63
+                     (mọi prompt đều kèm format hint).
+
+
+--------------------------------------------------------------------------------
+ENTRY #016
+--------------------------------------------------------------------------------
+Prompt Type        : DECISION-MAKING
+Stage / Component  : Algorithms
+Problem / Context  : Search by ID: dùng linear (for loop) hay HashMap (O(1))?
+                     Số lượng student dự kiến < 100 records.
+
+Prompt to AI       :
+"For searching a student by ID in a registration list of < 100 students,
+is linear search acceptable, or should I use HashMap for O(1) lookup?
+Real performance difference?"
+
+AI Response (Summary):
+AI tính toán: với 100 record, linear search worst case ~100 so sánh, mất
+< 1 microsecond. HashMap có overhead khởi tạo (~10-15 entries cần thiết
+mới hoà). KHUYẾN NGHỊ: linear search OK với scope nhỏ.
+
+Human Delta & Reflection:
+- Critical Thinking : AI đúng. Tôi đối chứng thêm bằng benchmark tay
+  với 1000 record: ArrayList.iterator + equalsIgnoreCase < 0.1 ms.
+- Contextualization : LAB211 không yêu cầu Big-O tối ưu; quan trọng là
+  hiểu cấu trúc dữ liệu. Đề mẫu thường có < 50 record.
+- Creative Synthesis: Dùng linear search trong Students.searchById()
+  (Students.java line 72-82). Sử dụng equalsIgnoreCase để tránh case
+  sensitivity (SE190001 vs se190001).
+- Decision Ownership: Linear search. Quyết định có ý thức: trade-off
+  hiệu năng vs đơn giản code. Với < 100 record không khác biệt người
+  dùng cảm nhận được.
+
+Evidence           : Students.java line 72-82; benchmark log "search-by-id
+                     latency.txt" (tự đo bằng System.nanoTime()).
+
+
+--------------------------------------------------------------------------------
+ENTRY #017
+--------------------------------------------------------------------------------
+Prompt Type        : PROBLEM-SOLVING
+Stage / Component  : Algorithms
+Problem / Context  : Search by Name yêu cầu PARTIAL match (gõ "An" ra "Nguyen
+                     Van An" và "Tran Thi An"). Thuật toán hay phương án?
+
+Prompt to AI       :
+"For partial name search in Java (case-insensitive), is String.contains()
+fast enough for a list of < 1000 records? Or should I use indexOf, regex,
+or build a Trie?"
+
+AI Response (Summary):
+AI nói String.contains() implemented qua indexOf(), độ phức tạp O(n*m).
+Với < 1000 record và name < 30 char -> hoàn toàn đủ. Trie chỉ cần khi
+> 100K record và search high-frequency.
+
+Human Delta & Reflection:
+- Critical Thinking : AI đúng. Nhưng nó quên đề cập tới việc lowercase
+  cả 2 chuỗi sẽ ALLOC string mới mỗi lần so sánh -> với 1000 record
+  vẫn nhỏ nhưng đáng nhớ.
+- Contextualization : LAB211 không có performance test. Logic đúng và
+  match đầy đủ tất cả tên là quan trọng nhất.
+- Creative Synthesis: Implement Students.searchByName() (line 84-96):
+    + Empty/null input -> trả List rỗng (không match tất cả).
+    + So sánh sau khi toLowerCase() cả 2 phía.
+    + Dùng contains() để hỗ trợ partial.
+- Decision Ownership: Dùng contains() + toLowerCase(). Đơn giản, đúng
+  yêu cầu, đủ nhanh.
+
+Evidence           : Students.java line 84-96; test case:
+                     - Input "an" -> match "Nguyen Van An", "Tran Thi Anh".
+                     - Input "" -> trả List rỗng (đã verify).
+
+
+--------------------------------------------------------------------------------
+ENTRY #018
+--------------------------------------------------------------------------------
+Prompt Type        : PROBLEM-SOLVING
+Stage / Component  : Algorithms
+Problem / Context  : Aggregate học phí và số lượng theo mountain code -
+                     phải build thuật toán "single-pass" tránh nested loop.
+
+Prompt to AI       :
+"How to aggregate (count + sum) a List of Student grouped by mountainCode
+in Java? Without using stream() because my course requires basic loops.
+Single-pass please."
+
+AI Response (Summary):
+AI viết:
+    Map<String, int[]> map = new HashMap<>();
+    for (Student s : list) {
+        int[] arr = map.computeIfAbsent(s.getMountainCode(), k -> new int[]{0,0});
+        arr[0]++;
+        arr[1] += s.getTuitionFee();   // int[] dùng cho fee
+    }
+
+Human Delta & Reflection:
+- Critical Thinking : Có 2 vấn đề:
+    (1) computeIfAbsent là Java 8 stream-style API - giảng viên có thể
+        coi là "stream" và yêu cầu không dùng.
+    (2) int[] không lưu được fee dạng double (6,000,000 hay 3,900,000 OK
+        vì là số nguyên, nhưng sau này nếu fee có lẻ thì sai).
+- Contextualization : Mountain Hiking dùng double cho tuitionFee
+  (Student.java line 16). Statistics cần lưu name (mountain peak name)
+  để hiển thị, không chỉ count + sum.
+- Creative Synthesis: Tôi viết Statistics.statisticalize() (line 13-37):
+    + Loop qua list.
+    + Lấy StatisticalInfo đã có trong HashMap; nếu null tạo mới (chứa
+      code, name từ Mountains.get(code), 0, 0.0).
+    + Gọi info.addStudent(fee) -> tự tăng count + cộng tiền.
+  -> single-pass, không stream, có name field, dùng double.
+- Decision Ownership: Dùng HashMap<String, StatisticalInfo> + helper
+  method addStudent(fee). Tận dụng OOP (state đóng gói trong DTO).
+
+Evidence           : Statistics.java line 13-37; StatisticalInfo.java
+                     line 53-56 (addStudent helper).
+
+
+--------------------------------------------------------------------------------
+ENTRY #019
+--------------------------------------------------------------------------------
+Prompt Type        : PROBLEM-SOLVING
+Stage / Component  : Algorithms
+Problem / Context  : Chức năng 1 Add New: phải đảm bảo Student ID là DUY NHẤT.
+                     Phải insert sao cho không bị trùng.
+
+Prompt to AI       :
+"In a Java console app, when user inputs a new student id, I need to ensure
+it doesn't already exist. What's the cleanest way: check before insert,
+or try-catch on insert?"
+
+AI Response (Summary):
+AI gợi ý: với list nhỏ, dùng "check before insert" - gọi searchById()
+trước, nếu có thì in lỗi và để user nhập lại. Dùng try-catch chỉ phù
+hợp khi insert là atomic ở storage layer.
+
+Human Delta & Reflection:
+- Critical Thinking : Hợp lý. Với in-memory list, check before insert
+  KHÔNG có race condition (console single-thread). Cách này thân thiện
+  hơn với user (cho phép sửa ngay).
+- Contextualization : Đề bài không cho phép skip vì user đã nhập tới
+  cuối form - mới in ra lỗi là UX kém. Tôi đặt validation ở ĐẦU form
+  (Main.addNewRegistration, line 52-60) - user nhập sai ID -> lặp lại
+  ID, các trường khác chưa nhập tốn công.
+- Creative Synthesis: while-loop quanh việc inputAndLoop("Student ID...")
+  + searchById() != null -> in cảnh báo + tiếp tục loop; else break.
+- Decision Ownership: Check ngay khi nhập ID. Lý do: fail-fast, không
+  bắt user nhập 4 trường rồi mới báo lỗi.
+
+Evidence           : Main.java line 51-60 (loop check trùng ID); demo:
+                     thêm SE190001 lần 2 -> error message "Student ID
+                     already exists".
+
+
+--------------------------------------------------------------------------------
+ENTRY #020 *** HALLUCINATION CASE #3 ***
+--------------------------------------------------------------------------------
+Prompt Type        : VERIFICATION
+Stage / Component  : Algorithms
+Problem / Context  : Khi đọc file CSV, tôi tìm API "java.nio.file" cho gọn,
+                     ngắn hơn BufferedReader.
+
+Prompt to AI       :
+"Is there a Java API like Files.readAllLines(Path, Charset, int skipHeader)
+that reads CSV and automatically skips the first N header lines? I want
+the shortest one-liner."
+
+AI Response (Summary):
+AI khẳng định "Yes, since Java 11, java.nio.file.Files has overload:
+Files.readAllLines(Path path, Charset cs, int skipFirstLines). Returns
+List<String> already skipped. Example:
+    Files.readAllLines(Paths.get('a.csv'), UTF_8, 1)".
+
+Human Delta & Reflection:
+- Critical Thinking : ** HALLUCINATION TYPE: Fabrication of API **
+  Tôi tra Javadoc Java 11 / 17 / 21 chính thức:
+  https://docs.oracle.com/javase/17/docs/api/java/nio/file/Files.html
+  -> Files.readAllLines chỉ có 2 overload:
+       readAllLines(Path)                    [default UTF-8]
+       readAllLines(Path, Charset)
+  KHÔNG có overload với "skipFirstLines". AI đã FABRICATE API không tồn tại.
+  Nếu copy code AI -> compile error: "method readAllLines in class Files
+  cannot be applied to given types".
+- Contextualization : Project LAB211 thường yêu cầu hiểu BufferedReader
+  như kỹ năng cơ bản. Việc skip header có thể tự viết 1 dòng if/continue.
+- Creative Synthesis: Tôi giữ implementation BufferedReader + biến
+  firstLine + check startsWith("code") (Mountains.java line 61-78):
+       boolean firstLine = true;
+       while ((line = br.readLine()) != null) {
+           if (line.trim().isEmpty()) continue;
+           if (firstLine) {
+               firstLine = false;
+               if (line.toLowerCase().startsWith("code")) continue;
+           }
+           ...
+       }
+  Cách này robust hơn: vẫn xử lý đúng nếu user xoá dòng header.
+- Decision Ownership: Dùng BufferedReader thủ công. Lý do:
+  (1) Tránh phụ thuộc API không tồn tại do AI hallucinate.
+  (2) Code rõ ràng cho người chấm thấy được kỹ thuật I/O cơ bản.
+  (3) Linh hoạt khi CSV thiếu header.
+
+Evidence           : Screenshot Oracle Javadoc Files.readAllLines (2
+                     overload duy nhất); screenshot AI claim sai; compile
+                     error log nếu cố gắng dùng overload "3 tham số";
+                     Mountains.java line 55-82.
