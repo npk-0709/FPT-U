@@ -260,7 +260,7 @@ public class PlayersManager {
         try (BufferedReader br = new BufferedReader(new FileReader(path))) {
             String line;
             while ((line = br.readLine()) != null) {
-                if (line.isBlank()) continue;
+                if (line.trim().isEmpty()) continue;
                 String[] parts = line.split("\\s*,\\s*");
                 // Phải đúng 5 trường
                 if (parts.length != 5) return false;
@@ -358,6 +358,6 @@ public class PlayersManager {
     private void printHeader() {
         System.out.printf("%-7s| %-10s| %-22s| %-12s| %s%n",
                 "ID", "Club ID", "Player Name", "Position", "Shirt");
-        System.out.println("-".repeat(62));
+        System.out.println("--------------------------------------------------------------");
     }
 }

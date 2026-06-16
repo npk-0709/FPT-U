@@ -172,7 +172,7 @@ public class ClubsManager {
         try (BufferedReader br = new BufferedReader(new FileReader(path))) {
             String line;
             while ((line = br.readLine()) != null) {
-                if (line.isBlank()) continue;
+                if (line.trim().isEmpty()) continue;
                 String[] parts = line.split("\\s*,\\s*");
                 // Phải đúng 4 trường
                 if (parts.length != 4) return false;
@@ -234,6 +234,6 @@ public class ClubsManager {
     private void printHeader() {
         System.out.printf("%-10s| %-26s| %-10s| %s%n",
                 "Club ID", "Club Name", "Sponsor", "Budget");
-        System.out.println("-".repeat(62));
+        System.out.println("--------------------------------------------------------------");
     }
 }

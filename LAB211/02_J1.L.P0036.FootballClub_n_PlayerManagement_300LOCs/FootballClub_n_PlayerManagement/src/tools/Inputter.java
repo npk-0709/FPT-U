@@ -89,4 +89,19 @@ public class Inputter {
             }
         }
     }
+
+    /**
+     * Nhập xác nhận Yes/No. Lặp lại nếu nhập sai.
+     * @param prompt thông báo nhập
+     * @return true nếu người dùng nhập Y/y
+     */
+    public static boolean inputYesNo(String prompt) {
+        while (true) {
+            System.out.print(prompt);
+            String value = sc.nextLine().trim().toUpperCase();
+            if (value.equals("Y")) return true;
+            if (value.equals("N")) return false;
+            System.out.println("Please enter Y or N.");
+        }
+    }
 }

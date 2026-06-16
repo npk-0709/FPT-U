@@ -13,3 +13,4 @@ P0012, CL-0005, Virgil van Dijk, Defender, 4
 P0013, CL-0012, Raheem Sterling, Winger, 7
 P0014, CL-0012, Enzo Fernández, Midfielder, 8
 P0015, CL-0012, Reece James, Defender, 24
+P2938, CL-0002, Nguyen Phu Khuong, Goalkeeper, 33
