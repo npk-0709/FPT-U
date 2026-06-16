@@ -1,5 +1,0 @@
-CL-0001,Manchester United,Adidas,500000000.00
-CL-0002,Real Madrid,Adidas,800000000.00
-CL-0003,FC Barcelona,Nike,700000000.00
-CL-0004,Bayern Munich,Adidas,600000000.00
-CL-0005,Liverpool FC,Nike,450000000.00
