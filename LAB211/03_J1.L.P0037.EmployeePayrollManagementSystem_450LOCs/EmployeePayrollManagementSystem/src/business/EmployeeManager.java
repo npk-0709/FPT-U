@@ -13,26 +13,17 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Lớp nghiệp vụ trung tâm: quản lý danh sách nhân viên và toàn bộ 9 chức năng.
- * Đây là nơi đặt thuật toán cho từng chức năng; phần nhập liệu và kiểm tra
- * hợp lệ được uỷ thác cho {@code tools}, việc khởi tạo cho {@code factory}.
- */
 public class EmployeeManager {
 
     private final List<Employee> list = new ArrayList<>();
     private final String filePath;
 
-    /** Cờ "có thay đổi chưa lưu" để nhắc lưu trước khi thoát. */
     private boolean dirty = false;
 
     public EmployeeManager(String filePath) {
         this.filePath = filePath;
     }
 
-    // ----------------------------------------------------------------
-    // Function 1: Load from file
-    // ----------------------------------------------------------------
     public void load() {
         int ok = 0;
         int bad = 0;
@@ -57,12 +48,6 @@ public class EmployeeManager {
         System.out.println("Loaded " + ok + " record(s), skipped " + bad + " invalid line(s).");
     }
 
-    /**
-     * Phân tích một dòng và thêm vào danh sách nếu hợp lệ.
-     * Bọc try-catch để không bao giờ crash khi gặp dòng dữ liệu lỗi.
-     *
-     * @return true nếu thêm thành công, false nếu dòng bị bỏ qua.
-     */
     private boolean parseAndAdd(String line) {
         String[] p = line.split("\\s*,\\s*");
         if (p.length != 7) {
@@ -91,14 +76,10 @@ public class EmployeeManager {
             list.add(EmployeeFactory.create(id, name, role, baseSalary, workingDays, bonus, status));
             return true;
         } catch (IllegalArgumentException ex) {
-            // Bao gồm NumberFormatException (parse số sai) và role không hợp lệ.
-            return false; // -> bỏ qua dòng lỗi này
+            return false;
         }
     }
 
-    // ----------------------------------------------------------------
-    // Function 2: Add a new employee
-    // ----------------------------------------------------------------
     public void add() {
         String id = Inputter.inputByRegex("ID (Exxx): ",
                 Validator.ID_REGEX, "Format must be E followed by 3 digits (e.g., E001).");
@@ -118,9 +99,6 @@ public class EmployeeManager {
         System.out.println("Employee added successfully.");
     }
 
-    // ----------------------------------------------------------------
-    // Function 3: Update employee (role, salary, bonus, status)
-    // ----------------------------------------------------------------
     public void update() {
         if (isEmpty()) {
             return;
@@ -140,7 +118,6 @@ public class EmployeeManager {
         String bonusStr = Inputter.inputOptional("Bonus [" + (long) e.getBonus() + "]: ");
         String statusStr = Inputter.inputOptional("Status [" + e.getStatus() + "]: ");
 
-        // Gom giá trị mới (giữ giá trị cũ nếu để trống) rồi áp dụng có kiểm tra.
         String newRole = Validator.isRole(roleStr) ? roleStr : e.getRole();
 
         double newBase = e.getBaseSalary();
@@ -187,7 +164,6 @@ public class EmployeeManager {
 
         String newStatus = Validator.isStatus(statusStr) ? statusStr : e.getStatus();
 
-        // Đổi role nghĩa là đổi lớp con -> tạo lại đối tượng bằng factory.
         Employee updated = EmployeeFactory.create(
                 e.getId(), e.getName(), newRole, newBase, newDays, newBonus, newStatus);
         list.set(list.indexOf(e), updated);
@@ -195,9 +171,6 @@ public class EmployeeManager {
         System.out.println("Updated successfully.");
     }
 
-    // ----------------------------------------------------------------
-    // Function 4: Remove an employee by ID
-    // ----------------------------------------------------------------
     public void remove() {
         if (isEmpty()) {
             return;
@@ -218,9 +191,6 @@ public class EmployeeManager {
         }
     }
 
-    // ----------------------------------------------------------------
-    // Function 5: Search employees by attribute
-    // ----------------------------------------------------------------
     public void searchByAttribute() {
         if (isEmpty()) {
             return;
@@ -258,9 +228,6 @@ public class EmployeeManager {
         }
     }
 
-    // ----------------------------------------------------------------
-    // Function 6: Calculate monthly payroll (active employees only)
-    // ----------------------------------------------------------------
     public void monthlyPayroll() {
         if (isEmpty()) {
             return;
@@ -271,7 +238,7 @@ public class EmployeeManager {
         printLine();
         for (Employee e : list) {
             if (e.isActive()) {
-                double salary = e.calculateSalary(); // đa hình theo vai trò
+                double salary = e.calculateSalary();
                 System.out.printf("%-5s | %-15s | %-10s | %,12.1f%n",
                         e.getId(), e.getName(), e.getRole(), salary);
                 total += salary;
@@ -286,9 +253,6 @@ public class EmployeeManager {
         }
     }
 
-    // ----------------------------------------------------------------
-    // Function 7: Display employee list
-    // ----------------------------------------------------------------
     public void display() {
         if (isEmpty()) {
             return;
@@ -296,9 +260,6 @@ public class EmployeeManager {
         printTable(list);
     }
 
-    // ----------------------------------------------------------------
-    // Function 8: Save data to file
-    // ----------------------------------------------------------------
     public void save() {
         try (PrintWriter pw = new PrintWriter(new FileWriter(filePath))) {
             for (Employee e : list) {
@@ -311,9 +272,6 @@ public class EmployeeManager {
         }
     }
 
-    // ----------------------------------------------------------------
-    // Function 9: Quit program (confirm saving before exit)
-    // ----------------------------------------------------------------
     public void quit() {
         if (dirty) {
             if (Inputter.confirmYesNo("You have unsaved changes. Save before exit? (Y/N): ")) {
@@ -323,9 +281,6 @@ public class EmployeeManager {
         System.out.println("Goodbye!");
     }
 
-    // ----------------------------------------------------------------
-    // Helpers
-    // ----------------------------------------------------------------
     public boolean exists(String id) {
         return findById(id) != null;
     }

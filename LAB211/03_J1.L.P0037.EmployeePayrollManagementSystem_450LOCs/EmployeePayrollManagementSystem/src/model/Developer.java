@@ -1,6 +1,5 @@
 package model;
 
-/** Lập trình viên: phụ cấp kỹ thuật 10% lương cơ bản. */
 public class Developer extends Employee {
 
     public Developer(String id, String name, double baseSalary,

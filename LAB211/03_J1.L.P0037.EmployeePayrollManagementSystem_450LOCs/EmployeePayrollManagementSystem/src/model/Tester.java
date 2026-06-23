@@ -1,6 +1,5 @@
 package model;
 
-/** Kiểm thử viên: phụ cấp 5% lương cơ bản. */
 public class Tester extends Employee {
 
     public Tester(String id, String name, double baseSalary,

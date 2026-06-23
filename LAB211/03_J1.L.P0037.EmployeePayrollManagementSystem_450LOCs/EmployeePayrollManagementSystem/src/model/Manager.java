@@ -1,6 +1,5 @@
 package model;
 
-/** Quản lý: phụ cấp quản lý 20% lương cơ bản cộng phụ cấp cố định 200. */
 public class Manager extends Employee {
 
     public Manager(String id, String name, double baseSalary,

@@ -1,27 +1,40 @@
 package main;
 
+import business.AuthService;
 import business.EmployeeManager;
+import model.Account;
 import tools.Inputter;
 
 import java.util.Locale;
 
-/**
- * Điểm vào chương trình: hiển thị menu và điều phối tới các chức năng nghiệp vụ.
- * Employee Payroll Management System - J1.L.P0037 (LAB211).
- */
 public class Main {
 
     private static final String DATA_FILE = "employees.txt";
 
     public static void main(String[] args) {
-        // Cố định locale để định dạng số (dấu phân cách hàng nghìn/thập phân) luôn nhất quán.
         Locale.setDefault(Locale.US);
+
+        AuthService authService = new AuthService();
+        Account currentUser = authService.login();
+        if (currentUser == null) {
+            System.out.println("Too many failed attempts. Program terminated.");
+            return;
+        }
+
         EmployeeManager manager = new EmployeeManager(DATA_FILE);
         int choice;
         do {
-            showMenu();
+            showMenu(currentUser);
             choice = Inputter.inputInt("Choose 1-9: ", 1, 9);
             System.out.println();
+
+            if (!currentUser.canAccess(choice)) {
+                System.out.println("Access denied. Your role (" + currentUser.getRole()
+                        + ") is not allowed to use this function.");
+                System.out.println();
+                continue;
+            }
+
             switch (choice) {
                 case 1:
                     manager.load();
@@ -57,17 +70,26 @@ public class Main {
         } while (choice != 9);
     }
 
-    private static void showMenu() {
+    private static void showMenu(Account user) {
+        String[] features = {
+                "Load employee data from file",
+                "Add a new employee",
+                "Update employee information",
+                "Remove an employee by ID",
+                "Search employees by attribute",
+                "Calculate monthly payroll",
+                "Display employee list",
+                "Save data to file",
+                "Quit program"
+        };
         System.out.println("===== EMPLOYEE PAYROLL MANAGEMENT SYSTEM =====");
-        System.out.println("1. Load employee data from file");
-        System.out.println("2. Add a new employee");
-        System.out.println("3. Update employee information");
-        System.out.println("4. Remove an employee by ID");
-        System.out.println("5. Search employees by attribute");
-        System.out.println("6. Calculate monthly payroll");
-        System.out.println("7. Display employee list");
-        System.out.println("8. Save data to file");
-        System.out.println("9. Quit program");
+        System.out.println("Logged in as: " + user);
+        System.out.println("----------------------------------------------");
+        for (int i = 0; i < features.length; i++) {
+            int feature = i + 1;
+            String lock = user.canAccess(feature) ? "" : "   [locked]";
+            System.out.println(feature + ". " + features[i] + lock);
+        }
         System.out.println("==============================================");
     }
 }

@@ -6,17 +6,9 @@ import model.HR;
 import model.Manager;
 import model.Tester;
 
-/**
- * Factory ánh xạ tên vai trò sang đúng lớp con của {@link Employee}.
- *
- * <p>Nhờ tập trung việc khởi tạo ở một nơi, phần nghiệp vụ (load/add/update)
- * không phải biết chi tiết có những lớp con nào - khi thêm vai trò mới chỉ
- * cần sửa tại đây (minh hoạ Open/Closed Principle).</p>
- */
 public final class EmployeeFactory {
 
     private EmployeeFactory() {
-        // Lớp tiện ích, không cho khởi tạo.
     }
 
     public static Employee create(String id, String name, String role,

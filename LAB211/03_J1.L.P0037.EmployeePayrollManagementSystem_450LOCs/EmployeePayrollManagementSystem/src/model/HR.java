@@ -1,6 +1,5 @@
 package model;
 
-/** Nhân sự: phụ cấp 8% lương cơ bản. */
 public class HR extends Employee {
 
     public HR(String id, String name, double baseSalary,
