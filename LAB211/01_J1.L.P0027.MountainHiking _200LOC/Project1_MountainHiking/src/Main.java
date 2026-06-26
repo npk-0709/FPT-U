@@ -1,73 +1,106 @@
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.BooleanSupplier;
 
 public class Main {
+
+    private static final int MAX_LOGIN_ATTEMPTS = 3;
 
     private static final Inputter inp = new Inputter();
     private static final Mountains mountains = new Mountains();
     private static final Students students = new Students();
     private static final Volunteers volunteers = new Volunteers();
+    private static final Accounts accounts = new Accounts();
+
+    private static Account currentUser;
 
     public static void main(String[] args) {
+        if (!login()) {
+            System.out.println("Too many failed login attempts. Goodbye!");
+            return;
+        }
         if (mountains.isEmpty()) {
             System.out.println("Mountain list is empty !");
         }
-        boolean running = true;
-        while (running) {
-            showMenu();
-            int choice = inp.getMenuChoice("Your choice: ", 1, 10);
-            switch (choice) {
-                case 1:
-                    addNewRegistration();
-                    break;
-                case 2:
-                    updateRegistration();
-                    break;
-                case 3:
-                    displayRegisteredList();
-                    break;
-                case 4:
-                    deleteRegistration();
-                    break;
-                case 5:
-                    searchByName();
-                    break;
-                case 6:
-                    filterByCampus();
-                    break;
-                case 7:
-                    showStatistics();
-                    break;
-                case 8:
-                    saveDataToFile();
-                    break;
-                case 9:
-                    volunteerManagement();
-                    break;
-                case 10:
-                    running = exitProgram();
-                    break;
-                default:
-                    System.out.println("This function is not available.");
-            }
-        }
+        runMenu("============== MOUNTAIN HIKING CHALLENGE REGISTRATION ==============",
+                buildMainMenu(), "Exit", Main::confirmExit);
         System.out.println("Goodbye!");
     }
 
-    private static void showMenu() {
+    // ==================== AUTHENTICATION ====================
+
+    private static boolean login() {
+        System.out.println("==================== LOGIN ====================");
+        for (int attempt = 1; attempt <= MAX_LOGIN_ATTEMPTS; attempt++) {
+            String username = inp.getString("Username: ");
+            String password = inp.getString("Password: ");
+            Account account = accounts.login(username, password);
+            if (account != null) {
+                currentUser = account;
+                System.out.println("Login successful. Welcome, " + account.getName()
+                        + " [" + account.getRole() + "].");
+                return true;
+            }
+            System.out.println("Invalid username or password. Attempts left: "
+                    + (MAX_LOGIN_ATTEMPTS - attempt));
+        }
+        return false;
+    }
+
+    // ==================== GENERIC MENU ENGINE ====================
+
+    private static void runMenu(String title, List<MenuItem> items,
+                                String exitLabel, BooleanSupplier onExit) {
+        boolean running = true;
+        while (running) {
+            List<MenuItem> visible = visibleItems(items);
+            printMenu(title, visible, exitLabel);
+            int choice = inp.getMenuChoice("Your choice: ", 1, visible.size() + 1);
+            if (choice == visible.size() + 1) {
+                running = !onExit.getAsBoolean();
+            } else {
+                visible.get(choice - 1).execute();
+            }
+        }
+    }
+
+    private static List<MenuItem> visibleItems(List<MenuItem> items) {
+        List<MenuItem> visible = new ArrayList<>();
+        for (MenuItem item : items) {
+            if (item.isAllowedFor(currentUser)) {
+                visible.add(item);
+            }
+        }
+        return visible;
+    }
+
+    private static void printMenu(String title, List<MenuItem> visible, String exitLabel) {
         System.out.println();
-        System.out.println("============== MOUNTAIN HIKING CHALLENGE REGISTRATION ==============");
-        System.out.println("1. New Registration");
-        System.out.println("2. Update Registration Information");
-        System.out.println("3. Display Registered List");
-        System.out.println("4. Delete Registration Information");
-        System.out.println("5. Search Participants by Name");
-        System.out.println("6. Filter Data by Campus");
-        System.out.println("7. Statistics of Registration Numbers by Location");
-        System.out.println("8. Save Data to File");
-        System.out.println("9. Volunteer Management");
-        System.out.println("10. Exit");
+        System.out.println(title);
+        int index = 1;
+        for (MenuItem item : visible) {
+            System.out.println(index++ + ". " + item.getLabel());
+        }
+        System.out.println(index + ". " + exitLabel);
+        System.out.println("Logged in as: " + currentUser.getUsername()
+                + " [" + currentUser.getRole() + "]");
         System.out.println("====================================================================");
+    }
+
+    private static List<MenuItem> buildMainMenu() {
+        List<MenuItem> items = new ArrayList<>();
+        items.add(new MenuItem("New Registration", Permission.CREATE_REGISTRATION, Main::addNewRegistration));
+        items.add(new MenuItem("Update Registration Information", Permission.UPDATE_REGISTRATION, Main::updateRegistration));
+        items.add(new MenuItem("Display Registered List", Permission.VIEW_REGISTRATION, Main::displayRegisteredList));
+        items.add(new MenuItem("Delete Registration Information", Permission.DELETE_REGISTRATION, Main::deleteRegistration));
+        items.add(new MenuItem("Search Participants by Name", Permission.VIEW_REGISTRATION, Main::searchByName));
+        items.add(new MenuItem("Filter Data by Campus", Permission.VIEW_REGISTRATION, Main::filterByCampus));
+        items.add(new MenuItem("Statistics of Registration Numbers by Location", Permission.VIEW_STATISTICS, Main::showStatistics));
+        items.add(new MenuItem("Save Data to File", Permission.SAVE_DATA, Main::saveDataToFile));
+        items.add(new MenuItem("Volunteer Management", Permission.MANAGE_VOLUNTEER, Main::volunteerManagement));
+        items.add(new MenuItem("Account Management", Permission.MANAGE_ACCOUNT, Main::accountManagement));
+        return items;
     }
 
     // ==================== STUDENT FUNCTIONS ====================
@@ -242,45 +275,14 @@ public class Main {
     // ==================== VOLUNTEER FUNCTIONS ====================
 
     private static void volunteerManagement() {
-        boolean running = true;
-        while (running) {
-            showVolunteerMenu();
-            int choice = inp.getMenuChoice("Your choice: ", 1, 6);
-            switch (choice) {
-                case 1:
-                    addNewVolunteer();
-                    break;
-                case 2:
-                    displayVolunteerList();
-                    break;
-                case 3:
-                    updateVolunteer();
-                    break;
-                case 4:
-                    assignVolunteerToShift();
-                    break;
-                case 5:
-                    deleteVolunteer();
-                    break;
-                case 6:
-                    running = false;
-                    break;
-                default:
-                    System.out.println("This function is not available.");
-            }
-        }
-    }
-
-    private static void showVolunteerMenu() {
-        System.out.println();
-        System.out.println("================ VOLUNTEER MANAGEMENT ================");
-        System.out.println("1. Add New Volunteer");
-        System.out.println("2. Display Volunteer List");
-        System.out.println("3. Update Volunteer (Skill / Max Shifts)");
-        System.out.println("4. Assign Volunteer to Shift");
-        System.out.println("5. Delete Volunteer");
-        System.out.println("6. Back to Main Menu");
-        System.out.println("=======================================================");
+        List<MenuItem> items = new ArrayList<>();
+        items.add(new MenuItem("Add New Volunteer", null, Main::addNewVolunteer));
+        items.add(new MenuItem("Display Volunteer List", null, Main::displayVolunteerList));
+        items.add(new MenuItem("Update Volunteer (Skill / Max Shifts)", null, Main::updateVolunteer));
+        items.add(new MenuItem("Assign Volunteer to Shift", null, Main::assignVolunteerToShift));
+        items.add(new MenuItem("Delete Volunteer", null, Main::deleteVolunteer));
+        runMenu("================ VOLUNTEER MANAGEMENT ================",
+                items, "Back to Main Menu", () -> true);
     }
 
     private static void addNewVolunteer() {
@@ -336,7 +338,6 @@ public class Main {
         System.out.println(v.getDisplayInfo());
         System.out.println("Press Enter to keep the old value.");
 
-        // Update skill
         System.out.println("Current skill: " + v.getSkill());
         System.out.println("Select new skill (Enter to keep):");
         Skill.showAll();
@@ -355,7 +356,6 @@ public class Main {
             }
         }
 
-        // Update maxShiftsPerDay
         String shiftInput = inp.getString(
                 "New max shifts/day (current: " + v.getMaxShiftsPerDay() + ", 1-3, Enter to keep): ").trim();
         if (!shiftInput.isEmpty() && Acceptable.isValid(shiftInput, Acceptable.SHIFT_VALID)) {
@@ -380,21 +380,16 @@ public class Main {
         }
         System.out.println("Volunteer info: " + v.getDisplayInfo());
 
-        // Ask slot type
         System.out.println("Slot type:");
         System.out.println("1. GENERAL (any skill)");
         System.out.println("2. MEDIC (requires MEDIC skill)");
         int slotChoice = inp.getMenuChoice("Slot type (1-2): ", 1, 2);
 
-        if (slotChoice == 2) {
-            // MEDIC slot: check skill
-            if (!v.hasSkillFor(Skill.MEDIC)) {
-                System.out.println("This volunteer does not have MEDIC skill. Cannot assign to MEDIC slot.");
-                return;
-            }
+        if (slotChoice == 2 && !v.hasSkillFor(Skill.MEDIC)) {
+            System.out.println("This volunteer does not have MEDIC skill. Cannot assign to MEDIC slot.");
+            return;
         }
 
-        // Try assign
         if (v.assign()) {
             volunteers.markUnsaved();
             System.out.println("Assigned successfully! Shifts today: "
@@ -425,23 +420,89 @@ public class Main {
         }
     }
 
-    // ==================== EXIT ====================
+    // ==================== ACCOUNT FUNCTIONS ====================
 
-    private static boolean exitProgram() {
-        boolean hasUnsaved = !students.isSaved() || !volunteers.isSaved();
-        if (hasUnsaved) {
-            boolean save = inp.confirmYesNo(
-                    "You have unsaved changes. Do you want to save before exiting? (Y/N): ");
-            if (save) {
-                saveDataToFile();
+    private static void accountManagement() {
+        List<MenuItem> items = new ArrayList<>();
+        items.add(new MenuItem("Display Account List", null, Main::displayAccounts));
+        items.add(new MenuItem("Add New Account", null, Main::addAccount));
+        items.add(new MenuItem("Delete Account", null, Main::deleteAccount));
+        runMenu("================ ACCOUNT MANAGEMENT ================",
+                items, "Back to Main Menu", () -> true);
+    }
+
+    private static void displayAccounts() {
+        System.out.println("---- Account List ----");
+        accounts.showAll();
+    }
+
+    private static void addAccount() {
+        System.out.println("---- Add New Account ----");
+        String username;
+        while (true) {
+            username = inp.inputAndLoop("Username [3-20 letters/digits/_]: ",
+                    Acceptable.USERNAME_VALID).toLowerCase();
+            if (accounts.searchByUsername(username) != null) {
+                System.out.println("Username already exists. Please try again.");
             } else {
-                boolean confirm = inp.confirmYesNo(
-                        "Are you sure you want to exit without saving? (Y/N): ");
-                if (!confirm) {
-                    return true;
-                }
+                break;
             }
         }
-        return false;
+        String name = inp.inputAndLoop("Display name (2-20 chars): ", Acceptable.NAME_VALID).trim();
+        String password = inp.inputAndLoop("Password (6-20 chars, no space): ", Acceptable.PASSWORD_VALID);
+
+        System.out.println("Select role:");
+        Role.showAll();
+        int roleChoice = inp.getMenuChoice("Role (1-" + Role.values().length + "): ",
+                1, Role.values().length);
+        Role role = Role.getByIndex(roleChoice);
+
+        Account account = new Account(username, name, password, role);
+        if (accounts.add(account)) {
+            System.out.println("Account created successfully.");
+            System.out.println(account.getDisplayInfo());
+        } else {
+            System.out.println("Could not create account.");
+        }
+    }
+
+    private static void deleteAccount() {
+        System.out.println("---- Delete Account ----");
+        String username = inp.inputAndLoop("Username to delete: ",
+                Acceptable.USERNAME_VALID).toLowerCase();
+        Account account = accounts.searchByUsername(username);
+        if (account == null) {
+            System.out.println("Account not found.");
+            return;
+        }
+        if (account.getUsername().equalsIgnoreCase(currentUser.getUsername())) {
+            System.out.println("You cannot delete the account you are currently logged in with.");
+            return;
+        }
+        System.out.println("Account details:");
+        System.out.println(account.getDisplayInfo());
+        boolean ok = inp.confirmYesNo("Are you sure you want to delete this account? (Y/N): ");
+        if (ok) {
+            accounts.delete(username);
+            System.out.println("Account has been successfully deleted.");
+        } else {
+            System.out.println("Deletion cancelled.");
+        }
+    }
+
+    // ==================== EXIT ====================
+
+    private static boolean confirmExit() {
+        boolean hasUnsaved = !students.isSaved() || !volunteers.isSaved();
+        if (!hasUnsaved) {
+            return true;
+        }
+        boolean save = inp.confirmYesNo(
+                "You have unsaved changes. Do you want to save before exiting? (Y/N): ");
+        if (save) {
+            saveDataToFile();
+            return true;
+        }
+        return inp.confirmYesNo("Are you sure you want to exit without saving? (Y/N): ");
     }
 }

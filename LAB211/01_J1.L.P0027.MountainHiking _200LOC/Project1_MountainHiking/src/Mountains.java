@@ -18,8 +18,6 @@ public class Mountains extends ArrayList<Mountain> {
         readFromFile();
     }
 
-
-
     public Mountain get(String mountainCode) {
         if (mountainCode == null) {
             return null;

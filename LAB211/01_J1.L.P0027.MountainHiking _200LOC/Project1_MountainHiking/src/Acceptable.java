@@ -19,6 +19,10 @@ public interface Acceptable {
     String VOLUNTEER_NAME_VALID = "^[A-Za-zÀ-ỹ\\s]{3,30}$";
     String SHIFT_VALID = "^[1-3]$";
 
+    // Account patterns
+    String USERNAME_VALID = "^[A-Za-z0-9_]{3,20}$";
+    String PASSWORD_VALID = "^\\S{6,20}$";
+
     static boolean isValid(String data, String pattern) {
         if (data == null || pattern == null) {
             return false;
