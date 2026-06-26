@@ -1,0 +1,77 @@
+4. Household Cleaning Robot Sales & Maintenance 
+Management System 
+Context 
+The rapid adoption of smart home technologies has significantly increased the 
+demand for household cleaning robots such as robotic vacuum cleaners and 
+floor-mopping devices. Consumers not only require efficient purchasing 
+channels but also reliable after-sales services, including maintenance, repair, 
+and warranty management. However, many small and medium-sized 
+businesses still manage these operations using disconnected systems or manual 
+processes, leading to inefficiencies in inventory control, service scheduling, 
+and customer support.  
+A centralized system is required to manage the entire lifecycle of cleaning 
+robots—from sales transactions and customer records to maintenance history 
+and service operations.  
+The system must handle diverse data types, including product specifications, 
+warranty information, service logs, and customer interactions. Additionally, 
+integrating IoT data from smart robots (e.g., usage statistics, error logs) can 
+enhance predictive maintenance and service quality.  
+This project provides a realistic case for designing a database system that 
+supports transactional workflows, asset tracking, and data-driven service 
+optimization in the smart home ecosystem. 
+Proposal Solution 
+The proposed solution is a centralized, database-driven system  that integrates 
+product sales, customer management, and maintenance services for household 
+cleaning robots. It ensures data consistency through relational database design 
+and transaction management while supporting real-time updates and service 
+tracking. The system can be extended with IoT data integration and AI-based 
+predictive maintenance to improve operational efficiency and customer 
+satisfaction. 
+Actors & Features 
+• Customer 
+• Browse available cleaning robots by brand, features, and price.  
+• View product specifications, warranty details, and user reviews.  
+• Purchase robots and track order status.  
+• Register purchased devices for warranty services.  
+• Request maintenance or repair services.  
+• Track service status and maintenance history.  
+• Sales Staff 
+• Manage product catalog (add/update/remove robot models).  
+• Process sales orders and invoices.  
+• Assist customers in selecting suitable products.  
+• Update product availability and pricing.  
+• Technician (Maintenance Staff) 
+• Receive and manage service requests.  
+• Schedule maintenance or repair appointments.  
+• Record service details (issues, actions taken, parts replaced).  
+• Update device status (under maintenance, repaired, returned).  
+• System (IoT/AI Extension) 
+• Collect usage data and error logs from connected robots.  
+• Detect anomalies and suggest predictive maintenance.  
+• Recommend maintenance schedules based on usage patterns.  
+• Administrator 
+• Manage users (customers, staff, technicians).  
+• Configure pricing, warranty policies, and service fees.  
+• Monitor system performance and transactions.  
+• Generate analytical reports and insights.  
+Business Rules 
+• Each robot model has a unique product ID and may have multiple units 
+in inventory.  
+• Each purchased robot is associated with exactly one customer and 
+includes a warranty period.  
+• A customer may own multiple robots.  
+• Each service request must be linked to one specific robot.  
+• A robot can have multiple maintenance records over time.  
+• Service requests must be assigned to one technician.  
+• Maintenance cannot be performed if the robot is not registered in the 
+system.  
+• Warranty coverage determines whether service fees are applied.  
+• Each sales transaction and service operation must have a corresponding 
+payment record (if applicable).  
+Reports / Statistics 
+• Sales report by product and time period.  
+• Inventory status report (available, sold, under maintenance).  
+• Maintenance history report by customer or device.  
+• Technician performance report (tasks completed, time taken).  
+• Warranty claim and service cost report.  
+• Predictive maintenance and failure trend analysis. 

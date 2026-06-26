@@ -1,0 +1,40 @@
+Lab 4: Relational Database Design Process
+Objective
+The objective of this lab is to guide students through the structured process of relational database design. Students will practice translating real-world requirements into a conceptual model, refining it into a logical model, and implementing it as a physical database schema. Additionally, students will specify the constraints that ensure data integrity within the designed schema.
+________________________________________
+Tasks
+Each group is required to:
+1.	Create the Conceptual Model (ERD)
+o	Develop an Entity–Relationship Diagram (ERD) based on the given or chosen domain.
+o	Clearly identify entities, attributes, and relationships.
+o	Indicate cardinalities (1:1, 1:N, M:N).
+2.	Develop the Logical Model
+o	Convert the ERD into a relational schema (Logical Diagram).
+o	Define primary keys and foreign keys.
+o	Resolve M:N relationships through appropriate decomposition.
+3.	Design the Physical Model
+o	Map the logical schema to a Physical Diagram.
+o	Include table definitions with attributes and data types.
+4.	Specify Constraints
+o	Provide a detailed description of column-level and table-level constraints, including:
+	NOT NULL
+	UNIQUE
+	PRIMARY KEY
+	FOREIGN KEY (with referenced table and column)
+	CHECK constraints (e.g., value ranges, formats)
+	DEFAULT values (if any)
+5.	Document Results
+o	Summarize the database design process followed by the group.
+o	Reflect on how constraints improve data integrity and reliability.
+________________________________________
+Submission Format
+•	File type: Microsoft Word (.doc/.docx) or PDF (.pdf)
+•	Report structure:
+1.	Cover page (Lab number, course name, group members, date).
+2.	Objective.
+3.	Entity–Relationship Diagram (ERD).
+4.	Logical Diagram with relational schema.
+5.	Physical Diagram with detailed table design.
+6.	List and description of constraints.
+7.	Conclusion and reflection.
+

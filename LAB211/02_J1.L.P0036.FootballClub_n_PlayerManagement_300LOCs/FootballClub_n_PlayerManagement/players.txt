@@ -1,5 +1,5 @@
 P0001, CL-0001, Lionel Messi, Forward, 10
-P0002, CL-0001, Sergio Busquets, Midfielder, 5
+P0002, CL-0001, Ronando Delima, Midfielder, 7
 P0003, CL-0001, Jordi Alba, Defender, 18
 P0004, CL-0002, Luka Modrić, Midfielder, 10
 P0005, CL-0002, Toni Kroos, Midfielder, 8

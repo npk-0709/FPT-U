@@ -251,6 +251,170 @@ def create_report_extension():
         
     doc.add_paragraph('The total lines of code after the extension reached 1,518 lines with 13 class/enum/interface files.')
 
+    # ============================================================
+    # 10. AUTHORIZATION (RBAC)
+    # ============================================================
+    doc.add_page_break()
+    doc.add_heading('10. Feature Extension – Role-Based Access Control (RBAC)', level=1)
+
+    # 10.1
+    doc.add_heading('10.1. Introduction to the Authorization Feature', level=2)
+    doc.add_paragraph('In this next extended version, the system is supplemented with Authentication (Login) and Role-Based Access Control (RBAC). Previously, anyone running the program could use every function; now each user must log in and only sees/uses the functions appropriate to their role.')
+
+    reqs = [
+        'Authentication: Users must log in with a username/password before entering the system (up to 3 attempts).',
+        'Authorization (RBAC): Each account is bound to a Role; each Role owns a set of Permissions. The menu is generated dynamically – only functions the user is permitted to use are displayed.',
+        'Applying OOP: Separating Permission – Role – Account into independent components, each class responsible for its own task (Single Responsibility).',
+        'Account management: Added an Account Management menu for administrators (ADMIN) to view, add, and delete accounts.',
+        'Clean code refactor: Replaced the bulky switch-case menu with a "menu engine" using a list of permission-aware MenuItem objects.'
+    ]
+    for r in reqs:
+        doc.add_paragraph(r, style='List Bullet')
+
+    doc.add_paragraph('New files added:')
+    add_styled_table(doc, ['No.', 'File Name', 'Lines', 'Description'], [
+        ['1', 'Permission.java', '20', 'Enum – lists the functional permissions of the system'],
+        ['2', 'Role.java', '44', 'Enum – roles, each bound to a set of Permissions'],
+        ['3', 'Account.java', '70', 'Class – user account, inherits from Person'],
+        ['4', 'Accounts.java', '128', 'Class – manages the account list and handles login'],
+        ['5', 'MenuItem.java', '24', 'Class – a menu entry bound to a permission and an action'],
+    ], col_widths=[1.5, 3.5, 2, 8])
+
+    doc.add_paragraph('Modified files:')
+    add_styled_table(doc, ['No.', 'File Name', 'Modifications'], [
+        ['1', 'Main.java', 'Added login flow, permission-based dynamic menu, and Account Management; replaced switch-case with a menu engine'],
+        ['2', 'Acceptable.java', 'Added 2 regex patterns: USERNAME_VALID and PASSWORD_VALID'],
+        ['3', 'Person.java', 'Reused as the superclass for Account (id = username, name = display name)']
+    ], col_widths=[1.5, 3.5, 10])
+
+    # 10.2
+    doc.add_heading('10.2. The RBAC Model', level=2)
+    doc.add_paragraph('RBAC (Role-Based Access Control) is an access-control model based on roles. Instead of assigning permissions directly to each user, the system maps: User → Role → Set of Permissions. This centralizes permission management, makes it easy to extend, and aligns well with OOP principles.')
+    doc.add_paragraph('Relationship between components:')
+    add_styled_table(doc, ['Component', 'Role in the Model'], [
+        ['Account', 'Represents a logged-in user; holds a reference to one Role.'],
+        ['Role', 'Represents a role; holds a Set<Permission> (using EnumSet).'],
+        ['Permission', 'Represents an access right to a specific group of functions.'],
+        ['MenuItem', 'Each menu entry declares its required permission; it checks whether the account is allowed.']
+    ], col_widths=[4, 10])
+    add_img_placeholder(doc, "RBAC model diagram: Account -> Role -> Set<Permission>")
+
+    # 10.3
+    doc.add_heading('10.3. Description of New Components', level=2)
+
+    doc.add_heading('10.3.1. Enum – Permission', level=3)
+    doc.add_paragraph('File: Permission.java | Lines of code: 20 lines')
+    doc.add_paragraph('Lists 8 permissions corresponding to functional groups, each with a description:')
+    add_styled_table(doc, ['Permission', 'Allows'], [
+        ['CREATE_REGISTRATION', 'Create a new registration'],
+        ['UPDATE_REGISTRATION', 'Update registration information'],
+        ['VIEW_REGISTRATION', 'View / search / filter the registration list'],
+        ['DELETE_REGISTRATION', 'Delete a registration'],
+        ['VIEW_STATISTICS', 'View statistics by location'],
+        ['SAVE_DATA', 'Save data to file'],
+        ['MANAGE_VOLUNTEER', 'Manage volunteers'],
+        ['MANAGE_ACCOUNT', 'Manage accounts (ADMIN only)']
+    ], col_widths=[5, 9])
+
+    doc.add_heading('10.3.2. Enum – Role', level=3)
+    doc.add_paragraph('File: Role.java | Lines of code: 44 lines')
+    doc.add_paragraph('Each role constant is initialized with an EnumSet<Permission>. The method has(Permission) checks whether the role contains that permission.')
+    add_styled_table(doc, ['Role', 'Permission Scope'], [
+        ['ADMIN', 'Full access (EnumSet.allOf) – every function including account management'],
+        ['STAFF', 'Create, update, view, statistics, save and volunteer management (no delete, no account management)'],
+        ['VIEWER', 'View list and statistics only (read-only)']
+    ], col_widths=[3, 11])
+
+    doc.add_heading('10.3.3. Class – Account', level=3)
+    doc.add_paragraph('File: Account.java | Lines of code: 70 lines')
+    doc.add_paragraph('Inherits from Person (public class Account extends Person), reusing id as the username and name as the display name.')
+    add_styled_table(doc, ['Component', 'Description'], [
+        ['password (private)', 'The password is fully encapsulated with NO getter to prevent leakage.'],
+        ['role (Role)', 'The role of the account.'],
+        ['authenticate(pwd)', 'The account validates the entered password itself (returns true/false).'],
+        ['can(Permission)', 'Delegates to Role for checking: role.has(permission).'],
+        ['getDisplayInfo()', 'Overridden from Person – displays username | name | role.']
+    ], col_widths=[5, 9])
+
+    doc.add_heading('10.3.4. Class – Accounts', level=3)
+    doc.add_paragraph('File: Accounts.java | Lines of code: 128 lines')
+    doc.add_paragraph('Inherits from ArrayList<Account>, manages the account list and saves/loads the accounts.dat file (Serialization). If the file is empty, the system automatically seeds 3 default accounts. It provides login(username, password) returning an Account if valid, plus searchByUsername, add, delete, and showAll.')
+
+    doc.add_heading('10.3.5. Class – MenuItem', level=3)
+    doc.add_paragraph('File: MenuItem.java | Lines of code: 24 lines')
+    doc.add_paragraph('Encapsulates a menu entry consisting of: a display label, a required Permission, and an action (Runnable). The method isAllowedFor(account) returns true when the entry requires no permission or the account has the matching permission – so the menu only shows entries the user is allowed to access.')
+
+    # 10.4
+    doc.add_heading('10.4. Modifications to Existing Classes', level=2)
+
+    doc.add_heading('10.4.1. Main (refactored – menu engine + login)', level=3)
+    add_styled_table(doc, ['Before (Old)', 'After (New)'], [
+        ['Enters the menu directly, no login', 'Requires login() first, up to 3 attempts'],
+        ['Large switch-case (case 1..10)', 'runMenu() iterates a list of MenuItem, generating the menu dynamically'],
+        ['Fixed menu for everyone', 'Only shows entries the currentUser is permitted to use (visibleItems)'],
+        ['No account management', 'Added Account Management menu (ADMIN)']
+    ], col_widths=[7, 7])
+    add_img_placeholder(doc, "Screenshot of the LOGIN screen")
+
+    doc.add_heading('10.4.2. Acceptable (updated)', level=3)
+    add_styled_table(doc, ['Pattern', 'Explanation'], [
+        ['USERNAME_VALID', '3–20 characters consisting of letters, digits, or underscore'],
+        ['PASSWORD_VALID', '6–20 characters, no whitespace']
+    ], col_widths=[5, 9])
+
+    # 10.5
+    doc.add_heading('10.5. Permission Matrix (Role × Permission)', level=2)
+    doc.add_paragraph('The table below summarizes the permissions of each role (Yes = allowed, No = not allowed):')
+    add_styled_table(doc, ['Function', 'ADMIN', 'STAFF', 'VIEWER'], [
+        ['New Registration', 'Yes', 'Yes', 'No'],
+        ['Update Registration', 'Yes', 'Yes', 'No'],
+        ['View / Search / Filter', 'Yes', 'Yes', 'Yes'],
+        ['Delete Registration', 'Yes', 'No', 'No'],
+        ['Statistics', 'Yes', 'Yes', 'Yes'],
+        ['Save Data', 'Yes', 'Yes', 'No'],
+        ['Volunteer Management', 'Yes', 'Yes', 'No'],
+        ['Account Management', 'Yes', 'No', 'No'],
+    ], col_widths=[7, 2.3, 2.3, 2.3])
+
+    # 10.6
+    doc.add_heading('10.6. Default Accounts', level=2)
+    doc.add_paragraph('On the first run (when accounts.dat does not yet exist), the system creates 3 default accounts to demonstrate authorization:')
+    add_styled_table(doc, ['Username', 'Password', 'Role'], [
+        ['admin', '123456', 'ADMIN'],
+        ['staff', '123456', 'STAFF'],
+        ['viewer', '123456', 'VIEWER'],
+    ], col_widths=[4, 4, 4])
+
+    # 10.7
+    doc.add_heading('10.7. Authorization Feature Demonstrations', level=2)
+
+    doc.add_heading('10.7.1. Login', level=3)
+    add_img_placeholder(doc, "Screenshot of a successful login with the admin account")
+    add_img_placeholder(doc, "Screenshot of a wrong password – showing the remaining attempts")
+
+    doc.add_heading('10.7.2. Menu Displayed by Role', level=3)
+    add_img_placeholder(doc, "Screenshot of the ADMIN menu – showing all 10 functions + Exit")
+    add_img_placeholder(doc, "Screenshot of the VIEWER menu – showing only view/statistics functions")
+
+    doc.add_heading('10.7.3. Account Management', level=3)
+    add_img_placeholder(doc, "Screenshot of the account list")
+    add_img_placeholder(doc, "Screenshot of adding a new account and selecting a role")
+    add_img_placeholder(doc, "Screenshot of deleting an account (and the case of not allowing deletion of the currently logged-in account)")
+
+    # 10.8
+    doc.add_heading('10.8. Conclusion of the Authorization Extension', level=2)
+    doc.add_paragraph('The authorization extension has achieved:')
+    kl2 = [
+        'Applied standard RBAC: clearly separating Permission – Role – Account, making it easy to add new roles/permissions without modifying existing logic (Open/Closed Principle).',
+        'Encapsulation: the password is hidden, and authentication and permission checks are handled by the object itself.',
+        'Inheritance & Polymorphism: Account inherits from Person and overrides getDisplayInfo().',
+        'Cleaner code: the MenuItem-based menu engine eliminates the long switch-case while automatically hiding functions the user is not authorized to use.'
+    ]
+    for k in kl2:
+        doc.add_paragraph(k, style='List Bullet')
+
+    doc.add_paragraph('After adding authorization, the project has a total of 18 class/enum/interface files with approximately 1,844 lines of code.')
+
     # SAVE
     output_path = os.path.join(
         os.path.dirname(os.path.abspath(__file__)),

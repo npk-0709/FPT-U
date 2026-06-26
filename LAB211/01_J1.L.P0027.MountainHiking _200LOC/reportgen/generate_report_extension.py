@@ -251,6 +251,170 @@ def create_report_extension():
         
     doc.add_paragraph('Tổng số dòng code sau mở rộng đạt 1,518 dòng với 13 file class/enum/interface.')
 
+    # ============================================================
+    # 10. PHÂN QUYỀN (RBAC)
+    # ============================================================
+    doc.add_page_break()
+    doc.add_heading('10. Mở rộng tính năng – Phân quyền theo vai trò (RBAC)', level=1)
+
+    # 10.1
+    doc.add_heading('10.1. Giới thiệu tính năng phân quyền', level=2)
+    doc.add_paragraph('Ở phiên bản mở rộng tiếp theo, hệ thống được bổ sung cơ chế Đăng nhập (Authentication) và Phân quyền theo vai trò (RBAC – Role-Based Access Control). Trước đây, bất kỳ ai chạy chương trình đều sử dụng được toàn bộ chức năng; nay mỗi người dùng phải đăng nhập và chỉ thấy/được dùng các chức năng phù hợp với vai trò của mình.')
+
+    reqs = [
+        'Authentication: Người dùng phải đăng nhập bằng username/password trước khi vào hệ thống (tối đa 3 lần thử).',
+        'Authorization (RBAC): Mỗi tài khoản gắn với một vai trò (Role); mỗi vai trò sở hữu một tập quyền (Permission). Menu được sinh động – chỉ hiển thị các chức năng mà người dùng có quyền.',
+        'Áp dụng OOP: Tách quyền (Permission) – vai trò (Role) – tài khoản (Account) thành các thành phần độc lập, mỗi lớp tự chịu trách nhiệm về nhiệm vụ của mình (Single Responsibility).',
+        'Quản lý tài khoản: Bổ sung menu Account Management cho quản trị viên (ADMIN) để xem, thêm, xóa tài khoản.',
+        'Refactor code sạch: Thay thế switch-case menu cồng kềnh bằng một "menu engine" dùng danh sách MenuItem gắn quyền.'
+    ]
+    for r in reqs:
+        doc.add_paragraph(r, style='List Bullet')
+
+    doc.add_paragraph('Các file mới được thêm:')
+    add_styled_table(doc, ['STT', 'Tên file', 'Số dòng', 'Mô tả'], [
+        ['1', 'Permission.java', '20', 'Enum – liệt kê các quyền chức năng của hệ thống'],
+        ['2', 'Role.java', '44', 'Enum – vai trò, mỗi vai trò gắn một tập Permission'],
+        ['3', 'Account.java', '70', 'Class – tài khoản người dùng, kế thừa từ Person'],
+        ['4', 'Accounts.java', '128', 'Class – quản lý danh sách tài khoản + xử lý đăng nhập'],
+        ['5', 'MenuItem.java', '24', 'Class – một mục menu gắn với quyền và hành động'],
+    ], col_widths=[1.5, 3.5, 2, 8])
+
+    doc.add_paragraph('Các file đã sửa đổi:')
+    add_styled_table(doc, ['STT', 'Tên file', 'Nội dung sửa đổi'], [
+        ['1', 'Main.java', 'Thêm luồng đăng nhập, menu động theo quyền và menu Account Management; thay switch-case bằng menu engine'],
+        ['2', 'Acceptable.java', 'Thêm 2 regex pattern: USERNAME_VALID và PASSWORD_VALID'],
+        ['3', 'Person.java', 'Được tái sử dụng làm lớp cha cho Account (id = username, name = tên hiển thị)']
+    ], col_widths=[1.5, 3.5, 10])
+
+    # 10.2
+    doc.add_heading('10.2. Mô hình phân quyền RBAC', level=2)
+    doc.add_paragraph('RBAC (Role-Based Access Control) là mô hình kiểm soát truy cập dựa trên vai trò. Thay vì gán trực tiếp quyền cho từng người dùng, hệ thống gán: Người dùng → Vai trò → Tập quyền. Cách này giúp việc quản lý quyền tập trung, dễ mở rộng và đúng tinh thần OOP.')
+    doc.add_paragraph('Quan hệ giữa các thành phần:')
+    add_styled_table(doc, ['Thành phần', 'Vai trò trong mô hình'], [
+        ['Account', 'Đại diện một người dùng đăng nhập; giữ tham chiếu tới một Role.'],
+        ['Role', 'Đại diện một vai trò; nắm giữ một Set<Permission> (dùng EnumSet).'],
+        ['Permission', 'Đại diện một quyền truy cập đến một nhóm chức năng cụ thể.'],
+        ['MenuItem', 'Mỗi mục menu khai báo quyền cần có; tự kiểm tra account có được phép hay không.']
+    ], col_widths=[4, 10])
+    add_img_placeholder(doc, "Sơ đồ mô hình RBAC: Account → Role → Set<Permission>")
+
+    # 10.3
+    doc.add_heading('10.3. Mô tả các thành phần mới', level=2)
+
+    doc.add_heading('10.3.1. Enum – Permission', level=3)
+    doc.add_paragraph('File: Permission.java | Dòng code: 20 dòng')
+    doc.add_paragraph('Liệt kê 8 quyền tương ứng các nhóm chức năng, mỗi quyền kèm mô tả (description):')
+    add_styled_table(doc, ['Permission', 'Cho phép'], [
+        ['CREATE_REGISTRATION', 'Thêm đăng ký mới'],
+        ['UPDATE_REGISTRATION', 'Cập nhật thông tin đăng ký'],
+        ['VIEW_REGISTRATION', 'Xem / tìm kiếm / lọc danh sách đăng ký'],
+        ['DELETE_REGISTRATION', 'Xóa đăng ký'],
+        ['VIEW_STATISTICS', 'Xem thống kê theo địa điểm'],
+        ['SAVE_DATA', 'Lưu dữ liệu ra file'],
+        ['MANAGE_VOLUNTEER', 'Quản lý tình nguyện viên'],
+        ['MANAGE_ACCOUNT', 'Quản lý tài khoản (chỉ ADMIN)']
+    ], col_widths=[5, 9])
+
+    doc.add_heading('10.3.2. Enum – Role', level=3)
+    doc.add_paragraph('File: Role.java | Dòng code: 44 dòng')
+    doc.add_paragraph('Mỗi hằng số vai trò khởi tạo kèm một EnumSet<Permission>. Phương thức has(Permission) kiểm tra vai trò có chứa quyền đó không.')
+    add_styled_table(doc, ['Vai trò', 'Phạm vi quyền'], [
+        ['ADMIN', 'Toàn quyền (EnumSet.allOf) – mọi chức năng kể cả quản lý tài khoản'],
+        ['STAFF', 'Tạo, cập nhật, xem, thống kê, lưu file và quản lý tình nguyện viên (không xóa, không quản lý tài khoản)'],
+        ['VIEWER', 'Chỉ xem danh sách và xem thống kê (read-only)']
+    ], col_widths=[3, 11])
+
+    doc.add_heading('10.3.3. Class – Account', level=3)
+    doc.add_paragraph('File: Account.java | Dòng code: 70 dòng')
+    doc.add_paragraph('Kế thừa từ Person (public class Account extends Person), tái sử dụng id làm username và name làm tên hiển thị.')
+    add_styled_table(doc, ['Thành phần', 'Mô tả'], [
+        ['password (private)', 'Mật khẩu được đóng gói kín, KHÔNG có getter để tránh lộ.'],
+        ['role (Role)', 'Vai trò của tài khoản.'],
+        ['authenticate(pwd)', 'Tài khoản tự xác thực mật khẩu nhập vào (trả về true/false).'],
+        ['can(Permission)', 'Ủy quyền cho Role kiểm tra: role.has(permission).'],
+        ['getDisplayInfo()', 'Override từ Person – hiển thị username | name | role.']
+    ], col_widths=[5, 9])
+
+    doc.add_heading('10.3.4. Class – Accounts', level=3)
+    doc.add_paragraph('File: Accounts.java | Dòng code: 128 dòng')
+    doc.add_paragraph('Kế thừa ArrayList<Account>, quản lý danh sách tài khoản và lưu/đọc file accounts.dat (Serialization). Nếu file rỗng, hệ thống tự seed 3 tài khoản mặc định. Cung cấp login(username, password) trả về Account nếu hợp lệ, searchByUsername, add, delete và showAll.')
+
+    doc.add_heading('10.3.5. Class – MenuItem', level=3)
+    doc.add_paragraph('File: MenuItem.java | Dòng code: 24 dòng')
+    doc.add_paragraph('Đóng gói một mục menu gồm: nhãn hiển thị (label), quyền yêu cầu (Permission) và hành động thực thi (Runnable). Phương thức isAllowedFor(account) trả về true khi mục không yêu cầu quyền hoặc account có quyền tương ứng – nhờ đó menu chỉ hiển thị các mục mà người dùng được phép.')
+
+    # 10.4
+    doc.add_heading('10.4. Các thay đổi ở lớp cũ', level=2)
+
+    doc.add_heading('10.4.1. Main (refactored – menu engine + đăng nhập)', level=3)
+    add_styled_table(doc, ['Trước (cũ)', 'Sau (mới)'], [
+        ['Vào thẳng menu, không đăng nhập', 'Bắt buộc login() trước, tối đa 3 lần thử'],
+        ['switch-case lớn (case 1..10)', 'runMenu() duyệt danh sách MenuItem, sinh menu động'],
+        ['Menu cố định cho mọi người', 'Chỉ hiển thị mục mà currentUser có quyền (visibleItems)'],
+        ['Không có quản lý tài khoản', 'Thêm menu Account Management (ADMIN)']
+    ], col_widths=[7, 7])
+    add_img_placeholder(doc, "Ảnh chụp màn hình đăng nhập (LOGIN)")
+
+    doc.add_heading('10.4.2. Acceptable (updated)', level=3)
+    add_styled_table(doc, ['Pattern', 'Giải thích'], [
+        ['USERNAME_VALID', '3–20 ký tự gồm chữ cái, chữ số hoặc dấu gạch dưới'],
+        ['PASSWORD_VALID', '6–20 ký tự, không chứa khoảng trắng']
+    ], col_widths=[5, 9])
+
+    # 10.5
+    doc.add_heading('10.5. Ma trận phân quyền (Role × Permission)', level=2)
+    doc.add_paragraph('Bảng dưới đây tổng hợp quyền của từng vai trò (✔ = được phép, ✘ = không):')
+    add_styled_table(doc, ['Chức năng', 'ADMIN', 'STAFF', 'VIEWER'], [
+        ['New Registration', '✔', '✔', '✘'],
+        ['Update Registration', '✔', '✔', '✘'],
+        ['View / Search / Filter', '✔', '✔', '✔'],
+        ['Delete Registration', '✔', '✘', '✘'],
+        ['Statistics', '✔', '✔', '✔'],
+        ['Save Data', '✔', '✔', '✘'],
+        ['Volunteer Management', '✔', '✔', '✘'],
+        ['Account Management', '✔', '✘', '✘'],
+    ], col_widths=[7, 2.3, 2.3, 2.3])
+
+    # 10.6
+    doc.add_heading('10.6. Tài khoản mặc định', level=2)
+    doc.add_paragraph('Khi chạy lần đầu (file accounts.dat chưa tồn tại), hệ thống tạo sẵn 3 tài khoản để minh họa phân quyền:')
+    add_styled_table(doc, ['Username', 'Password', 'Vai trò'], [
+        ['admin', '123456', 'ADMIN'],
+        ['staff', '123456', 'STAFF'],
+        ['viewer', '123456', 'VIEWER'],
+    ], col_widths=[4, 4, 4])
+
+    # 10.7
+    doc.add_heading('10.7. Minh họa các chức năng phân quyền', level=2)
+
+    doc.add_heading('10.7.1. Đăng nhập', level=3)
+    add_img_placeholder(doc, "Ảnh chụp đăng nhập thành công với tài khoản admin")
+    add_img_placeholder(doc, "Ảnh chụp đăng nhập sai mật khẩu – hiển thị số lần thử còn lại")
+
+    doc.add_heading('10.7.2. Menu hiển thị theo vai trò', level=3)
+    add_img_placeholder(doc, "Ảnh chụp menu của ADMIN – hiển thị đầy đủ 10 chức năng + Exit")
+    add_img_placeholder(doc, "Ảnh chụp menu của VIEWER – chỉ hiển thị các chức năng xem/thống kê")
+
+    doc.add_heading('10.7.3. Quản lý tài khoản (Account Management)', level=3)
+    add_img_placeholder(doc, "Ảnh chụp danh sách tài khoản")
+    add_img_placeholder(doc, "Ảnh chụp thêm tài khoản mới và chọn vai trò")
+    add_img_placeholder(doc, "Ảnh chụp xóa tài khoản (và trường hợp không cho xóa tài khoản đang đăng nhập)")
+
+    # 10.8
+    doc.add_heading('10.8. Kết luận phần phân quyền', level=2)
+    doc.add_paragraph('Phần mở rộng phân quyền đã đạt được:')
+    kl2 = [
+        'Áp dụng RBAC chuẩn: tách bạch Permission – Role – Account, dễ thêm vai trò/quyền mới mà không sửa logic cũ (Open/Closed Principle).',
+        'Đóng gói (Encapsulation): mật khẩu được giấu kín, việc xác thực và kiểm tra quyền do chính đối tượng đảm nhiệm.',
+        'Kế thừa & đa hình: Account kế thừa Person và override getDisplayInfo().',
+        'Code sạch hơn: menu engine dựa trên MenuItem loại bỏ switch-case dài, đồng thời tự ẩn các chức năng người dùng không có quyền.'
+    ]
+    for k in kl2:
+        doc.add_paragraph(k, style='List Bullet')
+
+    doc.add_paragraph('Sau khi bổ sung phân quyền, dự án có tổng cộng 18 file class/enum/interface với khoảng 1,844 dòng code.')
+
     # SAVE
     output_path = os.path.join(
         os.path.dirname(os.path.abspath(__file__)),
