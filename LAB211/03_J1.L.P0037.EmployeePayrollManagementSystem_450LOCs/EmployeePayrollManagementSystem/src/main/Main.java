@@ -2,6 +2,7 @@ package main;
 
 import business.AuthService;
 import business.EmployeeManager;
+import business.MealAllowanceManager;
 import model.Account;
 import tools.Inputter;
 
@@ -10,6 +11,7 @@ import java.util.Locale;
 public class Main {
 
     private static final String DATA_FILE = "employees.txt";
+    private static final String MEAL_DATA_FILE = "meal_allowances.txt";
 
     public static void main(String[] args) {
         Locale.setDefault(Locale.US);
@@ -22,10 +24,11 @@ public class Main {
         }
 
         EmployeeManager manager = new EmployeeManager(DATA_FILE);
+        MealAllowanceManager mealManager = new MealAllowanceManager(MEAL_DATA_FILE, manager);
         int choice;
         do {
             showMenu(currentUser);
-            choice = Inputter.inputInt("Choose 1-9: ", 1, 9);
+            choice = Inputter.inputInt("Choose 1-10: ", 1, 10);
             System.out.println();
 
             if (!currentUser.canAccess(choice)) {
@@ -61,13 +64,16 @@ public class Main {
                     manager.save();
                     break;
                 case 9:
+                    mealManager.run();
+                    break;
+                case 10:
                     manager.quit();
                     break;
                 default:
                     break;
             }
             System.out.println();
-        } while (choice != 9);
+        } while (choice != 10);
     }
 
     private static void showMenu(Account user) {
@@ -80,6 +86,7 @@ public class Main {
                 "Calculate monthly payroll",
                 "Display employee list",
                 "Save data to file",
+                "Meal allowance management (Phu cap an)",
                 "Quit program"
         };
         System.out.println("===== EMPLOYEE PAYROLL MANAGEMENT SYSTEM =====");

@@ -17,6 +17,6 @@ public class Staff extends Account {
 
     @Override
     public Set<Integer> getAllowedFeatures() {
-        return new HashSet<>(Arrays.asList(1, 5, 6, 7, 9));
+        return new HashSet<>(Arrays.asList(1, 5, 6, 7, 9, 10));
     }
 }

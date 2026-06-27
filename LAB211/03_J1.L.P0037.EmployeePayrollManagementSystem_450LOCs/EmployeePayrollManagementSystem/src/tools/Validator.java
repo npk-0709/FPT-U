@@ -8,6 +8,10 @@ public final class Validator {
 
     public static final String ID_REGEX = "E\\d{3}";
 
+    public static final String MEAL_ALLOWANCE_ID_REGEX = "ML-\\d{4}";
+
+    public static final String MONTH_REGEX = "(0[1-9]|1[0-2])/\\d{4}";
+
     public static final List<String> ROLES =
             Arrays.asList("Developer", "Tester", "Manager", "HR");
 
@@ -15,6 +19,10 @@ public final class Validator {
             Arrays.asList("active", "inactive");
 
     private static final Pattern ID_PATTERN = Pattern.compile(ID_REGEX);
+
+    private static final Pattern MEAL_ID_PATTERN = Pattern.compile(MEAL_ALLOWANCE_ID_REGEX);
+
+    private static final Pattern MONTH_PATTERN = Pattern.compile(MONTH_REGEX);
 
     private Validator() {
     }
@@ -56,6 +64,18 @@ public final class Validator {
     }
 
     public static boolean isWorkingDays(int days) {
+        return days >= 0 && days <= 26;
+    }
+
+    public static boolean isMealAllowanceId(String id) {
+        return id != null && MEAL_ID_PATTERN.matcher(id.trim()).matches();
+    }
+
+    public static boolean isMonth(String month) {
+        return month != null && MONTH_PATTERN.matcher(month.trim()).matches();
+    }
+
+    public static boolean isMealDays(int days) {
         return days >= 0 && days <= 26;
     }
 
