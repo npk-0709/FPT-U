@@ -2,14 +2,14 @@
 """
 Lab 5 Report Generator
 =======================
-Doc file Lab5_HCRS.sql (nguon duy nhat) va sinh bao cao Word "Lab5_report.docx"
-theo dung cau truc nop bai cua Lab 5 (Objective -> SQL Queries -> Functions ->
-Procedures -> Triggers -> Views/Indexes -> Conclusion).
+Reads Lab5_HCRS.sql (the single source of truth) and generates the Word report
+"Lab5_report.docx" following the Lab 5 submission structure (Objective -> SQL
+Queries -> Functions -> Procedures -> Triggers -> Views/Indexes -> Conclusion).
 
-Cach dung:
+Usage:
     python create_lab5_report.py
 
-Yeu cau: pip install python-docx
+Requirement: pip install python-docx
 """
 
 import os
@@ -24,11 +24,11 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 SQL_FILE = os.path.join(HERE, 'Lab5_HCRS.sql')
 OUT_FILE = os.path.join(HERE, 'Lab5_report.docx')
 
-# Anh xa tieu de section trong file .sql -> (so muc, tieu de hien thi trong bao cao)
+# Map section title in the .sql file -> (number, display title in the report)
 SECTION_MAP = {
-    'Basic SQL Queries':        ('3.1', 'Basic Queries (Truy van co ban)'),
-    'Intermediate SQL Queries': ('3.2', 'Intermediate Queries (Truy van trung cap)'),
-    'Advanced SQL Queries':     ('3.3', 'Advanced Queries (Truy van nang cao)'),
+    'Basic SQL Queries':        ('3.1', 'Basic Queries'),
+    'Intermediate SQL Queries': ('3.2', 'Intermediate Queries'),
+    'Advanced SQL Queries':     ('3.3', 'Advanced Queries'),
     'User-defined Functions':   ('4',   'Functions'),
     'Stored Procedures':        ('5',   'Stored Procedures'),
     'Triggers':                 ('6',   'Triggers'),
@@ -38,7 +38,7 @@ QUERY_SECTIONS = ('Basic SQL Queries', 'Intermediate SQL Queries', 'Advanced SQL
 
 
 # ============================================================================
-# PARSER: doc file .sql theo cac marker --##
+# PARSER: read the .sql file via the --## markers
 # ============================================================================
 def parse_sql(path):
     meta, sections = {}, []
@@ -87,9 +87,9 @@ def parse_sql(path):
                     if cur_item is not None:
                         cur_item['desc'].append(val)
                 continue
-            # dong khong phai marker
+            # non-marker line
             if cur_item is not None:
-                if s.startswith('/*='):       # gap banner PART -> ket thuc code cua item
+                if s.startswith('/*='):       # PART banner -> end of this item's code
                     finalize_item()
                 else:
                     cur_item['sql_lines'].append(line)
@@ -98,7 +98,7 @@ def parse_sql(path):
 
 
 # ============================================================================
-# HELPERS dinh dang Word
+# Word formatting HELPERS
 # ============================================================================
 def set_cell_shading(cell, color):
     cell._tc.get_or_add_tcPr().append(parse_xml('<w:shd {} w:fill="{}"/>'.format(nsdecls('w'), color)))
@@ -153,7 +153,7 @@ def heading3(doc, text):
 
 
 def add_code_block(doc, code):
-    """Khoi ma SQL: font Consolas, nen xam nhat, giu nguyen xuong dong."""
+    """SQL code block: Consolas font, very light gray background, keep line breaks."""
     p = doc.add_paragraph()
     p.paragraph_format.space_before = Pt(2)
     p.paragraph_format.space_after = Pt(6)
@@ -174,7 +174,7 @@ def add_code_block(doc, code):
 def add_screenshot(doc, label):
     p = doc.add_paragraph()
     p.paragraph_format.space_after = Pt(12)
-    _set_font(p.add_run('[Chen anh chup ket qua thuc thi tai day - %s]' % label),
+    _set_font(p.add_run('[Insert execution result screenshot here - %s]' % label),
               size=10, italic=True, color=RGBColor(0x80, 0x80, 0x80))
     return p
 
@@ -210,7 +210,7 @@ def add_item(doc, n, item):
 
 
 # ============================================================================
-# CAC PHAN CO DINH (Cover, TOC, Objective, DB overview, Conclusion)
+# FIXED PARTS (Cover, TOC, Objective, DB overview, Conclusion)
 # ============================================================================
 def setup_document():
     doc = Document()
@@ -275,78 +275,78 @@ def add_toc(doc):
 def add_objective(doc):
     heading1(doc, '1. Objective')
     add_para(doc, (
-        'Lab 5 nham ren luyen ky nang lap trinh SQL tren co so du lieu da thiet ke o Lab 4 cho '
-        'he thong Quan ly ban hang & bao tri robot ve sinh gia dung (Household Cleaning Robot '
-        'Sales & Maintenance Management System). Sinh vien thuc hanh viet cac truy van tu co ban '
-        'den nang cao, dong thoi xay dung Functions, Stored Procedures, Triggers de ap dat quy tac '
-        'nghiep vu va tu dong hoa tac vu, cung voi Views va Indexes.'))
-    add_para(doc, 'Cac muc tieu cu the:', bold=True, space_before=4, space_after=2)
-    add_bullet(doc, 'Viet truy van SELECT, WHERE, ORDER BY va cac ham tong hop (COUNT/SUM/AVG/MAX/MIN).')
-    add_bullet(doc, 'Viet truy van trung cap: JOIN nhieu bang, GROUP BY/HAVING va subquery.')
-    add_bullet(doc, 'Viet truy van nang cao: subquery long nhau, EXISTS/IN/ANY/ALL, phep toan tap hop UNION/INTERSECT/EXCEPT.')
-    add_bullet(doc, 'Xay dung it nhat 4 Functions, 4 Stored Procedures, 4 Triggers.')
-    add_bullet(doc, 'Tao Views don gian hoa truy van va Indexes tang hieu nang.')
+        'Lab 5 focuses on practicing SQL programming on the database designed in Lab 4 for the '
+        'Household Cleaning Robot Sales & Maintenance Management System (HCRS&MMS). Students write '
+        'queries ranging from basic to advanced, and build Functions, Stored Procedures, and '
+        'Triggers to enforce business rules and automate tasks, together with Views and Indexes.'))
+    add_para(doc, 'Specific objectives:', bold=True, space_before=4, space_after=2)
+    add_bullet(doc, 'Write SELECT, WHERE, ORDER BY queries and aggregate functions (COUNT/SUM/AVG/MAX/MIN).')
+    add_bullet(doc, 'Write intermediate queries: multi-table JOINs, GROUP BY/HAVING and subqueries.')
+    add_bullet(doc, 'Write advanced queries: nested subqueries, EXISTS/IN/ANY/ALL, and set operations UNION/INTERSECT/EXCEPT.')
+    add_bullet(doc, 'Build at least 4 Functions, 4 Stored Procedures and 4 Triggers.')
+    add_bullet(doc, 'Create Views to simplify queries and Indexes to improve performance.')
     add_para(doc, (
-        'Toan bo ma nguon SQL co trong file kem theo "Lab5_HCRS.sql" va co the chay tron ven trong '
-        'SQL Server Management Studio (SSMS) tu tren xuong duoi.'), space_before=6, italic=True)
+        'All SQL source code is included in the accompanying file "Lab5_HCRS.sql" and can be '
+        'executed end-to-end in SQL Server Management Studio (SSMS).'), space_before=6, italic=True)
     doc.add_page_break()
 
 
 DB_TABLES = [
-    ['Customer', 'CustomerID (PK), FullName, PhoneNumber, Email, Address, Password', 'Khach hang'],
-    ['Employee', 'EmployeeID (PK), FullName, Role, PhoneNumber, Email, Password', 'Nhan vien (ban hang/ky thuat/quan tri)'],
-    ['RobotModel', 'ModelID (PK), Brand, ModelName, Specifications, UnitPrice, WarrantyDuration', 'Mau robot (catalog)'],
-    ['ModelFeature', 'ModelID (PK,FK), Feature (PK)', 'Tinh nang cua mau robot'],
-    ['RobotUnit', 'RobotID (PK), ModelID (FK), SerialNumber, Status', 'Tung chiec robot trong kho'],
-    ['SalesOrder', 'OrderID (PK), CustomerID (FK), EmployeeID (FK), OrderDate, TotalAmount, OrderStatus', 'Don ban hang'],
-    ['OrderDetail', 'RobotID (PK,FK), OrderID (FK), SellingPrice', 'Chi tiet don hang'],
-    ['Payment', 'PaymentID (PK), Amount, PaymentDate, PaymentMethod', 'Thanh toan (super-type)'],
-    ['OrderPayment', 'PaymentID (PK,FK), OrderID (FK)', 'Thanh toan cho don hang'],
-    ['ServicePayment', 'PaymentID (PK,FK), ServiceRecordID (FK)', 'Thanh toan cho dich vu bao tri'],
-    ['WarrantyRegistration', 'WarrantyID (PK), RobotID (FK,UQ), CustomerID (FK), StartDate, EndDate', 'Dang ky bao hanh'],
-    ['ServiceRequest', 'RequestID (PK), RobotID (FK), CustomerID (FK), IssueDescription, RequestDate, Status', 'Yeu cau dich vu/sua chua'],
-    ['MaintenanceRecord', 'RecordID (PK), RequestID (FK,UQ), TechnicianID (FK), ActionsTaken, ServiceFee, CompletionDate', 'Ket qua bao tri'],
-    ['ReplacedPart', 'RecordID (PK,FK), PartName (PK)', 'Linh kien thay the'],
-    ['DeviceLog', 'LogID (PK), RobotID (FK), LogTime, ErrorCode', 'Du lieu IoT tu robot'],
-    ['LogStatistic', 'LogID (PK,FK), MetricName (PK), MetricValue', 'Chi so do duoc tu log'],
+    ['Customer', 'CustomerID (PK), FullName, PhoneNumber, Email, Address, Password', 'Customers'],
+    ['Employee', 'EmployeeID (PK), FullName, Role, PhoneNumber, Email, Password', 'Employees (sales / technical / admin)'],
+    ['RobotModel', 'ModelID (PK), Brand, ModelName, Specifications, UnitPrice, WarrantyDuration', 'Robot models (catalog)'],
+    ['ModelFeature', 'ModelID (PK,FK), Feature (PK)', 'Features of each robot model'],
+    ['RobotUnit', 'RobotID (PK), ModelID (FK), SerialNumber, Status', 'Individual robot units in stock'],
+    ['SalesOrder', 'OrderID (PK), CustomerID (FK), EmployeeID (FK), OrderDate, TotalAmount, OrderStatus', 'Sales orders'],
+    ['OrderDetail', 'RobotID (PK,FK), OrderID (FK), SellingPrice', 'Order line items'],
+    ['Payment', 'PaymentID (PK), Amount, PaymentDate, PaymentMethod', 'Payments (super-type)'],
+    ['OrderPayment', 'PaymentID (PK,FK), OrderID (FK)', 'Payments for sales orders'],
+    ['ServicePayment', 'PaymentID (PK,FK), ServiceRecordID (FK)', 'Payments for maintenance services'],
+    ['WarrantyRegistration', 'WarrantyID (PK), RobotID (FK,UQ), CustomerID (FK), StartDate, EndDate', 'Warranty registrations'],
+    ['ServiceRequest', 'RequestID (PK), RobotID (FK), CustomerID (FK), IssueDescription, RequestDate, Status', 'Service / repair requests'],
+    ['MaintenanceRecord', 'RecordID (PK), RequestID (FK,UQ), TechnicianID (FK), ActionsTaken, ServiceFee, CompletionDate', 'Maintenance results'],
+    ['ReplacedPart', 'RecordID (PK,FK), PartName (PK)', 'Replaced parts'],
+    ['DeviceLog', 'LogID (PK), RobotID (FK), LogTime, ErrorCode', 'IoT data from robots'],
+    ['LogStatistic', 'LogID (PK,FK), MetricName (PK), MetricValue', 'Metrics derived from logs'],
 ]
 
 
 def add_db_overview(doc):
     heading1(doc, '2. Database Design (from Lab 4)')
     add_para(doc, (
-        'Co so du lieu HCRS_DB gom 16 quan he (da chuan hoa BCNF o Lab 4) bao phu cac nghiep vu: '
-        'quan ly nguoi dung, san pham & ton kho, ban hang & thanh toan, bao hanh, bao tri va du '
-        'lieu IoT. Bang duoi tom tat cac thuc the chinh; phan DDL day du (kieu du lieu, PK/FK/UNIQUE/'
-        'CHECK/DEFAULT) va du lieu mau nam o PART 1 va PART 2 cua file Lab5_HCRS.sql.'))
-    create_table(doc, ['Bang (Relation)', 'Thuoc tinh chinh', 'Y nghia'], DB_TABLES)
+        'The HCRS_DB database consists of 16 relations (normalized to BCNF in Lab 4) covering the '
+        'main business areas: user management, product & inventory, sales & payment, warranty, '
+        'maintenance, and IoT data. The table below summarizes the main entities; the full DDL '
+        '(data types, PK/FK/UNIQUE/CHECK/DEFAULT) and sample data are in PART 1 and PART 2 of the '
+        'file Lab5_HCRS.sql.'))
+    create_table(doc, ['Relation', 'Key Attributes', 'Meaning'], DB_TABLES)
     add_para(doc, (
-        'Ngoai 16 bang tren, Lab 5 bo sung bang ho tro RobotStatusAudit de luu nhat ky thay doi '
-        'trang thai robot (duoc ghi tu dong boi trigger).'), space_before=6)
+        'In addition to the 16 tables above, Lab 5 adds a supporting table RobotStatusAudit to '
+        'record the history of robot status changes (written automatically by a trigger).'), space_before=6)
     add_para(doc, (
-        'Du lieu mau: 8 khach hang, 8 nhan vien, 6 mau robot, 15 robot, 8 don hang, 8 thanh toan, '
-        '8 dang ky bao hanh, 7 yeu cau dich vu, 6 ban ghi bao tri va 10 ban ghi log IoT - du de moi '
-        'truy van tra ve ket qua co y nghia.'), space_before=4)
+        'Sample data: 8 customers, 8 employees, 6 robot models, 15 robots, 8 sales orders, 8 '
+        'payments, 8 warranty registrations, 7 service requests, 6 maintenance records and 10 IoT '
+        'log records - enough for every query to return meaningful results.'), space_before=4)
     doc.add_page_break()
 
 
 def add_conclusion(doc):
     heading1(doc, '8. Conclusion and Reflection')
     add_para(doc, (
-        'Qua Lab 5, nhom da thuc hanh day du cac ky thuat lap trinh SQL tren co so du lieu thuc te '
-        'cua he thong ban hang & bao tri robot ve sinh gia dung. Tu cac truy van co ban (SELECT, '
-        'WHERE, ORDER BY, ham tong hop), den truy van trung cap (JOIN, GROUP BY/HAVING, subquery) '
-        'va nang cao (subquery long nhau, EXISTS/IN/ANY/ALL, UNION/INTERSECT/EXCEPT), nhom da khai '
-        'thac du lieu o nhieu goc do nghiep vu khac nhau.'))
-    add_para(doc, 'Mot so diem rut ra:', bold=True, space_before=4, space_after=2)
-    add_bullet(doc, 'Functions giup tai su dung logic (vd: kiem tra tinh trang bao hanh, tinh tong chi tieu khach hang) va dung lai duoc trong View, Procedure.')
-    add_bullet(doc, 'Stored Procedures dong goi cac thao tac da buoc (tao don hang, dang ky bao hanh, hoan tat bao tri) trong transaction, dam bao tinh toan ven du lieu khi co loi.')
-    add_bullet(doc, 'Triggers ap dat quy tac nghiep vu o muc CSDL: tu dong cap nhat ton kho sau ban hang, ghi nhat ky thay doi trang thai, chan xoa ban ghi cha con rang buoc, va mien phi dich vu khi con bao hanh.')
-    add_bullet(doc, 'Views giup don gian hoa cac truy van phuc tap, con Indexes (don cot va ghep) cai thien hieu nang truy van loc/sap xep.')
+        'Through Lab 5, the team has fully practiced SQL programming techniques on a realistic '
+        'database for the household cleaning robot sales & maintenance system. From basic queries '
+        '(SELECT, WHERE, ORDER BY, aggregate functions), to intermediate queries (JOIN, GROUP BY/'
+        'HAVING, subqueries) and advanced queries (nested subqueries, EXISTS/IN/ANY/ALL, UNION/'
+        'INTERSECT/EXCEPT), the team has explored the data from many business perspectives.'))
+    add_para(doc, 'Key takeaways:', bold=True, space_before=4, space_after=2)
+    add_bullet(doc, 'Functions enable logic reuse (e.g., checking warranty status, computing a customer total spending) and can be reused inside Views and Procedures.')
+    add_bullet(doc, 'Stored Procedures encapsulate multi-step operations (creating a sales order, registering a warranty, completing maintenance) within transactions, ensuring data integrity when errors occur.')
+    add_bullet(doc, 'Triggers enforce business rules at the database level: automatically updating inventory after a sale, logging status changes, preventing deletion of referenced parent records, and waiving service fees while under warranty.')
+    add_bullet(doc, 'Views simplify complex queries, while Indexes (single-column and composite) improve the performance of filtering/sorting queries.')
     add_para(doc, (
-        'Viec ket hop rang buoc (Lab 4) voi Functions/Procedures/Triggers (Lab 5) tao nen mot CSDL '
-        'vua chac chan ve cau truc, vua tu dong hoa duoc nghiep vu, giam phu thuoc vao tang ung dung '
-        'va han che sai sot du lieu.'), space_before=6)
+        'Combining constraints (Lab 4) with Functions/Procedures/Triggers (Lab 5) produces a '
+        'database that is both structurally robust and capable of automating business logic, '
+        'reducing dependence on the application layer and limiting data errors.'), space_before=6)
 
 
 # ============================================================================
@@ -367,8 +367,9 @@ def build_report(meta, sections):
             if not emitted_sql_heading:
                 heading1(doc, '3. SQL Queries')
                 add_para(doc, (
-                    'Phan nay trinh bay cac truy van SQL theo ba muc do tang dan: co ban, trung cap '
-                    'va nang cao. Moi truy van deu kem giai thich va cho chen anh chup ket qua thuc thi.'))
+                    'This section presents SQL queries at three increasing levels: basic, '
+                    'intermediate and advanced. Each query includes an explanation and a placeholder '
+                    'for the execution result screenshot.'))
                 emitted_sql_heading = True
             heading2(doc, '%s. %s' % (num, disp))
         else:
@@ -391,18 +392,18 @@ def build_report(meta, sections):
 
 def main():
     if not os.path.exists(SQL_FILE):
-        raise SystemExit('Khong tim thay file %s' % SQL_FILE)
+        raise SystemExit('File not found: %s' % SQL_FILE)
     meta, sections = parse_sql(SQL_FILE)
 
     total_items = sum(len(g['items']) for s in sections for g in s['groups'])
-    print('Da doc %s' % SQL_FILE)
+    print('Parsed %s' % SQL_FILE)
     for s in sections:
         cnt = sum(len(g['items']) for g in s['groups'])
-        print('  - Section "%s": %d muc' % (s['title'], cnt))
-    print('Tong cong: %d muc trong %d section.' % (total_items, len(sections)))
+        print('  - Section "%s": %d items' % (s['title'], cnt))
+    print('Total: %d items across %d sections.' % (total_items, len(sections)))
 
     build_report(meta, sections)
-    print('Da tao bao cao: %s' % OUT_FILE)
+    print('Report generated: %s' % OUT_FILE)
 
 
 if __name__ == '__main__':

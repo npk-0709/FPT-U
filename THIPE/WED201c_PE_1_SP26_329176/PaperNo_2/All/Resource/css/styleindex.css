@@ -1,0 +1,53 @@
+.red-text {
+    color: #ff0000;
+    text-align: center;
+}
+
+h3,
+h2 {
+    color: rgb(86, 207, 255);
+}
+
+.container {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+
+.footer {
+    background-color: rgb(44, 162, 217);
+    text-align: center;
+    color: white;
+    margin-left: -10px;
+    margin-right: -10px;
+}
+
+button,
+.submit {
+    background-color: rgb(255, 123, 0);
+    color: white;
+    border-color: rgb(255, 123, 0);
+
+}
+
+.be-footer {
+    color: rgb(86, 207, 255);
+}
+
+img {
+    border: 1px;
+}
+
+li>a {
+    color: rgb(86, 207, 255);
+}
+
+.headers-0 {
+
+    border-bottom: 4px;
+
+    border-style: double;
+    border-top: none;
+    border-right: none;
+    border-left: none;
+}

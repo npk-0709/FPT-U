@@ -1,0 +1,138 @@
+<mxfile host="app.diagrams.net" type="device">
+  <diagram name="Sequence - New Registration" id="mhc-seq-register">
+    <mxGraphModel dx="1600" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="1000" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="title" value="Sequence Diagram &#8211; Đăng ký sinh viên mới (New Registration)" style="text;html=1;align=center;verticalAlign=middle;fontSize=18;fontStyle=1;fontColor=#1f2933;" vertex="1" parent="1">
+          <mxGeometry x="300" y="20" width="800" height="36" as="geometry" />
+        </mxCell>
+
+        <!-- Participants -->
+        <mxCell id="actor" value="Staff/Admin" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="40" y="70" width="40" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="main" value=":Main" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#b0e3e6;strokeColor=#0e8088;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="150" y="70" width="90" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="inp" value=":Inputter" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="290" y="70" width="90" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="students" value=":Students" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="430" y="70" width="90" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="mountains" value=":Mountains" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="570" y="70" width="90" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="student" value=":Student" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="710" y="70" width="90" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="acceptable" value=":Acceptable" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontStyle=2;" vertex="1" parent="1">
+          <mxGeometry x="850" y="70" width="100" height="36" as="geometry" />
+        </mxCell>
+
+        <!-- Lifelines -->
+        <mxCell id="ll1" style="endArrow=none;dashed=1;strokeColor=#999;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="60" y="110" as="sourcePoint" /><mxPoint x="60" y="880" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="ll2" style="endArrow=none;dashed=1;strokeColor=#999;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="195" y="106" as="sourcePoint" /><mxPoint x="195" y="880" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="ll3" style="endArrow=none;dashed=1;strokeColor=#999;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="335" y="106" as="sourcePoint" /><mxPoint x="335" y="880" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="ll4" style="endArrow=none;dashed=1;strokeColor=#999;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="475" y="106" as="sourcePoint" /><mxPoint x="475" y="880" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="ll5" style="endArrow=none;dashed=1;strokeColor=#999;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="615" y="106" as="sourcePoint" /><mxPoint x="615" y="880" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="ll6" style="endArrow=none;dashed=1;strokeColor=#999;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="755" y="106" as="sourcePoint" /><mxPoint x="755" y="880" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="ll7" style="endArrow=none;dashed=1;strokeColor=#999;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="900" y="106" as="sourcePoint" /><mxPoint x="900" y="880" as="targetPoint" /></mxGeometry>
+        </mxCell>
+
+        <!-- Activation Main -->
+        <mxCell id="act_main" style="fillColor=#b0e3e6;strokeColor=#0e8088;html=1;" vertex="1" parent="1">
+          <mxGeometry x="190" y="140" width="10" height="680" as="geometry" />
+        </mxCell>
+
+        <!-- Messages -->
+        <mxCell id="m1" value="1: Chọn &quot;New Registration&quot;" style="endArrow=block;html=1;fontSize=11;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="60" y="150" as="sourcePoint" /><mxPoint x="190" y="150" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="m2" value="2: addNewRegistration()" style="endArrow=block;html=1;fontSize=11;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="200" y="180" as="sourcePoint" /><mxPoint x="200" y="180" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="m3" value="3: inputAndLoop(ID, STUDENT_ID)" style="endArrow=block;html=1;fontSize=11;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="200" y="210" as="sourcePoint" /><mxPoint x="335" y="210" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="m4" value="4: isValid(data, pattern)" style="endArrow=block;html=1;fontSize=11;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="335" y="240" as="sourcePoint" /><mxPoint x="900" y="240" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="m5" value="5: true" style="endArrow=open;dashed=1;html=1;fontSize=11;strokeColor=#666;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="900" y="260" as="sourcePoint" /><mxPoint x="335" y="260" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="m6" value="6: studentId" style="endArrow=open;dashed=1;html=1;fontSize=11;strokeColor=#666;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="335" y="280" as="sourcePoint" /><mxPoint x="200" y="280" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="m7" value="7: searchById(id)" style="endArrow=block;html=1;fontSize=11;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="200" y="310" as="sourcePoint" /><mxPoint x="475" y="310" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="m8" value="8: null (chưa tồn tại)" style="endArrow=open;dashed=1;html=1;fontSize=11;strokeColor=#666;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="475" y="330" as="sourcePoint" /><mxPoint x="200" y="330" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="m9" value="9: inputAndLoop(name, phone, email)" style="endArrow=block;html=1;fontSize=11;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="200" y="370" as="sourcePoint" /><mxPoint x="335" y="370" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="m10" value="10: showAll()" style="endArrow=block;html=1;fontSize=11;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="200" y="410" as="sourcePoint" /><mxPoint x="615" y="410" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="m11" value="11: getString(mountainCode)" style="endArrow=block;html=1;fontSize=11;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="200" y="450" as="sourcePoint" /><mxPoint x="335" y="450" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="m12" value="12: isValidMountainCode(code)" style="endArrow=block;html=1;fontSize=11;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="200" y="480" as="sourcePoint" /><mxPoint x="615" y="480" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="m13" value="13: true" style="endArrow=open;dashed=1;html=1;fontSize=11;strokeColor=#666;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="615" y="500" as="sourcePoint" /><mxPoint x="200" y="500" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="m14" value="14: calculateFee(phone)" style="endArrow=block;html=1;fontSize=11;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="200" y="540" as="sourcePoint" /><mxPoint x="755" y="540" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="m15" value="15: isValid(phone, VIETTEL/VNPT)" style="endArrow=block;html=1;fontSize=11;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="755" y="560" as="sourcePoint" /><mxPoint x="900" y="560" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="m16" value="16: fee (3,900,000 hoặc 6,000,000)" style="endArrow=open;dashed=1;html=1;fontSize=11;strokeColor=#666;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="755" y="590" as="sourcePoint" /><mxPoint x="200" y="590" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="m17" value="17: new Student(id, name, phone, email, code, fee)" style="endArrow=block;html=1;fontSize=11;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="200" y="630" as="sourcePoint" /><mxPoint x="755" y="630" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="m18" value="18: student object" style="endArrow=open;dashed=1;html=1;fontSize=11;strokeColor=#666;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="755" y="650" as="sourcePoint" /><mxPoint x="200" y="650" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="m19" value="19: add(newStudent)" style="endArrow=block;html=1;fontSize=11;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="200" y="690" as="sourcePoint" /><mxPoint x="475" y="690" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="m20" value="20: markUnsaved()" style="endArrow=block;html=1;fontSize=11;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="475" y="720" as="sourcePoint" /><mxPoint x="475" y="720" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="m21" value="21: true" style="endArrow=open;dashed=1;html=1;fontSize=11;strokeColor=#666;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="475" y="740" as="sourcePoint" /><mxPoint x="200" y="740" as="targetPoint" /></mxGeometry>
+        </mxCell>
+        <mxCell id="m22" value="22: &quot;Registration added successfully. Tuition fee: ...&quot;" style="endArrow=open;dashed=1;html=1;fontSize=11;strokeColor=#666;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="200" y="780" as="sourcePoint" /><mxPoint x="60" y="780" as="targetPoint" /></mxGeometry>
+        </mxCell>
+
+        <mxCell id="note" value="&lt;b&gt;Ghi chú:&lt;/b&gt;&lt;br&gt;- Phí mặc định: 6,000,000 VND&lt;br&gt;- Giảm 35% nếu SĐT Viettel/VNPT → 3,900,000 VND&lt;br&gt;- ID campus: SE, HE, DE, QE, CE + 6 chữ số&lt;br&gt;- Dữ liệu chưa lưu file cho đến khi chọn Save" style="shape=note;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;size=14;align=left;spacingLeft=8;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1000" y="200" width="280" height="110" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

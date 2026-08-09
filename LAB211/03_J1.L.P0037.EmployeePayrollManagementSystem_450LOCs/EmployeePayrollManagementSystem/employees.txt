@@ -1,2 +1,7 @@
 E001, Alice, Developer, 10000000, 26, 0, active
-E002, Bob, Tester, 9000000, 26, 500000, active
+E002, Bob, Developer, 9000000, 26, 500000, active
+E003, Alex, Developer, 9000000, 26, 500000, active
+E004, Nam, Manager, 9000000, 26, 500000, active
+E005, Khuong, HR, 9000000, 26, 500000, active
+E006, Trung, Manager, 9000000, 26, 500000, active
+E007, Bao, Tester, 9000000, 26, 500000, active

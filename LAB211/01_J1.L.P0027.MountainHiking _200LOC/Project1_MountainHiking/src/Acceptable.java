@@ -10,7 +10,7 @@ public interface Acceptable {
     String PHONE_VALID = "^0\\d{9}$";
     String VIETTEL_VALID = "^(032|033|034|035|036|037|038|039|096|097|098|086)\\d{7}$";
     String VNPT_VALID = "^(081|082|083|084|085|088|091|094)\\d{7}$";
-    String EMAIL_VALID = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$";
+    String EMAIL_VALID = "^[A-Za-z0-9+_.-]@+[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$";
     String YES_NO_VALID = "^[YyNn]$";
     String MENU_VALID = "^[1-9]$";
 

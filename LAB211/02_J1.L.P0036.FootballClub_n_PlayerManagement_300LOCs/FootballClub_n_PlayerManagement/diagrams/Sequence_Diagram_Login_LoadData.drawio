@@ -1,0 +1,137 @@
+<mxfile host="app.diagrams.net" modified="2026-07-03T06:00:00.000Z" agent="Cursor" version="24.0.0">
+  <diagram id="seq-login" name="Sequence - Login &amp; Load Data">
+    <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <mxCell id="t1" value="Sequence Diagram: Đăng nhập &amp; Nạp dữ liệu khởi động" style="text;html=1;fontSize=14;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="280" y="20" width="640" height="30" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="actor" value=":User" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
+          <mxGeometry x="60" y="70" width="40" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="menu" value=":Menu" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="200" y="70" width="100" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="menu_ll" value="" style="html=1;points=[];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;" vertex="1" parent="1">
+          <mxGeometry x="245" y="110" width="10" height="620" as="geometry"/>
+        </mxCell>
+        <mxCell id="auth" value=":AuthManager" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="360" y="70" width="110" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="auth_ll" value="" style="html=1;points=[];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;" vertex="1" parent="1">
+          <mxGeometry x="410" y="110" width="10" height="620" as="geometry"/>
+        </mxCell>
+        <mxCell id="inp" value=":Inputter" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="520" y="70" width="100" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="inp_ll" value="" style="html=1;points=[];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;" vertex="1" parent="1">
+          <mxGeometry x="565" y="110" width="10" height="620" as="geometry"/>
+        </mxCell>
+        <mxCell id="cm" value=":ClubsManager" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="660" y="70" width="120" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="cm_ll" value="" style="html=1;points=[];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;" vertex="1" parent="1">
+          <mxGeometry x="715" y="110" width="10" height="620" as="geometry"/>
+        </mxCell>
+        <mxCell id="pm" value=":PlayersManager" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="820" y="70" width="120" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="pm_ll" value="" style="html=1;points=[];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;" vertex="1" parent="1">
+          <mxGeometry x="875" y="110" width="10" height="620" as="geometry"/>
+        </mxCell>
+        <mxCell id="ym" value=":YouthPlayersManager" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="980" y="70" width="140" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="ym_ll" value="" style="html=1;points=[];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;" vertex="1" parent="1">
+          <mxGeometry x="1045" y="110" width="10" height="620" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="frame1" value="Đăng nhập (tối đa 3 lần)" style="shape=umlFrame;whiteSpace=wrap;html=1;width=120;height=20;fillColor=#f5f5f5;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="180" y="140" width="520" height="200" as="geometry"/>
+        </mxCell>
+        <mxCell id="lm1" value="1: main() → start()" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;fontSize=11;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="90" y="170" as="sourcePoint"/>
+            <mxPoint x="245" y="170" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lm2" value="2: login()" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;fontSize=11;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="255" y="200" as="sourcePoint"/>
+            <mxPoint x="410" y="200" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lm3" value="3: inputNonEmpty(username, password)" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;fontSize=11;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="420" y="230" as="sourcePoint"/>
+            <mxPoint x="565" y="230" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lm4" value="4: authenticate(username, password)" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;fontSize=11;dashed=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="420" y="270" as="sourcePoint"/>
+            <mxPoint x="450" y="270" as="targetPoint"/>
+            <Array as="points"><mxPoint x="450" y="270"/><mxPoint x="450" y="290"/><mxPoint x="420" y="290"/></Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lm5" value="5: User / null" style="html=1;verticalAlign=bottom;endArrow=open;rounded=0;fontSize=11;dashed=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="410" y="310" as="sourcePoint"/>
+            <mxPoint x="255" y="310" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="frame2" value="Nạp dữ liệu (reloadAll)" style="shape=umlFrame;whiteSpace=wrap;html=1;width=120;height=20;fillColor=#f5f5f5;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="180" y="360" width="920" height="280" as="geometry"/>
+        </mxCell>
+        <mxCell id="ld1" value="6: reloadAll()" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;fontSize=11;dashed=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="255" y="390" as="sourcePoint"/>
+            <mxPoint x="285" y="390" as="targetPoint"/>
+            <Array as="points"><mxPoint x="285" y="390"/><mxPoint x="285" y="410"/><mxPoint x="255" y="410"/></Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ld2" value="7: loadStrict(&quot;clubs.txt&quot;)" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;fontSize=11;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="255" y="440" as="sourcePoint"/>
+            <mxPoint x="715" y="440" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ld3" value="8: boolean (fail → dừng)" style="html=1;verticalAlign=bottom;endArrow=open;rounded=0;fontSize=11;dashed=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="715" y="470" as="sourcePoint"/>
+            <mxPoint x="255" y="470" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ld4" value="9: loadStrict(&quot;players.txt&quot;, clubs)" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;fontSize=11;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="255" y="510" as="sourcePoint"/>
+            <mxPoint x="875" y="510" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ld5" value="10: loadStrict(&quot;youth_players.txt&quot;, clubs)" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;fontSize=11;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="255" y="550" as="sourcePoint"/>
+            <mxPoint x="1045" y="550" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ld6" value="11: buildItems(); run() — hiển thị menu theo quyền" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;fontSize=11;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="255" y="600" as="sourcePoint"/>
+            <mxPoint x="285" y="600" as="targetPoint"/>
+            <Array as="points"><mxPoint x="285" y="600"/><mxPoint x="285" y="620"/><mxPoint x="255" y="620"/></Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ld7" value="12: hiển thị menu (lọc theo Permission của User)" style="html=1;verticalAlign=bottom;endArrow=open;rounded=0;fontSize=11;dashed=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="245" y="680" as="sourcePoint"/>
+            <mxPoint x="90" y="680" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

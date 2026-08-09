@@ -462,459 +462,459 @@ GO
 
 --##SECTION | Basic SQL Queries
 
---##GROUP | Truy van SELECT toan bo ban ghi
---##ITEM | Lay tat ca khach hang
---##DESC | Truy xuat toan bo ban ghi cua bang Customer.
+--##GROUP | SELECT queries over entire tables
+--##ITEM | Get all customers
+--##DESC | Retrieve all records from the Customer table.
 SELECT * FROM Customer;
 
---##ITEM | Lay tat ca nhan vien
---##DESC | Truy xuat toan bo nhan vien (ban hang, ky thuat, quan tri).
+--##ITEM | Get all employees
+--##DESC | Retrieve all employees (sales, technical, admin).
 SELECT * FROM Employee;
 
---##ITEM | Lay tat ca mau robot trong catalog
---##DESC | Truy xuat toan bo mau robot cung gia ban va thoi han bao hanh.
+--##ITEM | Get all robot models in the catalog
+--##DESC | Retrieve all robot models with selling price and warranty duration.
 SELECT * FROM RobotModel;
 
---##ITEM | Lay tat ca robot trong kho
---##DESC | Truy xuat toan bo tung chiec robot va trang thai hien tai cua no.
+--##ITEM | Get all robots in stock
+--##DESC | Retrieve every robot unit and its current status.
 SELECT * FROM RobotUnit;
 
---##ITEM | Lay tat ca don ban hang
---##DESC | Truy xuat toan bo don ban hang.
+--##ITEM | Get all sales orders
+--##DESC | Retrieve all sales orders.
 SELECT * FROM SalesOrder;
 
---##ITEM | Lay du lieu cac bang giao dich va bao tri
---##DESC | Xem nhanh du lieu cac bang con lai: thanh toan, yeu cau dich vu, bao tri, log IoT.
+--##ITEM | Get data from transaction and maintenance tables
+--##DESC | Quick look at the remaining tables: payments, service requests, maintenance, IoT logs.
 SELECT * FROM Payment;
 SELECT * FROM ServiceRequest;
 SELECT * FROM MaintenanceRecord;
 SELECT * FROM DeviceLog;
 
---##GROUP | Loc du lieu voi WHERE
---##ITEM | Khach hang o TP.HCM
---##DESC | Loc khach hang co dia chi chua "TP.HCM" bang toan tu LIKE.
+--##GROUP | Filtering data with WHERE
+--##ITEM | Customers in Ho Chi Minh City
+--##DESC | Filter customers whose address contains "TP.HCM" using the LIKE operator.
 SELECT CustomerID, FullName, Address
 FROM Customer
 WHERE Address LIKE N'%TP.HCM%';
 
---##ITEM | Nhan vien la ky thuat vien
---##DESC | Loc nhan vien co vai tro (Role) la Technician.
+--##ITEM | Employees who are technicians
+--##DESC | Filter employees whose Role is Technician.
 SELECT EmployeeID, FullName, Role
 FROM Employee
 WHERE Role = N'Technician';
 
---##ITEM | Mau robot gia tren 20 trieu
---##DESC | Loc cac mau robot cao cap co UnitPrice > 20.000.000 VND.
+--##ITEM | Robot models priced above 20 million
+--##DESC | Filter premium robot models with UnitPrice > 20,000,000 VND.
 SELECT ModelID, Brand, ModelName, UnitPrice
 FROM RobotModel
 WHERE UnitPrice > 20000000;
 
---##ITEM | Mau robot cua thuong hieu Roborock
---##DESC | Loc cac mau robot thuoc thuong hieu Roborock.
+--##ITEM | Robot models of the Roborock brand
+--##DESC | Filter robot models belonging to the Roborock brand.
 SELECT ModelID, ModelName, UnitPrice
 FROM RobotModel
 WHERE Brand = N'Roborock';
 
---##ITEM | Robot dang con san trong kho
---##DESC | Loc cac robot co trang thai Available (san sang ban).
+--##ITEM | Robots still available in stock
+--##DESC | Filter robots with status Available (ready to sell).
 SELECT RobotID, ModelID, SerialNumber
 FROM RobotUnit
 WHERE Status = N'Available';
 
---##ITEM | Don hang da giao thanh cong
---##DESC | Loc cac don hang co trang thai Delivered.
+--##ITEM | Successfully delivered orders
+--##DESC | Filter orders with status Delivered.
 SELECT OrderID, CustomerID, OrderDate, TotalAmount
 FROM SalesOrder
 WHERE OrderStatus = N'Delivered';
 
---##ITEM | Don hang trong nam 2025
---##DESC | Loc cac don hang phat sinh trong nam 2025 bang dieu kien khoang ngay.
+--##ITEM | Orders in 2025
+--##DESC | Filter orders created in 2025 using a date-range condition.
 SELECT OrderID, OrderDate, TotalAmount, OrderStatus
 FROM SalesOrder
 WHERE OrderDate >= '2025-01-01' AND OrderDate < '2026-01-01';
 
---##ITEM | Don hang co tong tien tu 10 den 40 trieu
---##DESC | Loc don hang theo khoang gia tri voi BETWEEN.
+--##ITEM | Orders with total amount from 10 to 40 million
+--##DESC | Filter orders by value range using BETWEEN.
 SELECT OrderID, TotalAmount, OrderStatus
 FROM SalesOrder
 WHERE TotalAmount BETWEEN 10000000 AND 40000000;
 
---##ITEM | Thanh toan bang the tin dung
---##DESC | Loc cac giao dich thanh toan bang Credit Card.
+--##ITEM | Payments by credit card
+--##DESC | Filter payment transactions made by Credit Card.
 SELECT PaymentID, Amount, PaymentDate
 FROM Payment
 WHERE PaymentMethod = N'Credit Card';
 
---##ITEM | Yeu cau dich vu chua hoan tat
---##DESC | Loc yeu cau dich vu chua o trang thai Completed (dung IN cho nhieu trang thai).
+--##ITEM | Service requests not yet completed
+--##DESC | Filter service requests not in Completed status (using IN for multiple statuses).
 SELECT RequestID, RobotID, Status, RequestDate
 FROM ServiceRequest
 WHERE Status IN (N'Pending', N'Assigned', N'In Progress');
 
---##ITEM | Bao hanh con hieu luc
---##DESC | Loc cac dang ky bao hanh ma ngay ket thuc chua qua thoi diem hien tai.
+--##ITEM | Warranties still valid
+--##DESC | Filter warranty registrations whose end date has not passed the current date.
 SELECT WarrantyID, RobotID, StartDate, EndDate
 FROM WarrantyRegistration
 WHERE EndDate >= CAST(GETDATE() AS DATE);
 
---##ITEM | Log thiet bi co ma loi
---##DESC | Loc cac log IoT thuc su ghi nhan ma loi (ErrorCode khac NULL).
+--##ITEM | Device logs with an error code
+--##DESC | Filter IoT logs that actually recorded an error code (ErrorCode IS NOT NULL).
 SELECT LogID, RobotID, LogTime, ErrorCode
 FROM DeviceLog
 WHERE ErrorCode IS NOT NULL;
 
---##ITEM | Lan bao tri co thu phi
---##DESC | Loc cac ban ghi bao tri thuc su phat sinh phi dich vu (> 0).
+--##ITEM | Maintenance with a service fee
+--##DESC | Filter maintenance records that actually incurred a service fee (> 0).
 SELECT RecordID, RequestID, ServiceFee, CompletionDate
 FROM MaintenanceRecord
 WHERE ServiceFee > 0;
 
---##GROUP | Sap xep voi ORDER BY
---##ITEM | Mau robot theo gia giam dan
---##DESC | Sap xep catalog tu dat den re.
+--##GROUP | Sorting with ORDER BY
+--##ITEM | Robot models by descending price
+--##DESC | Sort the catalog from most to least expensive.
 SELECT ModelID, ModelName, UnitPrice
 FROM RobotModel
 ORDER BY UnitPrice DESC;
 
---##ITEM | Khach hang theo ten A-Z
---##DESC | Sap xep danh sach khach hang theo ho ten tang dan.
+--##ITEM | Customers by name A-Z
+--##DESC | Sort the customer list by full name ascending.
 SELECT CustomerID, FullName
 FROM Customer
 ORDER BY FullName ASC;
 
---##ITEM | Don hang quy 1/2025 theo ngay giam dan
---##DESC | Liet ke don hang trong quy 1 nam 2025, sap xep giam dan theo ngay dat hang.
+--##ITEM | Q1/2025 orders by descending date
+--##DESC | List orders in Q1 2025, sorted by order date descending.
 SELECT OrderID, OrderDate, TotalAmount
 FROM SalesOrder
 WHERE OrderDate >= '2025-01-01' AND OrderDate < '2025-04-01'
 ORDER BY OrderDate DESC;
 
---##ITEM | Nhan vien theo vai tro roi theo ten
---##DESC | Sap xep nhan vien theo Role, trong cung vai tro thi theo ten.
+--##ITEM | Employees by role then by name
+--##DESC | Sort employees by Role, and by name within the same role.
 SELECT FullName, Role
 FROM Employee
 ORDER BY Role ASC, FullName ASC;
 
---##ITEM | Robot theo trang thai roi theo mau
---##DESC | Sap xep robot theo Status, cung trang thai thi theo ModelID.
+--##ITEM | Robots by status then by model
+--##DESC | Sort robots by Status, and by ModelID within the same status.
 SELECT RobotID, ModelID, Status
 FROM RobotUnit
 ORDER BY Status ASC, ModelID ASC;
 
---##ITEM | Thanh toan theo so tien giam dan
---##DESC | Sap xep cac giao dich theo so tien tu cao den thap.
+--##ITEM | Payments by descending amount
+--##DESC | Sort transactions by amount from high to low.
 SELECT PaymentID, Amount, PaymentMethod
 FROM Payment
 ORDER BY Amount DESC;
 
---##ITEM | Yeu cau dich vu theo ngay tang dan
---##DESC | Sap xep yeu cau dich vu theo ngay gui tang dan.
+--##ITEM | Service requests by ascending date
+--##DESC | Sort service requests by submission date ascending.
 SELECT RequestID, RobotID, RequestDate, Status
 FROM ServiceRequest
 ORDER BY RequestDate ASC;
 
---##ITEM | Bao tri theo phi giam dan
---##DESC | Sap xep ban ghi bao tri theo phi dich vu giam dan.
+--##ITEM | Maintenance by descending fee
+--##DESC | Sort maintenance records by service fee descending.
 SELECT RecordID, RequestID, ServiceFee
 FROM MaintenanceRecord
 ORDER BY ServiceFee DESC;
 
---##ITEM | Bao hanh theo ngay het han
---##DESC | Sap xep dang ky bao hanh theo ngay het han tang dan.
+--##ITEM | Warranties by expiry date
+--##DESC | Sort warranty registrations by end date ascending.
 SELECT WarrantyID, RobotID, EndDate
 FROM WarrantyRegistration
 ORDER BY EndDate ASC;
 
---##ITEM | Log thiet bi moi nhat truoc
---##DESC | Sap xep log IoT theo thoi gian giam dan (moi nhat len dau).
+--##ITEM | Latest device logs first
+--##DESC | Sort IoT logs by time descending (latest first).
 SELECT LogID, RobotID, LogTime, ErrorCode
 FROM DeviceLog
 ORDER BY LogTime DESC;
 
---##GROUP | Ham tong hop (COUNT, SUM, AVG, MAX, MIN)
---##ITEM | Tong so khach hang
---##DESC | Dem tong so khach hang trong he thong.
-SELECT COUNT(*) AS TongKhachHang FROM Customer;
+--##GROUP | Aggregate functions (COUNT, SUM, AVG, MAX, MIN)
+--##ITEM | Total number of customers
+--##DESC | Count the total number of customers in the system.
+SELECT COUNT(*) AS TotalCustomers FROM Customer;
 
---##ITEM | Tong so robot trong kho
---##DESC | Dem tong so chiec robot dang quan ly.
-SELECT COUNT(*) AS TongSoRobot FROM RobotUnit;
+--##ITEM | Total number of robots in stock
+--##DESC | Count the total number of robot units managed.
+SELECT COUNT(*) AS TotalRobots FROM RobotUnit;
 
---##ITEM | Gia trung binh cua mau robot
---##DESC | Tinh gia ban trung binh cua cac mau robot.
-SELECT AVG(UnitPrice) AS GiaTrungBinh FROM RobotModel;
+--##ITEM | Average robot model price
+--##DESC | Compute the average selling price of robot models.
+SELECT AVG(UnitPrice) AS AvgPrice FROM RobotModel;
 
---##ITEM | Gia cao nhat va thap nhat
---##DESC | Tim gia ban cao nhat va thap nhat trong catalog.
-SELECT MAX(UnitPrice) AS GiaCaoNhat, MIN(UnitPrice) AS GiaThapNhat FROM RobotModel;
+--##ITEM | Highest and lowest price
+--##DESC | Find the highest and lowest selling price in the catalog.
+SELECT MAX(UnitPrice) AS MaxPrice, MIN(UnitPrice) AS MinPrice FROM RobotModel;
 
---##ITEM | Tong doanh thu theo don hang
---##DESC | Tinh tong gia tri tat ca don hang (theo cot TotalAmount).
-SELECT SUM(TotalAmount) AS TongDoanhThu FROM SalesOrder;
+--##ITEM | Total revenue by orders
+--##DESC | Compute the total value of all orders (by the TotalAmount column).
+SELECT SUM(TotalAmount) AS TotalRevenue FROM SalesOrder;
 
---##ITEM | So robot con san sang ban
---##DESC | Dem so robot dang o trang thai Available.
-SELECT COUNT(*) AS SoRobotConSan
+--##ITEM | Number of robots ready to sell
+--##DESC | Count robots currently in Available status.
+SELECT COUNT(*) AS AvailableRobots
 FROM RobotUnit
 WHERE Status = N'Available';
 
---##ITEM | Tong tien thuc thu tu thanh toan
---##DESC | Tinh tong so tien da thu duoc qua tat ca giao dich thanh toan.
-SELECT SUM(Amount) AS TongTienDaThu FROM Payment;
+--##ITEM | Total amount actually collected from payments
+--##DESC | Compute the total amount collected across all payment transactions.
+SELECT SUM(Amount) AS TotalCollected FROM Payment;
 
---##ITEM | Phi dich vu trung binh
---##DESC | Tinh phi bao tri trung binh tren cac ban ghi.
-SELECT AVG(ServiceFee) AS PhiTrungBinh FROM MaintenanceRecord;
+--##ITEM | Average service fee
+--##DESC | Compute the average maintenance fee across records.
+SELECT AVG(ServiceFee) AS AvgServiceFee FROM MaintenanceRecord;
 
---##ITEM | Phi dich vu cao nhat
---##DESC | Tim phi bao tri cao nhat tung phat sinh.
-SELECT MAX(ServiceFee) AS PhiCaoNhat FROM MaintenanceRecord;
+--##ITEM | Highest service fee
+--##DESC | Find the highest maintenance fee ever incurred.
+SELECT MAX(ServiceFee) AS MaxServiceFee FROM MaintenanceRecord;
 
---##ITEM | Tong so yeu cau dich vu
---##DESC | Dem tong so yeu cau bao tri/sua chua.
-SELECT COUNT(*) AS TongYeuCau FROM ServiceRequest;
+--##ITEM | Total number of service requests
+--##DESC | Count the total number of maintenance/repair requests.
+SELECT COUNT(*) AS TotalRequests FROM ServiceRequest;
 
---##ITEM | So log co ghi nhan loi
---##DESC | Dem so log IoT co ma loi (bo qua cac log NULL).
-SELECT COUNT(ErrorCode) AS SoLogLoi FROM DeviceLog;
+--##ITEM | Number of logs recording an error
+--##DESC | Count IoT logs that have an error code (ignoring NULL logs).
+SELECT COUNT(ErrorCode) AS ErrorLogCount FROM DeviceLog;
 
 --##SECTION | Intermediate SQL Queries
 
---##GROUP | Ket noi nhieu bang (INNER JOIN / LEFT JOIN)
---##ITEM | Don hang kem ten khach va nhan vien ban
---##DESC | INNER JOIN 3 bang SalesOrder, Customer, Employee de hien thi ten khach hang va nhan vien xu ly.
-SELECT so.OrderID, c.FullName AS KhachHang, e.FullName AS NhanVienBan,
+--##GROUP | Joining multiple tables (INNER JOIN / LEFT JOIN)
+--##ITEM | Orders with customer and salesperson names
+--##DESC | INNER JOIN the three tables SalesOrder, Customer, Employee to display the customer and the handling employee.
+SELECT so.OrderID, c.FullName AS Customer, e.FullName AS SalesStaff,
        so.OrderDate, so.TotalAmount, so.OrderStatus
 FROM SalesOrder so
 JOIN Customer c ON so.CustomerID = c.CustomerID
 JOIN Employee e ON so.EmployeeID = e.EmployeeID;
 
---##ITEM | Robot da ban kem mau va gia ban
---##DESC | JOIN OrderDetail -> RobotUnit -> RobotModel de biet moi robot da ban thuoc mau nao.
+--##ITEM | Sold robots with model and selling price
+--##DESC | JOIN OrderDetail -> RobotUnit -> RobotModel to know which model each sold robot belongs to.
 SELECT od.OrderID, od.RobotID, rm.Brand, rm.ModelName, od.SellingPrice
 FROM OrderDetail od
 JOIN RobotUnit ru ON od.RobotID = ru.RobotID
 JOIN RobotModel rm ON ru.ModelID = rm.ModelID
 ORDER BY od.OrderID;
 
---##ITEM | Danh sach robot trong kho kem thong tin mau
---##DESC | JOIN RobotUnit voi RobotModel de hien thi thuong hieu, ten mau, trang thai.
+--##ITEM | Robots in stock with model information
+--##DESC | JOIN RobotUnit with RobotModel to display brand, model name, and status.
 SELECT ru.RobotID, ru.SerialNumber, rm.Brand, rm.ModelName, ru.Status
 FROM RobotUnit ru
 JOIN RobotModel rm ON ru.ModelID = rm.ModelID;
 
---##ITEM | Yeu cau dich vu kem ten khach va serial robot
---##DESC | JOIN ServiceRequest voi Customer va RobotUnit de xem ai gui yeu cau cho robot nao.
-SELECT sr.RequestID, c.FullName AS KhachHang, ru.SerialNumber,
+--##ITEM | Service requests with customer name and robot serial
+--##DESC | JOIN ServiceRequest with Customer and RobotUnit to see who submitted a request for which robot.
+SELECT sr.RequestID, c.FullName AS Customer, ru.SerialNumber,
        sr.IssueDescription, sr.Status
 FROM ServiceRequest sr
 JOIN Customer c ON sr.CustomerID = c.CustomerID
 JOIN RobotUnit ru ON sr.RobotID = ru.RobotID;
 
---##ITEM | Lich su bao tri kem ky thuat vien phu trach
---##DESC | JOIN MaintenanceRecord -> ServiceRequest -> Employee de gan moi lan bao tri voi su co va ky thuat vien.
-SELECT mr.RecordID, sr.IssueDescription, e.FullName AS KyThuatVien,
+--##ITEM | Maintenance history with the assigned technician
+--##DESC | JOIN MaintenanceRecord -> ServiceRequest -> Employee to link each maintenance with its issue and technician.
+SELECT mr.RecordID, sr.IssueDescription, e.FullName AS Technician,
        mr.ServiceFee, mr.CompletionDate
 FROM MaintenanceRecord mr
 JOIN ServiceRequest sr ON mr.RequestID = sr.RequestID
 JOIN Employee e ON mr.TechnicianID = e.EmployeeID;
 
---##ITEM | Thong tin bao hanh day du
---##DESC | JOIN WarrantyRegistration voi RobotUnit, RobotModel va Customer.
-SELECT w.WarrantyID, c.FullName AS ChuSoHuu, rm.ModelName,
+--##ITEM | Full warranty information
+--##DESC | JOIN WarrantyRegistration with RobotUnit, RobotModel and Customer.
+SELECT w.WarrantyID, c.FullName AS Owner, rm.ModelName,
        ru.SerialNumber, w.StartDate, w.EndDate
 FROM WarrantyRegistration w
 JOIN RobotUnit ru ON w.RobotID = ru.RobotID
 JOIN RobotModel rm ON ru.ModelID = rm.ModelID
 JOIN Customer c ON w.CustomerID = c.CustomerID;
 
---##ITEM | Thanh toan cho don hang
---##DESC | JOIN Payment -> OrderPayment -> SalesOrder de biet moi thanh toan tuong ung don hang nao.
+--##ITEM | Payments for sales orders
+--##DESC | JOIN Payment -> OrderPayment -> SalesOrder to know which order each payment corresponds to.
 SELECT p.PaymentID, p.Amount, p.PaymentMethod, op.OrderID, so.OrderStatus
 FROM Payment p
 JOIN OrderPayment op ON p.PaymentID = op.PaymentID
 JOIN SalesOrder so ON op.OrderID = so.OrderID;
 
---##ITEM | Thanh toan cho dich vu bao tri
---##DESC | JOIN Payment -> ServicePayment -> MaintenanceRecord de xem thanh toan cho lan bao tri nao.
+--##ITEM | Payments for maintenance services
+--##DESC | JOIN Payment -> ServicePayment -> MaintenanceRecord to see which maintenance a payment is for.
 SELECT p.PaymentID, p.Amount, p.PaymentMethod, sp.ServiceRecordID, mr.ActionsTaken
 FROM Payment p
 JOIN ServicePayment sp ON p.PaymentID = sp.PaymentID
 JOIN MaintenanceRecord mr ON sp.ServiceRecordID = mr.RecordID;
 
---##ITEM | Log IoT kem mau robot
---##DESC | JOIN DeviceLog -> RobotUnit -> RobotModel de gan log voi mau robot tuong ung.
+--##ITEM | IoT logs with robot model
+--##DESC | JOIN DeviceLog -> RobotUnit -> RobotModel to associate each log with its robot model.
 SELECT dl.LogID, rm.ModelName, dl.LogTime, dl.ErrorCode
 FROM DeviceLog dl
 JOIN RobotUnit ru ON dl.RobotID = ru.RobotID
 JOIN RobotModel rm ON ru.ModelID = rm.ModelID;
 
---##ITEM | Tat ca don hang ke ca don khong co chi tiet (LEFT JOIN)
---##DESC | LEFT JOIN SalesOrder voi OrderDetail: don hang bi huy (khong co dong chi tiet) van hien thi voi gia tri NULL.
+--##ITEM | All orders including those without line items (LEFT JOIN)
+--##DESC | LEFT JOIN SalesOrder with OrderDetail: cancelled orders (without line items) still appear with NULL values.
 SELECT so.OrderID, so.OrderStatus, od.RobotID, od.SellingPrice
 FROM SalesOrder so
 LEFT JOIN OrderDetail od ON so.OrderID = od.OrderID
 ORDER BY so.OrderID;
 
---##ITEM | Tat ca khach hang ke ca nguoi chua mua (LEFT JOIN)
---##DESC | LEFT JOIN Customer voi SalesOrder de tim ca khach hang chua phat sinh don hang nao.
+--##ITEM | All customers including those who never bought (LEFT JOIN)
+--##DESC | LEFT JOIN Customer with SalesOrder to also find customers who have not placed any order.
 SELECT c.CustomerID, c.FullName, so.OrderID
 FROM Customer c
 LEFT JOIN SalesOrder so ON c.CustomerID = so.CustomerID
 ORDER BY c.CustomerID;
 
---##ITEM | Cac tinh nang cua tung mau robot
---##DESC | JOIN RobotModel voi ModelFeature de liet ke tinh nang theo mau.
+--##ITEM | Features of each robot model
+--##DESC | JOIN RobotModel with ModelFeature to list features per model.
 SELECT rm.ModelName, mf.Feature
 FROM RobotModel rm
 JOIN ModelFeature mf ON rm.ModelID = mf.ModelID
 ORDER BY rm.ModelName;
 
---##GROUP | Gom nhom voi GROUP BY va HAVING
---##ITEM | So luong robot theo tung mau
---##DESC | GROUP BY ModelID, dem so chiec robot moi mau dang co trong kho.
-SELECT rm.ModelName, COUNT(ru.RobotID) AS SoLuong
+--##GROUP | Grouping with GROUP BY and HAVING
+--##ITEM | Number of robots per model
+--##DESC | GROUP BY ModelID, counting the robot units in stock for each model.
+SELECT rm.ModelName, COUNT(ru.RobotID) AS Quantity
 FROM RobotModel rm
 JOIN RobotUnit ru ON rm.ModelID = ru.ModelID
 GROUP BY rm.ModelName;
 
---##ITEM | So luong robot theo trang thai
---##DESC | GROUP BY Status de thong ke ton kho (Available/Sold/Under Maintenance/Retired).
-SELECT Status, COUNT(*) AS SoLuong
+--##ITEM | Number of robots per status
+--##DESC | GROUP BY Status to summarize inventory (Available/Sold/Under Maintenance/Retired).
+SELECT Status, COUNT(*) AS Quantity
 FROM RobotUnit
 GROUP BY Status;
 
---##ITEM | Tong chi tieu cua tung khach hang
---##DESC | GROUP BY khach hang, tinh tong gia tri don hang.
-SELECT c.FullName, SUM(so.TotalAmount) AS TongChiTieu
+--##ITEM | Total spending per customer
+--##DESC | GROUP BY customer, computing the total order value.
+SELECT c.FullName, SUM(so.TotalAmount) AS TotalSpending
 FROM Customer c
 JOIN SalesOrder so ON c.CustomerID = so.CustomerID
 GROUP BY c.FullName
-ORDER BY TongChiTieu DESC;
+ORDER BY TotalSpending DESC;
 
---##ITEM | So don hang moi nhan vien ban da xu ly
---##DESC | GROUP BY nhan vien de dem so don da xu ly.
-SELECT e.FullName, COUNT(so.OrderID) AS SoDon
+--##ITEM | Number of orders handled by each salesperson
+--##DESC | GROUP BY employee to count the orders handled.
+SELECT e.FullName, COUNT(so.OrderID) AS OrderCount
 FROM Employee e
 JOIN SalesOrder so ON e.EmployeeID = so.EmployeeID
 GROUP BY e.FullName;
 
---##ITEM | Tong tien ban theo tung don (tu chi tiet)
---##DESC | GROUP BY OrderID tren OrderDetail de tinh tong gia ban thuc te cua moi don.
-SELECT OrderID, COUNT(RobotID) AS SoRobot, SUM(SellingPrice) AS TongTien
+--##ITEM | Total sales per order (from line items)
+--##DESC | GROUP BY OrderID on OrderDetail to compute the actual total selling price of each order.
+SELECT OrderID, COUNT(RobotID) AS RobotCount, SUM(SellingPrice) AS TotalAmount
 FROM OrderDetail
 GROUP BY OrderID;
 
---##ITEM | So robot da ban theo mau
---##DESC | JOIN va GROUP BY de dem so robot da ban ra cho moi mau.
-SELECT rm.ModelName, COUNT(od.RobotID) AS SoDaBan
+--##ITEM | Number of robots sold per model
+--##DESC | JOIN and GROUP BY to count the robots sold for each model.
+SELECT rm.ModelName, COUNT(od.RobotID) AS SoldCount
 FROM RobotModel rm
 JOIN RobotUnit ru ON rm.ModelID = ru.ModelID
 JOIN OrderDetail od ON ru.RobotID = od.RobotID
 GROUP BY rm.ModelName;
 
---##ITEM | So yeu cau dich vu theo trang thai
---##DESC | GROUP BY Status tren ServiceRequest.
-SELECT Status, COUNT(*) AS SoYeuCau
+--##ITEM | Number of service requests per status
+--##DESC | GROUP BY Status on ServiceRequest.
+SELECT Status, COUNT(*) AS RequestCount
 FROM ServiceRequest
 GROUP BY Status;
 
---##ITEM | Robot bi gui bao tri tu 2 lan tro len (HAVING)
---##DESC | GROUP BY RobotID va loc HAVING COUNT >= 2 de tim robot hay gap su co.
-SELECT RobotID, COUNT(*) AS SoLanYeuCau
+--##ITEM | Robots sent for maintenance 2 or more times (HAVING)
+--##DESC | GROUP BY RobotID and filter HAVING COUNT >= 2 to find robots that frequently fail.
+SELECT RobotID, COUNT(*) AS RequestCount
 FROM ServiceRequest
 GROUP BY RobotID
 HAVING COUNT(*) >= 2;
 
---##ITEM | Tong phi dich vu theo ky thuat vien
---##DESC | GROUP BY ky thuat vien de tinh tong phi thu duoc tu cong viec bao tri.
-SELECT e.FullName, COUNT(mr.RecordID) AS SoLanBaoTri, SUM(mr.ServiceFee) AS TongPhi
+--##ITEM | Total service fee per technician
+--##DESC | GROUP BY technician to compute the total fee earned from maintenance work.
+SELECT e.FullName, COUNT(mr.RecordID) AS MaintenanceCount, SUM(mr.ServiceFee) AS TotalFee
 FROM Employee e
 JOIN MaintenanceRecord mr ON e.EmployeeID = mr.TechnicianID
 GROUP BY e.FullName;
 
---##ITEM | So tinh nang cua moi mau robot
---##DESC | GROUP BY mau de dem so tinh nang.
-SELECT rm.ModelName, COUNT(mf.Feature) AS SoTinhNang
+--##ITEM | Number of features per robot model
+--##DESC | GROUP BY model to count features.
+SELECT rm.ModelName, COUNT(mf.Feature) AS FeatureCount
 FROM RobotModel rm
 JOIN ModelFeature mf ON rm.ModelID = mf.ModelID
 GROUP BY rm.ModelName;
 
---##ITEM | Mau robot co nhieu hon 2 chiec trong kho (HAVING)
---##DESC | GROUP BY mau va loc HAVING COUNT > 2.
-SELECT rm.ModelName, COUNT(ru.RobotID) AS SoLuong
+--##ITEM | Robot models with more than 2 units in stock (HAVING)
+--##DESC | GROUP BY model and filter HAVING COUNT > 2.
+SELECT rm.ModelName, COUNT(ru.RobotID) AS Quantity
 FROM RobotModel rm
 JOIN RobotUnit ru ON rm.ModelID = ru.ModelID
 GROUP BY rm.ModelName
 HAVING COUNT(ru.RobotID) > 2;
 
---##ITEM | Khach hang chi tieu tren 30 trieu (HAVING)
---##DESC | GROUP BY khach hang va dung HAVING de loc nguoi chi tieu lon.
-SELECT c.FullName, SUM(so.TotalAmount) AS TongChiTieu
+--##ITEM | Customers spending more than 30 million (HAVING)
+--##DESC | GROUP BY customer and use HAVING to filter big spenders.
+SELECT c.FullName, SUM(so.TotalAmount) AS TotalSpending
 FROM Customer c
 JOIN SalesOrder so ON c.CustomerID = so.CustomerID
 GROUP BY c.FullName
 HAVING SUM(so.TotalAmount) > 30000000;
 
---##GROUP | Truy van con (Subquery) trong WHERE / FROM
---##ITEM | Khach hang da tung dat hang
---##DESC | Subquery trong IN: lay khach hang co CustomerID xuat hien trong SalesOrder.
+--##GROUP | Subqueries in WHERE / FROM
+--##ITEM | Customers who have placed an order
+--##DESC | Subquery in IN: get customers whose CustomerID appears in SalesOrder.
 SELECT CustomerID, FullName
 FROM Customer
 WHERE CustomerID IN (SELECT CustomerID FROM SalesOrder);
 
---##ITEM | Robot chua tung duoc ban
---##DESC | Subquery NOT IN: robot khong nam trong bang OrderDetail.
+--##ITEM | Robots never sold
+--##DESC | Subquery NOT IN: robots not present in the OrderDetail table.
 SELECT RobotID, SerialNumber, Status
 FROM RobotUnit
 WHERE RobotID NOT IN (SELECT RobotID FROM OrderDetail);
 
---##ITEM | Mau robot dat hon gia trung binh
---##DESC | Subquery vo huong: so sanh UnitPrice voi gia trung binh toan catalog.
+--##ITEM | Robot models more expensive than average
+--##DESC | Scalar subquery: compare UnitPrice with the catalog-wide average price.
 SELECT ModelName, UnitPrice
 FROM RobotModel
 WHERE UnitPrice > (SELECT AVG(UnitPrice) FROM RobotModel);
 
---##ITEM | Don hang lon hon gia tri trung binh
---##DESC | Subquery vo huong tinh AVG(TotalAmount) roi loc.
+--##ITEM | Orders larger than the average value
+--##DESC | Scalar subquery computing AVG(TotalAmount) then filtering.
 SELECT OrderID, TotalAmount
 FROM SalesOrder
 WHERE TotalAmount > (SELECT AVG(TotalAmount) FROM SalesOrder);
 
---##ITEM | Khach hang chua tung yeu cau dich vu
---##DESC | Subquery NOT IN tren ServiceRequest.
+--##ITEM | Customers who never requested service
+--##DESC | Subquery NOT IN on ServiceRequest.
 SELECT CustomerID, FullName
 FROM Customer
 WHERE CustomerID NOT IN (SELECT CustomerID FROM ServiceRequest);
 
---##ITEM | Nhan vien da tung thuc hien bao tri
---##DESC | Subquery IN tren MaintenanceRecord de lay ky thuat vien co cong viec.
+--##ITEM | Employees who have performed maintenance
+--##DESC | Subquery IN on MaintenanceRecord to get technicians who have work.
 SELECT EmployeeID, FullName, Role
 FROM Employee
 WHERE EmployeeID IN (SELECT TechnicianID FROM MaintenanceRecord);
 
---##ITEM | Doanh thu theo khach hang (subquery trong FROM)
---##DESC | Dung bang dan xuat (derived table) tinh tong chi tieu roi loc nguoi chi tieu > 20 trieu.
-SELECT t.CustomerID, c.FullName, t.TongChiTieu
-FROM (SELECT CustomerID, SUM(TotalAmount) AS TongChiTieu
+--##ITEM | Revenue per customer (subquery in FROM)
+--##DESC | Use a derived table to compute total spending then filter spenders > 20 million.
+SELECT t.CustomerID, c.FullName, t.TotalSpending
+FROM (SELECT CustomerID, SUM(TotalAmount) AS TotalSpending
       FROM SalesOrder GROUP BY CustomerID) t
 JOIN Customer c ON t.CustomerID = c.CustomerID
-WHERE t.TongChiTieu > 20000000;
+WHERE t.TotalSpending > 20000000;
 
---##ITEM | Robot dang co bao hanh
---##DESC | Subquery IN tren WarrantyRegistration.
+--##ITEM | Robots currently under warranty
+--##DESC | Subquery IN on WarrantyRegistration.
 SELECT RobotID, SerialNumber
 FROM RobotUnit
 WHERE RobotID IN (SELECT RobotID FROM WarrantyRegistration);
 
---##ITEM | Don hang gan day nhat
---##DESC | Subquery vo huong dung MAX(OrderDate) trong WHERE.
+--##ITEM | The most recent order
+--##DESC | Scalar subquery using MAX(OrderDate) in WHERE.
 SELECT OrderID, OrderDate, TotalAmount
 FROM SalesOrder
 WHERE OrderDate = (SELECT MAX(OrderDate) FROM SalesOrder);
 
---##ITEM | Mau robot khong con chiec nao "Available"
---##DESC | Subquery NOT IN: mau khong xuat hien trong tap cac mau co robot Available.
+--##ITEM | Robot models with no "Available" unit left
+--##DESC | Subquery NOT IN: models not appearing in the set of models that have Available robots.
 SELECT ModelID, ModelName
 FROM RobotModel
 WHERE ModelID NOT IN (
@@ -923,9 +923,9 @@ WHERE ModelID NOT IN (
 
 --##SECTION | Advanced SQL Queries
 
---##GROUP | Truy van con long nhau (Nested Subqueries)
---##ITEM | Khach hang da mua robot thuong hieu Roborock
---##DESC | Long 4 cap: RobotModel(Brand) -> RobotUnit -> OrderDetail -> SalesOrder de truy ra khach hang.
+--##GROUP | Nested subqueries
+--##ITEM | Customers who bought a Roborock-brand robot
+--##DESC | 4-level nesting: RobotModel(Brand) -> RobotUnit -> OrderDetail -> SalesOrder to trace back to the customer.
 SELECT CustomerID, FullName
 FROM Customer
 WHERE CustomerID IN (
@@ -941,8 +941,8 @@ WHERE CustomerID IN (
     )
 );
 
---##ITEM | Robot tung phat sinh chi phi bao tri co thu tien
---##DESC | Long 2 cap: MaintenanceRecord(fee>0) -> ServiceRequest de lay RobotID.
+--##ITEM | Robots that incurred a paid maintenance cost
+--##DESC | 2-level nesting: MaintenanceRecord(fee>0) -> ServiceRequest to get the RobotID.
 SELECT RobotID, SerialNumber
 FROM RobotUnit
 WHERE RobotID IN (
@@ -952,8 +952,8 @@ WHERE RobotID IN (
     )
 );
 
---##ITEM | Ky thuat vien tung sua robot thuong hieu iRobot
---##DESC | Long nhieu cap qua MaintenanceRecord -> ServiceRequest -> RobotUnit -> RobotModel(Brand).
+--##ITEM | Technicians who repaired an iRobot-brand robot
+--##DESC | Multi-level nesting through MaintenanceRecord -> ServiceRequest -> RobotUnit -> RobotModel(Brand).
 SELECT EmployeeID, FullName
 FROM Employee
 WHERE EmployeeID IN (
@@ -969,16 +969,16 @@ WHERE EmployeeID IN (
     )
 );
 
---##ITEM | Mau robot hien co chiec dang bao tri
---##DESC | Long subquery: lay ModelID cua nhung robot co Status = Under Maintenance.
+--##ITEM | Robot models that currently have a unit under maintenance
+--##DESC | Nested subquery: get the ModelID of robots with Status = Under Maintenance.
 SELECT ModelID, ModelName
 FROM RobotModel
 WHERE ModelID IN (
     SELECT ModelID FROM RobotUnit WHERE Status = N'Under Maintenance'
 );
 
---##ITEM | Khach hang co robot dang con bao hanh hieu luc
---##DESC | Long subquery ket hop dieu kien ngay het han voi danh sach robot da ban.
+--##ITEM | Customers with a robot still under valid warranty
+--##DESC | Nested subquery combining the expiry-date condition with the list of sold robots.
 SELECT CustomerID, FullName
 FROM Customer
 WHERE CustomerID IN (
@@ -986,32 +986,32 @@ WHERE CustomerID IN (
     WHERE EndDate >= CAST(GETDATE() AS DATE)
 );
 
---##ITEM | Khach hang chi tieu cao hon muc trung binh moi khach
---##DESC | Subquery long: so sanh tong chi tieu cua khach voi gia tri trung binh cua tong chi tieu cac khach hang.
-SELECT c.FullName, SUM(so.TotalAmount) AS TongChiTieu
+--##ITEM | Customers spending above the average per customer
+--##DESC | Nested subquery: compare a customer's total spending with the average of all customers' total spending.
+SELECT c.FullName, SUM(so.TotalAmount) AS TotalSpending
 FROM Customer c
 JOIN SalesOrder so ON c.CustomerID = so.CustomerID
 GROUP BY c.FullName
 HAVING SUM(so.TotalAmount) > (
-    SELECT AVG(t.Tong)
-    FROM (SELECT SUM(TotalAmount) AS Tong FROM SalesOrder GROUP BY CustomerID) t
+    SELECT AVG(t.Total)
+    FROM (SELECT SUM(TotalAmount) AS Total FROM SalesOrder GROUP BY CustomerID) t
 );
 
---##GROUP | Su dung EXISTS, IN, ANY/ALL
---##ITEM | Khach hang da tung dat hang (EXISTS)
---##DESC | EXISTS tuong quan: ton tai it nhat 1 don hang cua khach hang dang xet.
+--##GROUP | Using EXISTS, IN, ANY/ALL
+--##ITEM | Customers who have placed an order (EXISTS)
+--##DESC | Correlated EXISTS: at least one order exists for the customer under consideration.
 SELECT c.CustomerID, c.FullName
 FROM Customer c
 WHERE EXISTS (SELECT 1 FROM SalesOrder so WHERE so.CustomerID = c.CustomerID);
 
---##ITEM | Robot chua tung gui log IoT nao (NOT EXISTS)
---##DESC | NOT EXISTS: khong ton tai dong log nao trong DeviceLog cho robot dang xet.
+--##ITEM | Robots that have never sent any IoT log (NOT EXISTS)
+--##DESC | NOT EXISTS: no log row exists in DeviceLog for the robot under consideration.
 SELECT ru.RobotID, ru.SerialNumber
 FROM RobotUnit ru
 WHERE NOT EXISTS (SELECT 1 FROM DeviceLog dl WHERE dl.RobotID = ru.RobotID);
 
---##ITEM | Mau robot co it nhat 1 chiec con san (EXISTS tuong quan)
---##DESC | EXISTS tuong quan voi RobotUnit Status = Available.
+--##ITEM | Robot models with at least 1 available unit (correlated EXISTS)
+--##DESC | Correlated EXISTS with RobotUnit Status = Available.
 SELECT rm.ModelID, rm.ModelName
 FROM RobotModel rm
 WHERE EXISTS (
@@ -1019,57 +1019,57 @@ WHERE EXISTS (
     WHERE ru.ModelID = rm.ModelID AND ru.Status = N'Available'
 );
 
---##ITEM | Robot da ban trong cac don da giao (IN)
---##DESC | IN voi subquery loc cac OrderID co trang thai Delivered.
+--##ITEM | Robots sold in delivered orders (IN)
+--##DESC | IN with a subquery filtering OrderIDs that have Delivered status.
 SELECT RobotID, OrderID, SellingPrice
 FROM OrderDetail
 WHERE OrderID IN (SELECT OrderID FROM SalesOrder WHERE OrderStatus = N'Delivered');
 
---##ITEM | Mau robot dat hon it nhat 1 mau Roborock (ANY)
---##DESC | > ANY: gia lon hon gia thap nhat trong cac mau Roborock.
+--##ITEM | Robot models more expensive than at least 1 Roborock model (ANY)
+--##DESC | > ANY: price greater than the lowest price among Roborock models.
 SELECT ModelName, UnitPrice
 FROM RobotModel
 WHERE UnitPrice > ANY (SELECT UnitPrice FROM RobotModel WHERE Brand = N'Roborock');
 
---##ITEM | Mau robot dat nhat (>= ALL)
---##DESC | >= ALL: gia lon hon hoac bang tat ca cac gia khac, tuc la mau dat nhat.
+--##ITEM | The most expensive robot model (>= ALL)
+--##DESC | >= ALL: price greater than or equal to all others, i.e. the most expensive model.
 SELECT ModelName, UnitPrice
 FROM RobotModel
 WHERE UnitPrice >= ALL (SELECT UnitPrice FROM RobotModel);
 
---##GROUP | Phep toan tap hop (UNION / INTERSECT / EXCEPT)
---##ITEM | Danh ba lien he tong hop (UNION)
---##DESC | UNION gop ten + email cua khach hang va nhan vien thanh mot danh ba duy nhat (loai trung).
-SELECT FullName, Email, N'Customer' AS LoaiNguoiDung FROM Customer
+--##GROUP | Set operations (UNION / INTERSECT / EXCEPT)
+--##ITEM | Combined contact directory (UNION)
+--##DESC | UNION merges names + emails of customers and employees into a single directory (duplicates removed).
+SELECT FullName, Email, N'Customer' AS ContactType FROM Customer
 UNION
 SELECT FullName, Email, N'Employee' FROM Employee;
 
---##ITEM | ID khach hang co phat sinh giao dich (UNION)
---##DESC | UNION cac CustomerID tu don hang va tu yeu cau dich vu (hop cua hai tap).
+--##ITEM | Customer IDs with any transaction (UNION)
+--##DESC | UNION of CustomerIDs from orders and from service requests (union of the two sets).
 SELECT CustomerID FROM SalesOrder
 UNION
 SELECT CustomerID FROM ServiceRequest;
 
---##ITEM | Khach hang vua mua hang vua tung yeu cau dich vu (INTERSECT)
---##DESC | INTERSECT: giao cua tap khach co don hang va tap khach co yeu cau dich vu.
+--##ITEM | Customers who both bought and requested service (INTERSECT)
+--##DESC | INTERSECT: the intersection of customers with orders and customers with service requests.
 SELECT CustomerID FROM SalesOrder
 INTERSECT
 SELECT CustomerID FROM ServiceRequest;
 
---##ITEM | Khach hang mua hang nhung chua tung yeu cau dich vu (EXCEPT)
---##DESC | EXCEPT: hieu cua tap khach co don hang tru di tap khach co yeu cau dich vu.
+--##ITEM | Customers who bought but never requested service (EXCEPT)
+--##DESC | EXCEPT: customers with orders minus customers with service requests.
 SELECT CustomerID FROM SalesOrder
 EXCEPT
 SELECT CustomerID FROM ServiceRequest;
 
---##ITEM | Robot chua tung ban ra (EXCEPT)
---##DESC | EXCEPT: tat ca robot tru di robot da xuat hien trong OrderDetail.
+--##ITEM | Robots never sold (EXCEPT)
+--##DESC | EXCEPT: all robots minus robots that appear in OrderDetail.
 SELECT RobotID FROM RobotUnit
 EXCEPT
 SELECT RobotID FROM OrderDetail;
 
---##ITEM | Robot vua co log IoT vua co yeu cau dich vu (INTERSECT)
---##DESC | INTERSECT: giao cua tap robot co log va tap robot co yeu cau dich vu.
+--##ITEM | Robots with both IoT logs and service requests (INTERSECT)
+--##DESC | INTERSECT: the intersection of robots with logs and robots with service requests.
 SELECT RobotID FROM DeviceLog
 INTERSECT
 SELECT RobotID FROM ServiceRequest;
@@ -1080,8 +1080,8 @@ SELECT RobotID FROM ServiceRequest;
 
 --##SECTION | User-defined Functions
 
---##ITEM | fn_GetWarrantyStatus - kiem tra tinh trang bao hanh cua mot robot
---##DESC | Ham vo huong (scalar) nhan vao RobotID, tra ve "Con bao hanh", "Het bao hanh" hoac "Khong co bao hanh" bang cach so sanh EndDate voi ngay hien tai.
+--##ITEM | fn_GetWarrantyStatus - check the warranty status of a robot
+--##DESC | A scalar function that takes a RobotID and returns "Under Warranty", "Warranty Expired" or "No Warranty" by comparing EndDate with the current date.
 GO
 CREATE FUNCTION dbo.fn_GetWarrantyStatus (@RobotID INT)
 RETURNS NVARCHAR(30)
@@ -1090,19 +1090,19 @@ BEGIN
     DECLARE @End DATE;
     SELECT @End = EndDate FROM WarrantyRegistration WHERE RobotID = @RobotID;
     IF @End IS NULL
-        RETURN N'Khong co bao hanh';
+        RETURN N'No Warranty';
     IF @End >= CAST(GETDATE() AS DATE)
-        RETURN N'Con bao hanh';
-    RETURN N'Het bao hanh';
+        RETURN N'Under Warranty';
+    RETURN N'Warranty Expired';
 END;
 GO
--- Demo: ap dung ham cho tung robot da ban
-SELECT RobotID, SerialNumber, dbo.fn_GetWarrantyStatus(RobotID) AS TinhTrangBaoHanh
+-- Demo: apply the function to each sold robot
+SELECT RobotID, SerialNumber, dbo.fn_GetWarrantyStatus(RobotID) AS WarrantyStatus
 FROM RobotUnit
 WHERE Status <> N'Available';
 
---##ITEM | fn_GetCustomerTotalSpending - tong chi tieu cua mot khach hang
---##DESC | Ham vo huong tinh tong so tien khach hang da thanh toan cho cac don hang (qua Payment + OrderPayment). Dung ISNULL de tra ve 0 neu khach chua thanh toan.
+--##ITEM | fn_GetCustomerTotalSpending - total spending of a customer
+--##DESC | A scalar function computing the total amount a customer has paid for orders (via Payment + OrderPayment). Uses ISNULL to return 0 if the customer has not paid.
 GO
 CREATE FUNCTION dbo.fn_GetCustomerTotalSpending (@CustomerID INT)
 RETURNS DECIMAL(18,2)
@@ -1117,13 +1117,13 @@ BEGIN
     RETURN ISNULL(@Total, 0);
 END;
 GO
--- Demo: liet ke tong chi tieu cua moi khach hang
-SELECT CustomerID, FullName, dbo.fn_GetCustomerTotalSpending(CustomerID) AS TongChiTieu
+-- Demo: list the total spending of each customer
+SELECT CustomerID, FullName, dbo.fn_GetCustomerTotalSpending(CustomerID) AS TotalSpending
 FROM Customer
-ORDER BY TongChiTieu DESC;
+ORDER BY TotalSpending DESC;
 
---##ITEM | fn_GetModelAvailableUnits - so robot con san cua mot mau
---##DESC | Ham vo huong tra ve so luong robot dang o trang thai Available cua mot mau, ho tro nhan vien ban hang kiem tra ton kho nhanh.
+--##ITEM | fn_GetModelAvailableUnits - number of available units of a model
+--##DESC | A scalar function returning the number of robots in Available status for a model, helping salespeople check stock quickly.
 GO
 CREATE FUNCTION dbo.fn_GetModelAvailableUnits (@ModelID INT)
 RETURNS INT
@@ -1136,12 +1136,12 @@ BEGIN
     RETURN @Cnt;
 END;
 GO
--- Demo: ton kho con san theo tung mau
-SELECT ModelID, ModelName, dbo.fn_GetModelAvailableUnits(ModelID) AS SoConSan
+-- Demo: available stock per model
+SELECT ModelID, ModelName, dbo.fn_GetModelAvailableUnits(ModelID) AS AvailableUnits
 FROM RobotModel;
 
---##ITEM | fn_GetMaintenanceHistoryByRobot - lich su bao tri cua mot robot (table-valued)
---##DESC | Ham tra ve bang (inline table-valued function) liet ke toan bo lich su bao tri cua mot robot kem su co, ky thuat vien va phi dich vu.
+--##ITEM | fn_GetMaintenanceHistoryByRobot - maintenance history of a robot (table-valued)
+--##DESC | An inline table-valued function listing the entire maintenance history of a robot, including the issue, technician, and service fee.
 GO
 CREATE FUNCTION dbo.fn_GetMaintenanceHistoryByRobot (@RobotID INT)
 RETURNS TABLE
@@ -1156,7 +1156,7 @@ RETURN
     WHERE sr.RobotID = @RobotID
 );
 GO
--- Demo: lich su bao tri cua robot RobotID = 1
+-- Demo: maintenance history of robot RobotID = 1
 SELECT * FROM dbo.fn_GetMaintenanceHistoryByRobot(1);
 
 /*==============================================================================
@@ -1165,8 +1165,8 @@ SELECT * FROM dbo.fn_GetMaintenanceHistoryByRobot(1);
 
 --##SECTION | Stored Procedures
 
---##ITEM | sp_CreateSalesOrder - tao don ban hang hoan chinh
---##DESC | Thu tuc da buoc trong mot transaction: kiem tra robot con san, tao SalesOrder, them OrderDetail, tao Payment va OrderPayment, va cap nhat ton kho (robot -> Sold). Co TRY/CATCH de rollback khi loi.
+--##ITEM | sp_CreateSalesOrder - create a complete sales order
+--##DESC | A multi-step procedure within a transaction: check that the robot is available, create the SalesOrder, add OrderDetail, create Payment and OrderPayment, and update inventory (robot -> Sold). Uses TRY/CATCH to roll back on error.
 GO
 CREATE PROCEDURE sp_CreateSalesOrder
     @CustomerID    INT,
@@ -1181,7 +1181,7 @@ BEGIN
         BEGIN TRANSACTION;
 
         IF NOT EXISTS (SELECT 1 FROM RobotUnit WHERE RobotID = @RobotID AND Status = N'Available')
-            THROW 50001, N'Robot khong ton tai hoac khong con san de ban.', 1;
+            THROW 50001, N'Robot does not exist or is no longer available for sale.', 1;
 
         DECLARE @OrderID INT, @PaymentID INT;
 
@@ -1192,8 +1192,8 @@ BEGIN
         INSERT INTO OrderDetail (RobotID, OrderID, SellingPrice)
         VALUES (@RobotID, @OrderID, @SellingPrice);
 
-        -- Cap nhat ton kho (trigger trg_OrderDetail_AfterInsert cung dam bao dieu nay
-        -- cho cac lenh INSERT truc tiep; o day cap nhat tuong minh de thu tuc tu chu).
+        -- Update inventory (the trigger trg_OrderDetail_AfterInsert also ensures this
+        -- for direct INSERTs; here we update explicitly so the procedure is self-contained).
         UPDATE RobotUnit SET Status = N'Sold' WHERE RobotID = @RobotID;
 
         INSERT INTO Payment (Amount, PaymentMethod) VALUES (@SellingPrice, @PaymentMethod);
@@ -1209,12 +1209,12 @@ BEGIN
     END CATCH
 END;
 GO
--- Demo: ban robot RobotID = 10 (dang Available) cho khach hang 7
+-- Demo: sell robot RobotID = 10 (Available) to customer 7
 EXEC sp_CreateSalesOrder @CustomerID = 7, @EmployeeID = 1, @RobotID = 10,
                          @SellingPrice = 24000000, @PaymentMethod = N'Credit Card';
 
---##ITEM | sp_RegisterWarranty - dang ky bao hanh cho robot da ban
---##DESC | Thu tuc tu dong tinh ngay het han bao hanh tu thoi han (so thang) cua mau robot. Chan dang ky trung va kiem tra robot ton tai.
+--##ITEM | sp_RegisterWarranty - register a warranty for a sold robot
+--##DESC | A procedure that automatically computes the warranty end date from the model's duration (months). Prevents duplicate registration and checks that the robot exists.
 GO
 CREATE PROCEDURE sp_RegisterWarranty
     @RobotID    INT,
@@ -1226,7 +1226,7 @@ BEGIN
     IF @StartDate IS NULL SET @StartDate = CAST(GETDATE() AS DATE);
 
     IF EXISTS (SELECT 1 FROM WarrantyRegistration WHERE RobotID = @RobotID)
-        THROW 50002, N'Robot nay da duoc dang ky bao hanh.', 1;
+        THROW 50002, N'This robot already has a warranty registration.', 1;
 
     DECLARE @Months INT;
     SELECT @Months = rm.WarrantyDuration
@@ -1234,7 +1234,7 @@ BEGIN
     WHERE ru.RobotID = @RobotID;
 
     IF @Months IS NULL
-        THROW 50003, N'Robot khong ton tai trong he thong.', 1;
+        THROW 50003, N'Robot does not exist in the system.', 1;
 
     DECLARE @End DATE = DATEADD(MONTH, @Months, @StartDate);
     INSERT INTO WarrantyRegistration (RobotID, CustomerID, StartDate, EndDate)
@@ -1243,11 +1243,11 @@ BEGIN
     SELECT @RobotID AS RobotID, @StartDate AS StartDate, @End AS EndDate;
 END;
 GO
--- Demo: dang ky bao hanh cho robot 10 vua ban cho khach hang 7
+-- Demo: register a warranty for robot 10 just sold to customer 7
 EXEC sp_RegisterWarranty @RobotID = 10, @CustomerID = 7;
 
---##ITEM | sp_CompleteMaintenance - ghi nhan hoan tat bao tri
---##DESC | Thu tuc da buoc: kiem tra yeu cau dich vu, neu robot con bao hanh thi mien phi, tao MaintenanceRecord, cap nhat trang thai yeu cau thanh Completed, va tao thanh toan dich vu neu co phat sinh phi. Goi lai ham fn_GetWarrantyStatus.
+--##ITEM | sp_CompleteMaintenance - record completion of maintenance
+--##DESC | A multi-step procedure: check the service request, waive the fee if the robot is under warranty, create a MaintenanceRecord, update the request status to Completed, and create a service payment if a fee applies. Reuses the fn_GetWarrantyStatus function.
 GO
 CREATE PROCEDURE sp_CompleteMaintenance
     @RequestID     INT,
@@ -1262,16 +1262,16 @@ BEGIN
         BEGIN TRANSACTION;
 
         IF NOT EXISTS (SELECT 1 FROM ServiceRequest WHERE RequestID = @RequestID)
-            THROW 50010, N'Yeu cau dich vu khong ton tai.', 1;
+            THROW 50010, N'Service request does not exist.', 1;
         IF EXISTS (SELECT 1 FROM MaintenanceRecord WHERE RequestID = @RequestID)
-            THROW 50011, N'Yeu cau nay da co ban ghi bao tri.', 1;
+            THROW 50011, N'This request already has a maintenance record.', 1;
 
         DECLARE @RobotID INT;
         SELECT @RobotID = RobotID FROM ServiceRequest WHERE RequestID = @RequestID;
 
         DECLARE @Fee DECIMAL(18,2) = @BaseFee;
-        IF dbo.fn_GetWarrantyStatus(@RobotID) = N'Con bao hanh'
-            SET @Fee = 0;   -- bao hanh con hieu luc -> mien phi dich vu
+        IF dbo.fn_GetWarrantyStatus(@RobotID) = N'Under Warranty'
+            SET @Fee = 0;   -- still under warranty -> service is free
 
         DECLARE @RecordID INT;
         INSERT INTO MaintenanceRecord (RequestID, TechnicianID, ActionsTaken, ServiceFee, CompletionDate)
@@ -1297,12 +1297,12 @@ BEGIN
     END CATCH
 END;
 GO
--- Demo: hoan tat yeu cau dich vu RequestID = 7 (robot 6 con bao hanh -> mien phi)
+-- Demo: complete service request RequestID = 7 (robot 6 under warranty -> free)
 EXEC sp_CompleteMaintenance @RequestID = 7, @TechnicianID = 5,
-                            @ActionsTaken = N'Kiem tra va reset loi E150', @BaseFee = 500000;
+                            @ActionsTaken = N'Inspect and reset error E150', @BaseFee = 500000;
 
---##ITEM | sp_GenerateSalesReport - bao cao doanh thu theo mau & khoang thoi gian
---##DESC | Thu tuc nhan khoang ngay va tra ve bao cao tong hop: so luong ban va doanh thu cua tung mau robot trong khoang do, sap xep theo doanh thu giam dan.
+--##ITEM | sp_GenerateSalesReport - revenue report by model & date range
+--##DESC | A procedure that takes a date range and returns a summary report: units sold and revenue for each robot model within that range, sorted by revenue descending.
 GO
 CREATE PROCEDURE sp_GenerateSalesReport
     @FromDate DATE,
@@ -1311,8 +1311,8 @@ AS
 BEGIN
     SET NOCOUNT ON;
     SELECT rm.Brand, rm.ModelName,
-           COUNT(od.RobotID)      AS SoLuongBan,
-           SUM(od.SellingPrice)   AS DoanhThu
+           COUNT(od.RobotID)      AS UnitsSold,
+           SUM(od.SellingPrice)   AS Revenue
     FROM OrderDetail od
     JOIN SalesOrder so ON od.OrderID = so.OrderID
     JOIN RobotUnit  ru ON od.RobotID = ru.RobotID
@@ -1320,10 +1320,10 @@ BEGIN
     WHERE so.OrderDate >= @FromDate
       AND so.OrderDate <  DATEADD(DAY, 1, @ToDate)
     GROUP BY rm.Brand, rm.ModelName
-    ORDER BY DoanhThu DESC;
+    ORDER BY Revenue DESC;
 END;
 GO
--- Demo: bao cao doanh thu tu 01/2024 den 12/2025
+-- Demo: revenue report from 01/2024 to 12/2025
 EXEC sp_GenerateSalesReport @FromDate = '2024-01-01', @ToDate = '2025-12-31';
 
 /*==============================================================================
@@ -1332,8 +1332,8 @@ EXEC sp_GenerateSalesReport @FromDate = '2024-01-01', @ToDate = '2025-12-31';
 
 --##SECTION | Triggers
 
---##ITEM | trg_RobotUnit_AuditStatus - tu dong ghi nhat ky doi trang thai robot
---##DESC | Trigger AFTER UPDATE tren RobotUnit: moi khi cot Status thay doi, tu dong ghi mot dong vao bang RobotStatusAudit (trang thai cu -> moi, thoi diem). Chi ghi khi gia tri thuc su khac nhau.
+--##ITEM | trg_RobotUnit_AuditStatus - automatically log robot status changes
+--##DESC | An AFTER UPDATE trigger on RobotUnit: whenever the Status column changes, it automatically writes a row into the RobotStatusAudit table (old status -> new status, timestamp). It logs only when the values actually differ.
 GO
 CREATE TRIGGER trg_RobotUnit_AuditStatus ON RobotUnit
 AFTER UPDATE
@@ -1347,12 +1347,12 @@ BEGIN
     WHERE i.Status <> d.Status;
 END;
 GO
--- Demo: doi trang thai robot 14 (Available -> Retired) va xem nhat ky
+-- Demo: change robot 14 status (Available -> Retired) and view the audit log
 UPDATE RobotUnit SET Status = N'Retired' WHERE RobotID = 14;
 SELECT * FROM RobotStatusAudit WHERE RobotID = 14;
 
---##ITEM | trg_OrderDetail_AfterInsert - tu dong cap nhat ton kho sau khi ban
---##DESC | Trigger AFTER INSERT tren OrderDetail: khi mot robot duoc them vao chi tiet don hang, tu dong chuyen trang thai robot do sang "Sold". Day la vi du "cap nhat ton kho sau giao dich ban hang".
+--##ITEM | trg_OrderDetail_AfterInsert - automatically update inventory after a sale
+--##DESC | An AFTER INSERT trigger on OrderDetail: when a robot is added to an order line, it automatically changes that robot status to "Sold". This illustrates "updating inventory after a sales transaction".
 GO
 CREATE TRIGGER trg_OrderDetail_AfterInsert ON OrderDetail
 AFTER INSERT
@@ -1366,18 +1366,18 @@ BEGIN
     WHERE ru.Status <> N'Sold';
 END;
 GO
--- Demo: ban robot 12 (dang Available) bang cach chen OrderDetail truc tiep
-SELECT RobotID, Status AS TruocKhiBan FROM RobotUnit WHERE RobotID = 12;
+-- Demo: sell robot 12 (Available) by inserting OrderDetail directly
+SELECT RobotID, Status AS BeforeSale FROM RobotUnit WHERE RobotID = 12;
 DECLARE @demoOrder INT;
 INSERT INTO SalesOrder (CustomerID, EmployeeID, TotalAmount, OrderStatus)
 VALUES (2, 2, 22000000, N'Confirmed');
 SET @demoOrder = SCOPE_IDENTITY();
 INSERT INTO OrderDetail (RobotID, OrderID, SellingPrice) VALUES (12, @demoOrder, 22000000);
-SELECT RobotID, Status AS SauKhiBan FROM RobotUnit WHERE RobotID = 12;       -- -> Sold
-SELECT * FROM RobotStatusAudit WHERE RobotID = 12;                           -- audit ghi nhan
+SELECT RobotID, Status AS AfterSale FROM RobotUnit WHERE RobotID = 12;       -- -> Sold
+SELECT * FROM RobotStatusAudit WHERE RobotID = 12;                           -- audit captured
 
---##ITEM | trg_PreventDeleteCustomerWithOrders - chan xoa khach hang con rang buoc
---##DESC | Trigger INSTEAD OF DELETE tren Customer: khong cho xoa khach hang neu ho con don hang hoac yeu cau dich vu (bao ve ban ghi cha). Neu hop le thi moi thuc hien xoa.
+--##ITEM | trg_PreventDeleteCustomerWithOrders - block deletion of referenced customers
+--##DESC | An INSTEAD OF DELETE trigger on Customer: it disallows deleting a customer who still has orders or service requests (protecting parent records). It performs the delete only when valid.
 GO
 CREATE TRIGGER trg_PreventDeleteCustomerWithOrders ON Customer
 INSTEAD OF DELETE
@@ -1387,25 +1387,25 @@ BEGIN
     IF EXISTS (SELECT 1 FROM SalesOrder so JOIN deleted d ON so.CustomerID = d.CustomerID)
        OR EXISTS (SELECT 1 FROM ServiceRequest sr JOIN deleted d ON sr.CustomerID = d.CustomerID)
     BEGIN
-        RAISERROR(N'Khong the xoa khach hang dang co don hang hoac yeu cau dich vu.', 16, 1);
+        RAISERROR(N'Cannot delete a customer who has orders or service requests.', 16, 1);
         RETURN;
     END
     DELETE FROM Customer WHERE CustomerID IN (SELECT CustomerID FROM deleted);
 END;
 GO
--- Demo: (a) xoa khach hang khong rang buoc -> thanh cong; (b) xoa khach co don hang -> bi chan
+-- Demo: (a) delete an unreferenced customer -> success; (b) delete a customer with orders -> blocked
 INSERT INTO Customer (FullName, PhoneNumber, Email, Password)
-VALUES (N'Khach Tam Demo', '0900000099', N'tam.demo@gmail.com', N'temp');
-DELETE FROM Customer WHERE Email = N'tam.demo@gmail.com';   -- thanh cong
+VALUES (N'Temp Demo Customer', '0900000099', N'tam.demo@gmail.com', N'temp');
+DELETE FROM Customer WHERE Email = N'tam.demo@gmail.com';   -- success
 BEGIN TRY
-    DELETE FROM Customer WHERE CustomerID = 1;               -- bi trigger chan
+    DELETE FROM Customer WHERE CustomerID = 1;               -- blocked by trigger
 END TRY
 BEGIN CATCH
     PRINT ERROR_MESSAGE();
 END CATCH
 
---##ITEM | trg_Maintenance_AfterInsert - ap dung quy tac bao hanh & dong bo trang thai
---##DESC | Trigger AFTER INSERT tren MaintenanceRecord: (1) neu robot con bao hanh tai thoi diem bao tri thi tu dong dat ServiceFee = 0 (mien phi theo bao hanh); (2) khi co ngay hoan tat thi tu dong cap nhat yeu cau dich vu lien quan sang trang thai Completed.
+--##ITEM | trg_Maintenance_AfterInsert - apply the warranty rule & sync status
+--##DESC | An AFTER INSERT trigger on MaintenanceRecord: (1) if the robot is under warranty at the time of maintenance, it automatically sets ServiceFee = 0 (free under warranty); (2) when a completion date is present, it automatically updates the related service request to Completed status.
 GO
 CREATE TRIGGER trg_Maintenance_AfterInsert ON MaintenanceRecord
 AFTER INSERT
@@ -1429,14 +1429,14 @@ BEGIN
     WHERE i.CompletionDate IS NOT NULL;
 END;
 GO
--- Demo: tao yeu cau moi cho robot 6 (con bao hanh) roi chen ban ghi bao tri co phi 600000
+-- Demo: create a new request for robot 6 (under warranty) then insert a maintenance record with fee 600000
 DECLARE @demoReq INT;
 INSERT INTO ServiceRequest (RobotID, CustomerID, IssueDescription, Status)
-VALUES (6, 4, N'Bao duong dinh ky trong han bao hanh', N'Assigned');
+VALUES (6, 4, N'Periodic maintenance within warranty', N'Assigned');
 SET @demoReq = SCOPE_IDENTITY();
 INSERT INTO MaintenanceRecord (RequestID, TechnicianID, ActionsTaken, ServiceFee, CompletionDate)
-VALUES (@demoReq, 5, N'Bao duong dinh ky', 600000, GETDATE());
--- Ket qua: ServiceFee bi trigger dat ve 0 (con bao hanh) va yeu cau -> Completed
+VALUES (@demoReq, 5, N'Periodic maintenance', 600000, GETDATE());
+-- Result: ServiceFee set to 0 by the trigger (under warranty) and the request -> Completed
 SELECT mr.RecordID, mr.ServiceFee, sr.Status
 FROM MaintenanceRecord mr JOIN ServiceRequest sr ON mr.RequestID = sr.RequestID
 WHERE mr.RequestID = @demoReq;
@@ -1447,9 +1447,9 @@ WHERE mr.RequestID = @demoReq;
 
 --##SECTION | Views and Indexes
 
---##GROUP | Views - khung nhin don gian hoa truy van phuc tap
---##ITEM | vw_RobotInventory - ton kho robot kem tinh trang bao hanh
---##DESC | View tong hop tung robot voi thuong hieu, ten mau, gia, trang thai va tinh trang bao hanh (goi ham fn_GetWarrantyStatus). Giup nhan vien tra cuu ton kho nhanh chong.
+--##GROUP | Views - simplifying complex queries
+--##ITEM | vw_RobotInventory - robot inventory with warranty status
+--##DESC | A view aggregating each robot with brand, model name, price, status and warranty status (calling fn_GetWarrantyStatus). Helps staff look up inventory quickly.
 GO
 CREATE VIEW vw_RobotInventory AS
 SELECT ru.RobotID, ru.SerialNumber, rm.Brand, rm.ModelName, rm.UnitPrice,
@@ -1457,11 +1457,11 @@ SELECT ru.RobotID, ru.SerialNumber, rm.Brand, rm.ModelName, rm.UnitPrice,
 FROM RobotUnit ru
 JOIN RobotModel rm ON ru.ModelID = rm.ModelID;
 GO
--- Demo: xem toan bo ton kho qua view
+-- Demo: view the entire inventory through the view
 SELECT * FROM vw_RobotInventory ORDER BY RobotID;
 
---##ITEM | vw_SalesOrderSummary - tom tat don hang kem so tien da thanh toan
---##DESC | View ghep don hang voi ten khach hang, nhan vien ban va tong so tien da thanh toan (subquery), giup bao cao ban hang ma khong can viet lai cac phep JOIN phuc tap.
+--##ITEM | vw_SalesOrderSummary - order summary with amount paid
+--##DESC | A view joining orders with customer name, salesperson and total amount paid (subquery), enabling sales reporting without rewriting complex JOINs.
 GO
 CREATE VIEW vw_SalesOrderSummary AS
 SELECT so.OrderID, c.FullName AS CustomerName, e.FullName AS SalesStaff,
@@ -1473,11 +1473,11 @@ FROM SalesOrder so
 JOIN Customer c ON so.CustomerID = c.CustomerID
 JOIN Employee e ON so.EmployeeID = e.EmployeeID;
 GO
--- Demo: xem tom tat tat ca don hang
+-- Demo: view the summary of all orders
 SELECT * FROM vw_SalesOrderSummary ORDER BY OrderID;
 
---##ITEM | vw_MaintenanceDetails - chi tiet bao tri day du
---##DESC | View ghep ban ghi bao tri voi robot, khach hang, ky thuat vien va mo ta su co, giup quan ly theo doi lich su bao tri ma chi can truy van mot doi tuong duy nhat.
+--##ITEM | vw_MaintenanceDetails - full maintenance details
+--##DESC | A view joining maintenance records with robot, customer, technician and issue description, helping managers track maintenance history by querying a single object.
 GO
 CREATE VIEW vw_MaintenanceDetails AS
 SELECT mr.RecordID, ru.SerialNumber, rm.ModelName, c.FullName AS Customer,
@@ -1489,31 +1489,31 @@ JOIN RobotModel rm     ON ru.ModelID = rm.ModelID
 JOIN Customer c        ON sr.CustomerID = c.CustomerID
 JOIN Employee tech     ON mr.TechnicianID = tech.EmployeeID;
 GO
--- Demo: xem chi tiet bao tri qua view
+-- Demo: view maintenance details through the view
 SELECT * FROM vw_MaintenanceDetails ORDER BY RecordID;
 
---##GROUP | Indexes - chi muc tang toc truy van
---##ITEM | IX_RobotUnit_Status - chi muc don cot
---##DESC | Chi muc khong gom cum tren mot cot RobotUnit(Status), tang toc cac truy van loc/thong ke theo trang thai ton kho (vi du dem so robot Available).
+--##GROUP | Indexes - speeding up queries
+--##ITEM | IX_RobotUnit_Status - single-column index
+--##DESC | A non-clustered index on the single column RobotUnit(Status), speeding up queries that filter/aggregate by inventory status (e.g. counting Available robots).
 GO
 CREATE NONCLUSTERED INDEX IX_RobotUnit_Status ON RobotUnit(Status);
 GO
--- Demo: truy van huong loi nho chi muc nay (xem Actual Execution Plan trong SSMS)
+-- Demo: a query that benefits from this index (see the Actual Execution Plan in SSMS)
 SELECT RobotID, ModelID, SerialNumber FROM RobotUnit WHERE Status = N'Available';
 
---##ITEM | IX_SalesOrder_Customer_Date - chi muc ghep (composite)
---##DESC | Chi muc ghep tren SalesOrder(CustomerID, OrderDate) toi uu cac truy van tra cuu don hang theo tung khach hang trong mot khoang thoi gian (vi du lich su mua hang).
+--##ITEM | IX_SalesOrder_Customer_Date - composite index
+--##DESC | A composite index on SalesOrder(CustomerID, OrderDate) optimizing queries that look up a customer orders within a date range (e.g. purchase history).
 GO
 CREATE NONCLUSTERED INDEX IX_SalesOrder_Customer_Date ON SalesOrder(CustomerID, OrderDate);
 GO
--- Demo: truy van loc theo khach hang va thoi gian
+-- Demo: a query filtering by customer and time
 SELECT OrderID, OrderDate, TotalAmount
 FROM SalesOrder
 WHERE CustomerID = 1 AND OrderDate >= '2024-01-01'
 ORDER BY OrderDate;
 
---##ITEM | IX_ServiceRequest_Status - chi muc don cot (bo sung)
---##DESC | Chi muc tren ServiceRequest(Status) giup tang toc viec liet ke cac yeu cau dich vu dang cho xu ly (Pending/Assigned/In Progress).
+--##ITEM | IX_ServiceRequest_Status - single-column index (additional)
+--##DESC | An index on ServiceRequest(Status) helps speed up listing service requests awaiting handling (Pending/Assigned/In Progress).
 GO
 CREATE NONCLUSTERED INDEX IX_ServiceRequest_Status ON ServiceRequest(Status);
 GO

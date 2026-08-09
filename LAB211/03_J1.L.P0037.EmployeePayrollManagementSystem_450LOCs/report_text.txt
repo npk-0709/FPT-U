@@ -1,0 +1,513 @@
+﻿
+Contents
+1. Project Overview2
+Main Features:2
+Access Control (Authorization):2
+Data Constraints:3
+Meal Allowance Constraints (Phu cap an):3
+2. Class Diagram & UML4
+2.1. Class Diagram4
+Class Relationships:4
+2.2. Use Case Diagram5
+4. Class Descriptions5
+4.1. Model Layer5
+4.2. Factory Layer7
+4.3. Tools Layer7
+4.4. Business Layer7
+4.5. Presentation Layer8
+5. How to Run the Program9
+5.1. System Requirements9
+5.2. Running with IDE (IntelliJ IDEA)9
+5.4. Default Accounts9
+5.5. Startup / Login Screen9
+6. Feature Usage Guide10
+6.0. Login & Authorization10
+10
+6.1. Feature 1: Load employee data from file10
+11
+6.2. Feature 2: Add a new employee (Admin only)11
+11
+6.3. Feature 3: Update employee information (Admin only)11
+6.4. Feature 4: Remove an employee by ID (Admin only)12
+6.5. Feature 5: Search employees by attribute12
+6.6. Feature 6: Calculate monthly payroll12
+6.7. Feature 7: Display employee list13
+6.8. Feature 8: Save data to file (Admin only)13
+6.9. Feature 9: Meal allowance management (Phu cap an)14
+6.10. Feature 10: Quit program14
+7. OOP Concepts Applied15
+8. Conclusion15
+8.1. Achievements15
+8.2. Challenges & Solutions15
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1. Project Overview
+The "Employee Payroll Management System" project (J1.L.P0037) is a console-based application developed in Java following the Object-Oriented Programming (OOP) approach. It manages employee information and calculates the monthly payroll. The system also includes a role-based authorization layer: users must log in, and each role (Admin or Staff) is granted access to a specific set of functions. Employee records are stored in a text file (employees.txt), and the system supports loading, adding, updating, removing, searching, payroll calculation, displaying and saving data safely.
+In addition to payroll, the system provides a Meal Allowance (Phu cap an) sub-module (Feature 9): a separate CRUD menu that manages per-employee monthly meal allowances, stored in its own data file (meal_allowances.txt). The main menu therefore now offers 10 features (Quit is Feature 10).
+Main Features:
+#
+Feature
+Target
+Access
+-
+Login (role-based authentication)
+Security
+All users
+1
+Load employee data from file
+System / File
+Admin, Staff
+2
+Add a new employee
+Employee
+Admin
+3
+Update employee information
+Employee
+Admin
+4
+Remove an employee by ID
+Employee
+Admin
+5
+Search employees by attribute
+Employee
+Admin, Staff
+6
+Calculate monthly payroll (active only)
+Payroll
+Admin, Staff
+7
+Display employee list
+Employee
+Admin, Staff
+8
+Save data to file
+System / File
+Admin
+9
+Meal allowance management (Phu cap an)
+Payroll / Allowance
+Admin, Staff
+10
+Quit program (confirm saving)
+System
+Admin, Staff
+Access Control (Authorization):
+Each role is mapped to a set of allowed features. The check is polymorphic: the menu asks the account object whether it can access a feature, without any if-else on the role.
+Role
+Allowed Features
+Description
+Admin
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10
+Full access (all functions, incl. meal allowance)
+Staff
+1, 5, 6, 7, 9, 10
+Read-only on payroll + full meal allowance (load, search, payroll, display, meal allowance, quit)
+Data Constraints:
+Attribute
+Constraint
+Valid example
+id
+Format ^E\d{3}$ (E001..E999), non-empty, unique
+E001
+name
+Non-empty
+David Miller
+role
+One of: Developer / Tester / Manager / HR
+Developer
+baseSalary
+Positive double ( > 0 )
+1300
+workingDays
+Integer in range 0 - 26
+21
+bonus
+Double >= 0
+250
+status
+active or inactive
+active
+
+Salary formula (not given by the assignment - self-defined and justified):
+salary = baseSalary / 26 * workingDays   (salary by working days)       + bonus       + roleAllowance()                  (role-based allowance - polymorphic)roleAllowance:  Developer 10%*base | Tester 5%*base                Manager 20%*base + 200 | HR 8%*base
+Note: 26 is the standard maximum working days defined in the assignment. The monthly payroll (Feature 6) only sums salaries of employees whose status is active.
+Meal Allowance Constraints (Phu cap an):
+The Meal Allowance module manages per-employee monthly meal allowances. Each record links to an existing employee and a specific month.
+Attribute
+Constraint
+Valid example
+id
+Format ^ML-\d{4}$ (ML-0001..ML-9999), unique
+ML-0001
+employeeId
+Match ^E\d{3}$ AND must exist in the employee list
+E001
+month
+Format MM/yyyy (month 01-12)
+06/2026
+days
+Integer in range 0 - 26
+22
+(employeeId, month)
+Composite key - unique (one record per employee per month)
+E001 + 06/2026
+Meal allowance formula (self-defined):
+amount = days * UNIT_PRICE,  where UNIT_PRICE = 30,000 / day (constant defined in MealAllowance).
+2. Class Diagram & UML
+2.1. Class Diagram
+The Class Diagram below illustrates the relationships between all classes in the system (employee model + authorization model).
+
+Class Relationships:
+Relationship
+From
+To
+Type
+Implementation
+Employee
+Payable
+implements
+Inheritance
+Developer / Tester / Manager / HR
+Employee
+extends
+Inheritance
+Admin / Staff
+Account
+extends
+Association
+EmployeeManager
+List<Employee>
+has-a
+Association
+AuthService
+List<Account>
+has-a
+Dependency
+EmployeeManager
+EmployeeFactory
+uses
+Dependency
+Main
+EmployeeManager / AuthService
+uses
+2.2. Use Case Diagram
+The Use Case Diagram shows all system functions from the user's perspective, including login and role-based access.
+
+4. Class Descriptions
+4.1. Model Layer
+Payable.java (Interface)
+Declares the calculateSalary() contract, demonstrating polymorphism: clients depend on Payable, not concrete classes.
+Employee.java (Abstract Class)
+Abstract base class holding the common state and defining the abstract methods getRole() and roleAllowance() for subclass-specific behaviour (Abstraction).
+Member
+Type
+Description
+-id
+String (private)
+Unique identifier (E\d{3})
+-name / -status
+String
+Name; active/inactive
+-baseSalary / -bonus
+double
+Base salary ( > 0 ); bonus ( >= 0 )
+-workingDays
+int
+Working days (0-26)
++getRole()
+abstract String
+Role name - Polymorphism
++roleAllowance()
+abstract double
+Role allowance - Polymorphism
++calculateSalary()
+double
+Template salary formula (uses roleAllowance)
++isActive()
+boolean
+True if status is active
++toDataLine() / toString()
+String
+File format / table display
++equals() / hashCode()
+boolean / int
+Compare by employee ID
+Developer / Tester / Manager / HR (extends Employee)
+Four subclasses that inherit Employee and override roleAllowance() and getRole() (Inheritance + Polymorphism).
+Subclass
+roleAllowance()
+Developer
+0.10 * baseSalary
+Tester
+0.05 * baseSalary
+Manager
+0.20 * baseSalary + 200
+HR
+0.08 * baseSalary
+Account.java (Abstract Class) - Authorization
+Abstract base class representing a user account. Holds username/password and defines the abstract methods getRole() and getAllowedFeatures(). The canAccess(feature) method is polymorphic, so the menu never needs an if-else on the role.
+Member
+Type
+Description
+-username / -password
+String (private)
+Login credentials (Encapsulation)
++getRole()
+abstract String
+Role name - Polymorphism
++getAllowedFeatures()
+abstract Set<Integer>
+Allowed feature numbers - Polymorphism
++canAccess(feature)
+boolean
+True if the feature is allowed for this role
++matches(user, pass)
+boolean
+Credential check for login
+Admin / Staff (extends Account)
+Subclass
+getAllowedFeatures()
+Admin
+{1,2,3,4,5,6,7,8,9,10} - full access
+Staff
+{1,5,6,7,9,10} - read-only payroll + meal allowance
+MealAllowance.java (Entity) - Meal Allowance module
+Represents a monthly meal allowance for one employee. Encapsulates id, employeeId, month and days, and computes amount = days * UNIT_PRICE. Uniqueness is defined by the composite key (employeeId, month) via overridden equals()/hashCode() (Encapsulation).
+Member
+Type
+Description
+UNIT_PRICE / MAX_DAYS
+static final
+30,000 per day; maximum 26 days
+-id
+String (private)
+Unique meal allowance id (ML-\d{4})
+-employeeId / -month
+String (private)
+Linked employee id; month (MM/yyyy)
+-days
+int (private)
+Number of meal days (0-26)
++getAmount()
+double
+days * UNIT_PRICE
++setDays(days)
+void
+Update days within [0,26] (recalculates amount)
++sameKey(empId, month)
+boolean
+Composite-key match
++toDataLine() / toString()
+String
+File format / table display
++equals() / hashCode()
+boolean / int
+Compare by (employeeId, month)
+4.2. Factory Layer
+EmployeeFactory.java
+Centralizes object creation: maps a role string to the correct Employee subclass. Adding a new role only requires one new subclass and one factory branch (Open/Closed Principle).
+4.3. Tools Layer
+Validator.java
+Centralizes all validation rules in one place (Pattern Recognition): ID_REGEX (E\d{3}), ROLES, STATUSES, and range checks. It also validates the Meal Allowance module: MEAL_ALLOWANCE_ID_REGEX (ML-\d{4}), MONTH_REGEX (MM/yyyy), and the meal-day range (0-26).
+Inputter.java
+Utility class for keyboard input with built-in validation loops:
+Method
+Description
+inputInt(prompt, min, max)
+Input integer within [min, max]
+inputByRegex(prompt, regex, err)
+Input string matching a regex
+inputInSet(prompt, allowed)
+Input a value within an allowed set
+inputNonEmpty / inputPositiveDouble / inputNonNegativeDouble
+Constrained inputs
+inputOptional(prompt)
+Optional input (Enter to keep current value)
+confirmYesNo(prompt)
+Y/N confirmation
+4.4. Business Layer
+EmployeeManager.java
+Manages the List<Employee> and the employee features (1-8) plus quit. Uses a dirty flag to track unsaved changes.
+Method
+Function
+load()
+Read employees.txt; skip & count invalid lines safely
+add() / update() / remove()
+CRUD with validation; confirm before remove
+searchByAttribute()
+Search by ID / Name / Role / Status (substring)
+monthlyPayroll()
+Sum salary of active employees (polymorphic)
+display() / save()
+Table display / write back to file
+quit()
+Confirm saving before exit (dirty flag)
+AuthService.java
+Manages the List<Account> and the login process (max 3 attempts).
+Method
+Function
+login()
+Prompt credentials, authenticate, return the Account or null
+authenticate(user, pass)
+Find a matching account in the list
+MealAllowanceManager.java
+Manages the List<MealAllowance> and the meal allowance sub-menu (its own CRUD loop with 6 options). Holds a reference to EmployeeManager to verify that an employee exists before creating an allowance (association). Uses its own dirty flag and a separate data file (meal_allowances.txt).
+Method
+Function
+run()
+Load data, then loop the 6-option meal allowance sub-menu
+load()
+Read meal_allowances.txt; skip & count invalid lines safely
+add()
+Create a record; validate id/employeeId/month/days; reject duplicates
+display() / update() / remove()
+Print table / update days (recompute amount) / delete by id (confirm)
+save()
+Write all records back to meal_allowances.txt
+4.5. Presentation Layer
+Main.java
+Main entry point. Requires login first; then runs the 10-feature menu loop (including the meal allowance sub-menu) and checks currentUser.canAccess(choice) before executing each feature. Sets Locale.US for consistent number formatting.
+5. How to Run the Program
+5.1. System Requirements
+JDK 1.8 or higher (installed and JAVA_HOME configured)
+IDE: IntelliJ IDEA / Eclipse / NetBeans (IntelliJ recommended)
+OS: Windows / macOS / Linux
+5.2. Running with IDE (IntelliJ IDEA)
+Open Netbean -> File -> Open -> select the EmployeePayrollManagementSystem folder
+Wait for the IDE to finish indexing all Java files
+Open file src/main/Main.java
+Right-click on Main.java -> select "Run 'Main.main()'"
+The program will run in the IDE's Console window5.3. Running with Command Line
+Step 1: Open Terminal and navigate to the project directory.
+Step 2: Compile all Java files:
+javac -encoding UTF-8 -d out -sourcepath src src/main/Main.java
+Step 3: Run the program:
+java -cp out main.Main
+5.4. Default Accounts
+Username
+Password
+Role
+admin
+admin123
+Admin (full access)
+staff
+staff123
+Staff (read-only)
+5.5. Startup / Login Screen
+On startup the system asks the user to log in, then displays the menu. Functions outside the current role are marked [locked].
+===== LOGIN =====Username: adminPassword: admin123Login successful. Welcome admin (Admin).===== EMPLOYEE PAYROLL MANAGEMENT SYSTEM =====Logged in as: admin (Admin)----------------------------------------------==============================================
+6. Feature Usage Guide
+6.0. Login & Authorization
+On startup, enter a username and password. After 3 failed attempts the program exits. Once logged in, the menu shows all 10 features but marks the ones outside your role as [locked]; selecting a locked feature shows "Access denied".
+
+6.1. Feature 1: Load employee data from file
+Enter 1 -> Reads employees.txt line by line. Invalid lines (wrong field count, bad number, failed validation, or duplicate ID) are skipped safely and counted. Example: "Loaded 11 record(s), skipped 3 invalid line(s)."
+
+6.2. Feature 2: Add a new employee (Admin only)
+Enter 2 -> Input the following fields (each validated; invalid input is re-prompted):
+Employee ID (Exxx) - format validated, duplicates rejected
+Name - non-empty
+Role - Developer/Tester/Manager/HR
+Base salary - must be positive
+Working days - 0 to 26
+Bonus - >= 0
+Status - active/inactive
+If all fields are valid -> "Employee added successfully."
+
+6.3. Feature 3: Update employee information (Admin only)
+Enter 3 -> Input Employee ID -> Update role, salary, working days, bonus, status. Press Enter to keep the current value. Changing the role re-creates the object as the correct subclass via the factory.
+6.4. Feature 4: Remove an employee by ID (Admin only)
+Enter 4 -> Input Employee ID -> Confirm (Y/N). Employee removed, or "This employee does not exist!" / "Cancelled.".
+6.5. Feature 5: Search employees by attribute
+Enter 5 -> Choose attribute (1.ID 2.Name 3.Role 4.Status) -> Input keyword -> Displays all matching employees (case-insensitive substring match).
+
+6.6. Feature 6: Calculate monthly payroll
+Enter 6 -> Displays each active employee with their computed salary (polymorphic calculateSalary()), then the TOTAL payroll. Inactive employees are skipped.
+
+6.7. Feature 7: Display employee list
+Enter 7 -> Displays all employees in a formatted table (ID | Name | Role | Base | Day | Bonus | Status | Salary).
+
+6.8. Feature 8: Save data to file (Admin only)
+Enter 8 -> Writes all employees back to employees.txt in the 7-field format. Example: "Data saved to 'employees.txt' (N record(s))."
+
+6.9. Feature 9: Meal allowance management (Phu cap an)
+Enter 9 -> Opens the Meal Allowance sub-menu. The module first loads meal_allowances.txt, shows the unit price (30,000 / day), then loops its own 6-option menu:
+Create meal allowance - input id (ML-xxxx), employee id (must exist), month (MM/yyyy) and days (0-26); duplicates are rejected and the computed amount is shown.
+Read - print all records in a table (ID | EmpID | Month | Day | Amount).
+Update days - input id, then new days; the amount is recalculated automatically.
+Delete by id - input id, then confirm (Y/N).
+Save to file - write all records to meal_allowances.txt.
+Back to main menu - prompts to save if there are unsaved changes.
+
+6.10. Feature 10: Quit program
+Enter 10 -> If unsaved changes are detected (dirty flag), prompts "Save before exit? (Y/N)". Then exits with "Goodbye!".
+
+7. OOP Concepts Applied
+OOP Concept
+Application
+Specific Example
+Abstraction
+Abstract base classes define common interfaces
+Employee.roleAllowance(); Account.getAllowedFeatures(); interface Payable
+Inheritance
+Subclasses reuse base state and behaviour
+Developer extends Employee; Admin extends Account
+Polymorphism
+Overridden methods drive behaviour without if-else
+calculateSalary() uses roleAllowance(); menu uses canAccess()
+Encapsulation
+Private fields with controlled access
+Employee.setWorkingDays() (0-26); Account hides password
+Open/Closed
+Extend without modifying existing logic
+Add a new role/account = one new subclass only
+Association / Dependency
+One manager uses another to validate references
+MealAllowanceManager -> EmployeeManager.exists() before creating a record
+8. Conclusion
+8.1. Achievements
+Implemented all core features for employee management and payroll (Features 1-8, 10).
+Added a role-based authorization layer (login + Admin/Staff permissions).
+Applied OOP principles to both the employee model and the authorization model.
+Strict validation: regex (ID), value ranges, role/status sets, unique ID.
+Polymorphic salary calculation and polymorphic access control (no if-else on role).
+Monthly payroll counts active employees only.
+Safe file loading: malformed lines are skipped and reported, never crashing.
+Added a Meal Allowance (Phu cap an) module: its own CRUD sub-menu, ML-id and MM/yyyy validation, composite-key uniqueness (employee + month), amount = days x 30,000, and a check that the linked employee exists.
+8.2. Challenges & Solutions
+Challenge
+Solution
+Different allowance per role without if-else
+Abstract Employee + roleAllowance() overridden in each subclass
+Role-based access without if-else on role
+Abstract Account + getAllowedFeatures() overridden; menu calls canAccess()
+Salary formula not provided by the assignment
+Self-defined a transparent formula and justified it
+Reading a file that may contain erroneous data
+try-catch + field-count + per-field validation; skip & count invalid lines
+Inconsistent number formatting across locales
+Locale.setDefault(Locale.US)
+Linking a meal allowance to an existing employee
+MealAllowanceManager keeps a reference to EmployeeManager and checks exists(employeeId) before creating
+Preventing duplicate meal allowance per month
+Composite key (employeeId, month) via equals()/hashCode() + existsKey() check
+

@@ -1,0 +1,38 @@
+.footer {
+    background-color: rgb(28, 194, 194);
+    color: white;
+    text-align: center;
+    clear: both;
+}
+
+.navbar {
+    background-color: rgb(28, 194, 194);
+
+}
+
+.nav {
+    margin-right: auto;
+    margin-left: auto
+}
+
+.logo {
+    text-align: center;
+}
+
+.sub-title {
+    color: rgb(28, 194, 194);
+    clear: both;
+    text-align: center;
+}
+
+.sub2-title {
+    color: rgb(255, 196, 0);
+}
+
+.icon-chat {
+    text-align: right;
+}
+
+.colmd6 {
+    width: 50%
+}

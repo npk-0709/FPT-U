@@ -1,0 +1,168 @@
+<mxfile>
+  <diagram name="Use Case Diagram">
+    <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="sys" value="Football Club &amp; Player Management System" style="shape=rect;html=1;whiteSpace=wrap;verticalAlign=top;fontStyle=1;fontSize=14;rounded=1;arcSize=2;" vertex="1" parent="1">
+          <mxGeometry x="200" y="10" width="900" height="1060" as="geometry"/>
+        </mxCell>
+        <mxCell id="4" value="User
+(Manager)" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="60" y="460" width="50" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="5" value="&lt;b&gt;Club Management&lt;/b&gt;" style="text;html=1;align=left;verticalAlign=top;fontSize=13;fillColor=none;strokeColor=none;" vertex="1" parent="sys">
+          <mxGeometry x="30" y="30" width="200" height="25" as="geometry"/>
+        </mxCell>
+        <mxCell id="6" value="&lt;b&gt;Player Management&lt;/b&gt;" style="text;html=1;align=left;verticalAlign=top;fontSize=13;fillColor=none;strokeColor=none;" vertex="1" parent="sys">
+          <mxGeometry x="30" y="280" width="200" height="25" as="geometry"/>
+        </mxCell>
+        <mxCell id="7" value="&lt;b&gt;Youth Player Management&lt;/b&gt;" style="text;html=1;align=left;verticalAlign=top;fontSize=13;fillColor=none;strokeColor=none;" vertex="1" parent="sys">
+          <mxGeometry x="30" y="560" width="250" height="25" as="geometry"/>
+        </mxCell>
+        <mxCell id="8" value="&lt;b&gt;System&lt;/b&gt;" style="text;html=1;align=left;verticalAlign=top;fontSize=13;fillColor=none;strokeColor=none;" vertex="1" parent="sys">
+          <mxGeometry x="30" y="830" width="200" height="25" as="geometry"/>
+        </mxCell>
+        <mxCell id="9" value="" style="line;strokeWidth=1;fillColor=none;html=1;" vertex="1" parent="sys">
+          <mxGeometry x="20" y="270" width="860" height="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="10" value="" style="line;strokeWidth=1;fillColor=none;html=1;" vertex="1" parent="sys">
+          <mxGeometry x="20" y="550" width="860" height="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="11" value="" style="line;strokeWidth=1;fillColor=none;html=1;" vertex="1" parent="sys">
+          <mxGeometry x="20" y="820" width="860" height="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="12" value="1. List all clubs" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;arcSize=10;fontStyle=1;" vertex="1" parent="sys">
+          <mxGeometry x="60" y="70" width="210" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="13" value="2. Add a new club" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;arcSize=10;fontStyle=1;" vertex="1" parent="sys">
+          <mxGeometry x="340" y="70" width="210" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="14" value="3. Search club
+by ID" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;arcSize=10;fontStyle=1;" vertex="1" parent="sys">
+          <mxGeometry x="620" y="70" width="210" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="15" value="4. Update club
+by ID" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;arcSize=10;fontStyle=1;" vertex="1" parent="sys">
+          <mxGeometry x="140" y="155" width="210" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="16" value="5. List clubs by
+budget filter" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;arcSize=10;fontStyle=1;" vertex="1" parent="sys">
+          <mxGeometry x="460" y="155" width="210" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="17" value="6. List players
+sorted" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;arcSize=10;fontStyle=1;" vertex="1" parent="sys">
+          <mxGeometry x="60" y="320" width="210" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="18" value="7. Search players
+by name" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;arcSize=10;fontStyle=1;" vertex="1" parent="sys">
+          <mxGeometry x="340" y="320" width="210" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="19" value="8. Add a new
+player" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;arcSize=10;fontStyle=1;" vertex="1" parent="sys">
+          <mxGeometry x="620" y="320" width="210" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="20" value="9. Remove player
+by ID" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;arcSize=10;fontStyle=1;" vertex="1" parent="sys">
+          <mxGeometry x="60" y="410" width="210" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="21" value="10. Update player
+by ID" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;arcSize=10;fontStyle=1;" vertex="1" parent="sys">
+          <mxGeometry x="340" y="410" width="210" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="22" value="11. List players
+by position" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;arcSize=10;fontStyle=1;" vertex="1" parent="sys">
+          <mxGeometry x="620" y="410" width="210" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="23" value="12. List all
+youth players" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;arcSize=10;fontStyle=1;" vertex="1" parent="sys">
+          <mxGeometry x="60" y="600" width="210" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="24" value="13. Add a new
+youth player" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;arcSize=10;fontStyle=1;" vertex="1" parent="sys">
+          <mxGeometry x="340" y="600" width="210" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="25" value="14. Update youth
+player by ID" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;arcSize=10;fontStyle=1;" vertex="1" parent="sys">
+          <mxGeometry x="620" y="600" width="210" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="26" value="15. Remove youth
+player by ID" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;arcSize=10;fontStyle=1;" vertex="1" parent="sys">
+          <mxGeometry x="140" y="690" width="210" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="27" value="16. List eligible
+for first team" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;arcSize=10;fontStyle=1;" vertex="1" parent="sys">
+          <mxGeometry x="460" y="690" width="210" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="28" value="17. Save data
+to files" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;arcSize=10;fontStyle=1;" vertex="1" parent="sys">
+          <mxGeometry x="100" y="880" width="200" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="29" value="18. Load data
+from files" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;arcSize=10;fontStyle=1;" vertex="1" parent="sys">
+          <mxGeometry x="380" y="880" width="200" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="30" value="19. Quit" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;arcSize=10;fontStyle=1;" vertex="1" parent="sys">
+          <mxGeometry x="660" y="880" width="200" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="31" value="" style="html=1;endArrow=none;" edge="1" parent="1" source="4" target="12">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="32" value="" style="html=1;endArrow=none;" edge="1" parent="1" source="4" target="13">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="33" value="" style="html=1;endArrow=none;" edge="1" parent="1" source="4" target="14">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="34" value="" style="html=1;endArrow=none;" edge="1" parent="1" source="4" target="15">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="35" value="" style="html=1;endArrow=none;" edge="1" parent="1" source="4" target="16">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="36" value="" style="html=1;endArrow=none;" edge="1" parent="1" source="4" target="17">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="37" value="" style="html=1;endArrow=none;" edge="1" parent="1" source="4" target="18">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="38" value="" style="html=1;endArrow=none;" edge="1" parent="1" source="4" target="19">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="39" value="" style="html=1;endArrow=none;" edge="1" parent="1" source="4" target="20">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="40" value="" style="html=1;endArrow=none;" edge="1" parent="1" source="4" target="21">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="41" value="" style="html=1;endArrow=none;" edge="1" parent="1" source="4" target="22">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="42" value="" style="html=1;endArrow=none;" edge="1" parent="1" source="4" target="23">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="43" value="" style="html=1;endArrow=none;" edge="1" parent="1" source="4" target="24">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="44" value="" style="html=1;endArrow=none;" edge="1" parent="1" source="4" target="25">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="45" value="" style="html=1;endArrow=none;" edge="1" parent="1" source="4" target="26">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="46" value="" style="html=1;endArrow=none;" edge="1" parent="1" source="4" target="27">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="47" value="" style="html=1;endArrow=none;" edge="1" parent="1" source="4" target="28">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="48" value="" style="html=1;endArrow=none;" edge="1" parent="1" source="4" target="29">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="49" value="" style="html=1;endArrow=none;" edge="1" parent="1" source="4" target="30">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

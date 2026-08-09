@@ -1,0 +1,177 @@
+<mxfile host="app.diagrams.net" type="device">
+  <diagram name="Class Diagram" id="class-diagram-epms">
+    <mxGraphModel dx="1422" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1700" pageHeight="1600" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="title" value="Employee Payroll Management System &#8211; Class Diagram" style="text;html=1;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;fontColor=#1f2933;" vertex="1" parent="1">
+          <mxGeometry x="440" y="0" width="760" height="36" as="geometry" />
+        </mxCell>
+
+        <mxCell id="main" value="&lt;b&gt;Main&lt;/b&gt;&lt;br&gt;&lt;i&gt;&#171;entry point&#187;&lt;/i&gt;&lt;hr size=&quot;1&quot;&gt;&lt;hr size=&quot;1&quot;&gt;+ main(args: String[]) : void {static}&lt;br&gt;- showMenu(user: Account) : void {static}" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;spacingLeft=8;spacingRight=8;spacingTop=4;fillColor=#b0e3e6;strokeColor=#0e8088;fontSize=11;fontColor=#06363a;" vertex="1" parent="1">
+          <mxGeometry x="560" y="48" width="240" height="92" as="geometry" />
+        </mxCell>
+
+        <mxCell id="auth" value="&lt;b&gt;AuthService&lt;/b&gt;&lt;hr size=&quot;1&quot;&gt;- accounts : List&amp;lt;Account&amp;gt;&lt;br&gt;- MAX_ATTEMPTS : int {static}&lt;hr size=&quot;1&quot;&gt;+ AuthService()&lt;br&gt;+ login() : Account&lt;br&gt;- authenticate(u: String, p: String) : Account" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;spacingLeft=8;spacingRight=8;spacingTop=4;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;fontColor=#663d00;" vertex="1" parent="1">
+          <mxGeometry x="40" y="190" width="260" height="130" as="geometry" />
+        </mxCell>
+
+        <mxCell id="empMgr" value="&lt;b&gt;EmployeeManager&lt;/b&gt;&lt;hr size=&quot;1&quot;&gt;- list : List&amp;lt;Employee&amp;gt;&lt;br&gt;- filePath : String&lt;br&gt;- dirty : boolean&lt;hr size=&quot;1&quot;&gt;+ load() : void&lt;br&gt;+ add() : void&lt;br&gt;+ update() : void&lt;br&gt;+ remove() : void&lt;br&gt;+ searchByAttribute() : void&lt;br&gt;+ monthlyPayroll() : void&lt;br&gt;+ display() : void&lt;br&gt;+ save() : void&lt;br&gt;+ quit() : void&lt;br&gt;+ exists(id: String) : boolean" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;spacingLeft=8;spacingRight=8;spacingTop=4;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;fontColor=#663d00;" vertex="1" parent="1">
+          <mxGeometry x="440" y="190" width="320" height="350" as="geometry" />
+        </mxCell>
+
+        <mxCell id="mealMgr" value="&lt;b&gt;MealAllowanceManager&lt;/b&gt;&lt;hr size=&quot;1&quot;&gt;- list : List&amp;lt;MealAllowance&amp;gt;&lt;br&gt;- filePath : String&lt;br&gt;- employeeManager : EmployeeManager&lt;br&gt;- dirty : boolean&lt;hr size=&quot;1&quot;&gt;+ run() : void&lt;br&gt;+ load() : void&lt;br&gt;+ add() : void&lt;br&gt;+ display() : void&lt;br&gt;+ update() : void&lt;br&gt;+ remove() : void&lt;br&gt;+ save() : void" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;spacingLeft=8;spacingRight=8;spacingTop=4;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;fontColor=#663d00;" vertex="1" parent="1">
+          <mxGeometry x="1240" y="190" width="300" height="310" as="geometry" />
+        </mxCell>
+
+        <mxCell id="validator" value="&lt;b&gt;Validator&lt;/b&gt;&lt;br&gt;&lt;i&gt;&#171;utility&#187;&lt;/i&gt;&lt;hr size=&quot;1&quot;&gt;+ ID_REGEX, MONTH_REGEX ... {static}&lt;br&gt;+ ROLES, STATUSES : List {static}&lt;hr size=&quot;1&quot;&gt;+ isEmployeeId(s: String) : boolean&lt;br&gt;+ isRole(s: String) : boolean&lt;br&gt;+ isStatus(s: String) : boolean&lt;br&gt;+ isMonth(s: String) : boolean&lt;br&gt;+ isPositive(v: double) : boolean&lt;br&gt;+ isWorkingDays(d: int) : boolean" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;spacingLeft=8;spacingRight=8;spacingTop=4;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;fontColor=#5a1a17;" vertex="1" parent="1">
+          <mxGeometry x="860" y="190" width="300" height="220" as="geometry" />
+        </mxCell>
+
+        <mxCell id="inputter" value="&lt;b&gt;Inputter&lt;/b&gt;&lt;br&gt;&lt;i&gt;&#171;utility&#187;&lt;/i&gt;&lt;hr size=&quot;1&quot;&gt;&lt;hr size=&quot;1&quot;&gt;+ inputInt(p, min, max) : int&lt;br&gt;+ inputNonEmpty(p: String) : String&lt;br&gt;+ inputByRegex(p, regex, err) : String&lt;br&gt;+ inputInSet(p, allowed) : String&lt;br&gt;+ inputPositiveDouble(p) : double&lt;br&gt;+ inputOptional(p: String) : String&lt;br&gt;+ confirmYesNo(p: String) : boolean" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;spacingLeft=8;spacingRight=8;spacingTop=4;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;fontColor=#5a1a17;" vertex="1" parent="1">
+          <mxGeometry x="860" y="470" width="300" height="230" as="geometry" />
+        </mxCell>
+
+        <mxCell id="factory" value="&lt;b&gt;EmployeeFactory&lt;/b&gt;&lt;br&gt;&lt;i&gt;&#171;factory&#187;&lt;/i&gt;&lt;hr size=&quot;1&quot;&gt;&lt;hr size=&quot;1&quot;&gt;+ create(id, name, role, baseSalary,&lt;br&gt;&#160;&#160;&#160;&#160;workingDays, bonus, status) : Employee {static}" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;spacingLeft=8;spacingRight=8;spacingTop=4;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;fontColor=#665c1e;" vertex="1" parent="1">
+          <mxGeometry x="400" y="620" width="360" height="110" as="geometry" />
+        </mxCell>
+
+        <mxCell id="payable" value="&lt;b&gt;Payable&lt;/b&gt;&lt;br&gt;&lt;i&gt;&#171;interface&#187;&lt;/i&gt;&lt;hr size=&quot;1&quot;&gt;&lt;hr size=&quot;1&quot;&gt;+ calculateSalary() : double" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;spacingLeft=8;spacingRight=8;spacingTop=4;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;fontColor=#3d2952;" vertex="1" parent="1">
+          <mxGeometry x="560" y="800" width="220" height="90" as="geometry" />
+        </mxCell>
+
+        <mxCell id="employee" value="&lt;b&gt;Employee&lt;/b&gt;&lt;br&gt;&lt;i&gt;&#171;abstract&#187;&lt;/i&gt;&lt;hr size=&quot;1&quot;&gt;+ STANDARD_WORKING_DAYS : int {static}&lt;br&gt;- id : String&lt;br&gt;- name : String&lt;br&gt;- baseSalary : double&lt;br&gt;- workingDays : int&lt;br&gt;- bonus : double&lt;br&gt;- status : String&lt;hr size=&quot;1&quot;&gt;+ getRole() : String {abstract}&lt;br&gt;+ roleAllowance() : double {abstract}&lt;br&gt;+ calculateSalary() : double&lt;br&gt;+ isActive() : boolean&lt;br&gt;+ toDataLine() : String&lt;br&gt;+ getters / setters" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;spacingLeft=8;spacingRight=8;spacingTop=4;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;fontColor=#102a43;" vertex="1" parent="1">
+          <mxGeometry x="440" y="960" width="320" height="320" as="geometry" />
+        </mxCell>
+
+        <mxCell id="developer" value="&lt;b&gt;Developer&lt;/b&gt;&lt;hr size=&quot;1&quot;&gt;&lt;hr size=&quot;1&quot;&gt;+ getRole() : String&lt;br&gt;+ roleAllowance() : double" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;spacingLeft=8;spacingRight=8;spacingTop=4;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;fontColor=#1e4620;" vertex="1" parent="1">
+          <mxGeometry x="300" y="1360" width="180" height="100" as="geometry" />
+        </mxCell>
+
+        <mxCell id="tester" value="&lt;b&gt;Tester&lt;/b&gt;&lt;hr size=&quot;1&quot;&gt;&lt;hr size=&quot;1&quot;&gt;+ getRole() : String&lt;br&gt;+ roleAllowance() : double" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;spacingLeft=8;spacingRight=8;spacingTop=4;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;fontColor=#1e4620;" vertex="1" parent="1">
+          <mxGeometry x="500" y="1360" width="180" height="100" as="geometry" />
+        </mxCell>
+
+        <mxCell id="manager" value="&lt;b&gt;Manager&lt;/b&gt;&lt;hr size=&quot;1&quot;&gt;&lt;hr size=&quot;1&quot;&gt;+ getRole() : String&lt;br&gt;+ roleAllowance() : double" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;spacingLeft=8;spacingRight=8;spacingTop=4;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;fontColor=#1e4620;" vertex="1" parent="1">
+          <mxGeometry x="700" y="1360" width="180" height="100" as="geometry" />
+        </mxCell>
+
+        <mxCell id="hr" value="&lt;b&gt;HR&lt;/b&gt;&lt;hr size=&quot;1&quot;&gt;&lt;hr size=&quot;1&quot;&gt;+ getRole() : String&lt;br&gt;+ roleAllowance() : double" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;spacingLeft=8;spacingRight=8;spacingTop=4;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;fontColor=#1e4620;" vertex="1" parent="1">
+          <mxGeometry x="900" y="1360" width="180" height="100" as="geometry" />
+        </mxCell>
+
+        <mxCell id="account" value="&lt;b&gt;Account&lt;/b&gt;&lt;br&gt;&lt;i&gt;&#171;abstract&#187;&lt;/i&gt;&lt;hr size=&quot;1&quot;&gt;- username : String&lt;br&gt;- password : String&lt;hr size=&quot;1&quot;&gt;+ getRole() : String {abstract}&lt;br&gt;+ getAllowedFeatures() : Set&amp;lt;Integer&amp;gt; {abstract}&lt;br&gt;+ canAccess(feature: int) : boolean&lt;br&gt;+ matches(u: String, p: String) : boolean&lt;br&gt;+ getUsername() : String" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;spacingLeft=8;spacingRight=8;spacingTop=4;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;fontColor=#102a43;" vertex="1" parent="1">
+          <mxGeometry x="40" y="430" width="280" height="180" as="geometry" />
+        </mxCell>
+
+        <mxCell id="admin" value="&lt;b&gt;Admin&lt;/b&gt;&lt;hr size=&quot;1&quot;&gt;&lt;hr size=&quot;1&quot;&gt;+ getRole() : String&lt;br&gt;+ getAllowedFeatures() : Set&amp;lt;Integer&amp;gt;" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;spacingLeft=8;spacingRight=8;spacingTop=4;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;fontColor=#1e4620;" vertex="1" parent="1">
+          <mxGeometry x="20" y="700" width="170" height="100" as="geometry" />
+        </mxCell>
+
+        <mxCell id="staff" value="&lt;b&gt;Staff&lt;/b&gt;&lt;hr size=&quot;1&quot;&gt;&lt;hr size=&quot;1&quot;&gt;+ getRole() : String&lt;br&gt;+ getAllowedFeatures() : Set&amp;lt;Integer&amp;gt;" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;spacingLeft=8;spacingRight=8;spacingTop=4;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;fontColor=#1e4620;" vertex="1" parent="1">
+          <mxGeometry x="210" y="700" width="170" height="100" as="geometry" />
+        </mxCell>
+
+        <mxCell id="meal" value="&lt;b&gt;MealAllowance&lt;/b&gt;&lt;hr size=&quot;1&quot;&gt;+ UNIT_PRICE : double {static}&lt;br&gt;+ MAX_DAYS : int {static}&lt;br&gt;- id : String&lt;br&gt;- employeeId : String&lt;br&gt;- month : String&lt;br&gt;- days : int&lt;hr size=&quot;1&quot;&gt;+ getAmount() : double&lt;br&gt;+ sameKey(empId, month) : boolean&lt;br&gt;+ toDataLine() : String&lt;br&gt;+ getDays() / setDays(int)&lt;br&gt;+ getters" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;spacingLeft=8;spacingRight=8;spacingTop=4;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;fontColor=#1e4620;" vertex="1" parent="1">
+          <mxGeometry x="1240" y="620" width="300" height="280" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e_emp_payable" style="endArrow=block;endFill=0;html=1;dashed=1;strokeColor=#9673a6;strokeWidth=2;exitX=0.6;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="employee" target="payable">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e_dev_emp" style="endArrow=block;endFill=0;html=1;strokeColor=#3b3b3b;strokeWidth=2;" edge="1" parent="1" source="developer" target="employee">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points"><mxPoint x="390" y="1320" /><mxPoint x="540" y="1320" /></Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_test_emp" style="endArrow=block;endFill=0;html=1;strokeColor=#3b3b3b;strokeWidth=2;" edge="1" parent="1" source="tester" target="employee">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points"><mxPoint x="590" y="1320" /></Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_mgr_emp" style="endArrow=block;endFill=0;html=1;strokeColor=#3b3b3b;strokeWidth=2;" edge="1" parent="1" source="manager" target="employee">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points"><mxPoint x="790" y="1320" /><mxPoint x="660" y="1320" /></Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_hr_emp" style="endArrow=block;endFill=0;html=1;strokeColor=#3b3b3b;strokeWidth=2;" edge="1" parent="1" source="hr" target="employee">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points"><mxPoint x="990" y="1320" /><mxPoint x="700" y="1320" /></Array>
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="e_admin_acc" style="endArrow=block;endFill=0;html=1;strokeColor=#3b3b3b;strokeWidth=2;" edge="1" parent="1" source="admin" target="account">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points"><mxPoint x="105" y="660" /><mxPoint x="150" y="660" /></Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_staff_acc" style="endArrow=block;endFill=0;html=1;strokeColor=#3b3b3b;strokeWidth=2;" edge="1" parent="1" source="staff" target="account">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points"><mxPoint x="295" y="660" /><mxPoint x="210" y="660" /></Array>
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="e_factory_emp" value="&#171;create&#187;" style="endArrow=open;html=1;dashed=1;strokeColor=#d6b656;strokeWidth=2;fontColor=#665c1e;exitX=0.25;exitY=1;exitDx=0;exitDy=0;entryX=0.2;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="factory" target="employee">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points"><mxPoint x="490" y="900" /></Array>
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="e_em_factory" value="&#171;use&#187;" style="endArrow=open;html=1;dashed=1;strokeColor=#d79b00;strokeWidth=2;fontColor=#663d00;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="empMgr" target="factory">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e_em_emp" value="-list&#10;*" style="endArrow=none;startArrow=diamondThin;startFill=0;html=1;strokeColor=#d79b00;strokeWidth=2;fontColor=#663d00;exitX=0;exitY=0.9;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="empMgr" target="employee">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points"><mxPoint x="400" y="505" /><mxPoint x="400" y="1120" /></Array>
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="e_em_validator" value="&#171;use&#187;" style="endArrow=open;html=1;dashed=1;strokeColor=#b85450;strokeWidth=2;fontColor=#5a1a17;exitX=1;exitY=0.2;exitDx=0;exitDy=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" edge="1" parent="1" source="empMgr" target="validator">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_em_inputter" value="&#171;use&#187;" style="endArrow=open;html=1;dashed=1;strokeColor=#b85450;strokeWidth=2;fontColor=#5a1a17;exitX=1;exitY=0.85;exitDx=0;exitDy=0;entryX=0;entryY=0.2;entryDx=0;entryDy=0;" edge="1" parent="1" source="empMgr" target="inputter">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e_auth_acc" value="-accounts&#10;*" style="endArrow=none;startArrow=diamondThin;startFill=0;html=1;strokeColor=#d79b00;strokeWidth=2;fontColor=#663d00;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="auth" target="account">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e_meal_meal" value="-list&#10;*" style="endArrow=none;startArrow=diamondThin;startFill=0;html=1;strokeColor=#d79b00;strokeWidth=2;fontColor=#663d00;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="mealMgr" target="meal">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e_meal_em" value="-employeeManager" style="endArrow=open;html=1;strokeColor=#d79b00;strokeWidth=2;fontColor=#663d00;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.9;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="mealMgr" target="empMgr">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points"><mxPoint x="1390" y="165" /><mxPoint x="728" y="165" /></Array>
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="e_meal_validator" value="&#171;use&#187;" style="endArrow=open;html=1;dashed=1;strokeColor=#b85450;strokeWidth=2;fontColor=#5a1a17;exitX=0;exitY=0.2;exitDx=0;exitDy=0;entryX=1;entryY=0.25;entryDx=0;entryDy=0;" edge="1" parent="1" source="mealMgr" target="validator">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_meal_inputter" value="&#171;use&#187;" style="endArrow=open;html=1;dashed=1;strokeColor=#b85450;strokeWidth=2;fontColor=#5a1a17;exitX=0;exitY=0.85;exitDx=0;exitDy=0;entryX=1;entryY=0.2;entryDx=0;entryDy=0;" edge="1" parent="1" source="mealMgr" target="inputter">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e_main_auth" style="endArrow=open;html=1;dashed=1;strokeColor=#0e8088;strokeWidth=2;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="main" target="auth">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points"><mxPoint x="160" y="94" /></Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_main_em" style="endArrow=open;html=1;dashed=1;strokeColor=#0e8088;strokeWidth=2;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="main" target="empMgr">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_main_meal" style="endArrow=open;html=1;dashed=1;strokeColor=#0e8088;strokeWidth=2;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="main" target="mealMgr">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points"><mxPoint x="1390" y="94" /></Array>
+          </mxGeometry>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -1,0 +1,178 @@
+<mxfile host="app.diagrams.net" type="device">
+  <diagram name="Class Diagram" id="mhc-class-diagram">
+    <mxGraphModel dx="1800" dy="1200" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2000" pageHeight="1600" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="title" value="Mountain Hiking Challenge Registration &#8211; Class Diagram" style="text;html=1;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;fontColor=#1f2933;" vertex="1" parent="1">
+          <mxGeometry x="500" y="10" width="900" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- Main -->
+        <mxCell id="main" value="&lt;b&gt;Main&lt;/b&gt;&lt;br&gt;&lt;i&gt;&#171;entry point&#187;&lt;/i&gt;&lt;hr&gt;- inp : Inputter {static}&lt;br&gt;- mountains : Mountains {static}&lt;br&gt;- students : Students {static}&lt;br&gt;- volunteers : Volunteers {static}&lt;br&gt;- accounts : Accounts {static}&lt;br&gt;- currentUser : Account {static}&lt;hr&gt;+ main(args) : void {static}&lt;br&gt;- login() : boolean&lt;br&gt;- runMenu(...) : void&lt;br&gt;- buildMainMenu() : List&amp;lt;MenuItem&amp;gt;&lt;br&gt;- addNewRegistration() : void&lt;br&gt;- updateRegistration() : void&lt;br&gt;- displayRegisteredList() : void&lt;br&gt;- deleteRegistration() : void&lt;br&gt;- searchByName() : void&lt;br&gt;- filterByCampus() : void&lt;br&gt;- showStatistics() : void&lt;br&gt;- saveDataToFile() : void&lt;br&gt;- volunteerManagement() : void&lt;br&gt;- accountManagement() : void&lt;br&gt;- confirmExit() : boolean" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=4;fillColor=#b0e3e6;strokeColor=#0e8088;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="40" y="70" width="300" height="340" as="geometry" />
+        </mxCell>
+
+        <!-- MenuItem -->
+        <mxCell id="menuitem" value="&lt;b&gt;MenuItem&lt;/b&gt;&lt;hr&gt;- label : String&lt;br&gt;- permission : Permission&lt;br&gt;- action : Runnable&lt;hr&gt;+ MenuItem(label, permission, action)&lt;br&gt;+ getLabel() : String&lt;br&gt;+ isAllowedFor(account) : boolean&lt;br&gt;+ execute() : void" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=4;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="380" y="70" width="260" height="150" as="geometry" />
+        </mxCell>
+
+        <!-- Inputter -->
+        <mxCell id="inputter" value="&lt;b&gt;Inputter&lt;/b&gt;&lt;br&gt;&lt;i&gt;&#171;utility&#187;&lt;/i&gt;&lt;hr&gt;- ndl : Scanner&lt;hr&gt;+ getString(mess) : String&lt;br&gt;+ getInt(mess) : int&lt;br&gt;+ getDouble(mess) : double&lt;br&gt;+ inputAndLoop(mess, pattern) : String&lt;br&gt;+ inputAndLoopAllowEmpty(...) : String&lt;br&gt;+ confirmYesNo(mess) : boolean&lt;br&gt;+ getMenuChoice(mess, min, max) : int" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=4;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="680" y="70" width="280" height="180" as="geometry" />
+        </mxCell>
+
+        <!-- Acceptable -->
+        <mxCell id="acceptable" value="&lt;b&gt;Acceptable&lt;/b&gt;&lt;br&gt;&lt;i&gt;&#171;interface&#187;&lt;/i&gt;&lt;hr&gt;+ STUDENT_ID, CAMPUS_CODE, NAME_VALID ... {static}&lt;br&gt;+ USERNAME_VALID, PASSWORD_VALID {static}&lt;br&gt;+ VOLUNTEER_ID, SHIFT_VALID {static}&lt;hr&gt;+ isValid(data, pattern) : boolean {static}" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=4;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1000" y="70" width="300" height="130" as="geometry" />
+        </mxCell>
+
+        <!-- Permission -->
+        <mxCell id="permission" value="&lt;b&gt;Permission&lt;/b&gt;&lt;br&gt;&lt;i&gt;&#171;enum&#187;&lt;/i&gt;&lt;hr&gt;CREATE_REGISTRATION&lt;br&gt;UPDATE_REGISTRATION&lt;br&gt;VIEW_REGISTRATION&lt;br&gt;DELETE_REGISTRATION&lt;br&gt;VIEW_STATISTICS&lt;br&gt;SAVE_DATA&lt;br&gt;MANAGE_VOLUNTEER&lt;br&gt;MANAGE_ACCOUNT" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=4;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="380" y="250" width="200" height="170" as="geometry" />
+        </mxCell>
+
+        <!-- Role -->
+        <mxCell id="role" value="&lt;b&gt;Role&lt;/b&gt;&lt;br&gt;&lt;i&gt;&#171;enum&#187;&lt;/i&gt;&lt;hr&gt;ADMIN&lt;br&gt;STAFF&lt;br&gt;VIEWER&lt;hr&gt;- permissions : Set&amp;lt;Permission&amp;gt;&lt;hr&gt;+ has(permission) : boolean&lt;br&gt;+ showAll() : void {static}&lt;br&gt;+ getByIndex(index) : Role {static}" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=4;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="620" y="280" width="220" height="170" as="geometry" />
+        </mxCell>
+
+        <!-- Skill -->
+        <mxCell id="skill" value="&lt;b&gt;Skill&lt;/b&gt;&lt;br&gt;&lt;i&gt;&#171;enum&#187;&lt;/i&gt;&lt;hr&gt;MEDIC&lt;br&gt;LOGISTIC&lt;br&gt;GUIDE_ASSIST&lt;hr&gt;+ showAll() : void {static}&lt;br&gt;+ getByIndex(index) : Skill {static}" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=4;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="880" y="280" width="200" height="140" as="geometry" />
+        </mxCell>
+
+        <!-- Person -->
+        <mxCell id="person" value="&lt;b&gt;Person&lt;/b&gt;&lt;br&gt;&lt;i&gt;&#171;abstract&#187;&lt;/i&gt;&lt;hr&gt;# id : String&lt;br&gt;# name : String&lt;hr&gt;+ Person()&lt;br&gt;+ Person(id, name)&lt;br&gt;+ getId() / setId()&lt;br&gt;+ getName() / setName()&lt;br&gt;+ getDisplayInfo() : String {abstract}" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=4;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="400" y="500" width="260" height="160" as="geometry" />
+        </mxCell>
+
+        <!-- Student -->
+        <mxCell id="student" value="&lt;b&gt;Student&lt;/b&gt;&lt;hr&gt;+ DEFAULT_FEE = 6_000_000 {static}&lt;br&gt;+ DISCOUNT_RATE = 0.35 {static}&lt;br&gt;- phone, email, mountainCode, tuitionFee&lt;hr&gt;+ calculateFee(phone) : double {static}&lt;br&gt;+ getCampusCode() : String&lt;br&gt;+ setPhone(phone) : void&lt;br&gt;+ toString() / toCsv()&lt;br&gt;+ compareTo(other) : int&lt;br&gt;+ equals() / hashCode()" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=4;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="80" y="720" width="280" height="200" as="geometry" />
+        </mxCell>
+
+        <!-- Volunteer -->
+        <mxCell id="volunteer" value="&lt;b&gt;Volunteer&lt;/b&gt;&lt;hr&gt;- skill : Skill&lt;br&gt;- maxShiftsPerDay : int&lt;br&gt;- shiftsToday : int&lt;hr&gt;+ assign() : boolean&lt;br&gt;+ hasSkillFor(skill) : boolean&lt;br&gt;+ toString() / toCsv()&lt;br&gt;+ compareTo(other) : int&lt;br&gt;+ equals() / hashCode()" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=4;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="400" y="720" width="260" height="180" as="geometry" />
+        </mxCell>
+
+        <!-- Account -->
+        <mxCell id="account" value="&lt;b&gt;Account&lt;/b&gt;&lt;hr&gt;- password : String&lt;br&gt;- role : Role&lt;hr&gt;+ getUsername() : String&lt;br&gt;+ authenticate(password) : boolean&lt;br&gt;+ can(permission) : boolean&lt;br&gt;+ changePassword(pwd) : void&lt;br&gt;+ getDisplayInfo() : String&lt;br&gt;+ equals() / hashCode()" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=4;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="700" y="720" width="260" height="180" as="geometry" />
+        </mxCell>
+
+        <!-- Mountain -->
+        <mxCell id="mountain" value="&lt;b&gt;Mountain&lt;/b&gt;&lt;hr&gt;- mountainCode : String&lt;br&gt;- mountain : String&lt;br&gt;- province : String&lt;br&gt;- description : String&lt;hr&gt;+ getters&lt;br&gt;+ toString()&lt;br&gt;+ equals() / hashCode()" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=4;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1000" y="720" width="240" height="150" as="geometry" />
+        </mxCell>
+
+        <!-- Students -->
+        <mxCell id="students" value="&lt;b&gt;Students&lt;/b&gt;&lt;br&gt;&lt;i&gt;extends ArrayList&amp;lt;Student&amp;gt;&lt;/i&gt;&lt;hr&gt;- pathFile : String&lt;br&gt;- isSaved : boolean&lt;hr&gt;+ add / update / delete&lt;br&gt;+ searchById / searchByName&lt;br&gt;+ filterByCampusCode()&lt;br&gt;+ showAll()&lt;br&gt;+ statisticalizeByMountainPeak()&lt;br&gt;+ readFromFile() / saveToFile()&lt;br&gt;+ markUnsaved() / isSaved()" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=4;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="40" y="980" width="280" height="200" as="geometry" />
+        </mxCell>
+
+        <!-- Volunteers -->
+        <mxCell id="volunteers" value="&lt;b&gt;Volunteers&lt;/b&gt;&lt;br&gt;&lt;i&gt;extends ArrayList&amp;lt;Volunteer&amp;gt;&lt;/i&gt;&lt;hr&gt;- pathFile : String&lt;br&gt;- isSaved : boolean&lt;hr&gt;+ add / delete&lt;br&gt;+ searchById()&lt;br&gt;+ showAll()&lt;br&gt;+ readFromFile() / saveToFile()&lt;br&gt;+ markUnsaved() / isSaved()" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=4;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="360" y="980" width="260" height="170" as="geometry" />
+        </mxCell>
+
+        <!-- Accounts -->
+        <mxCell id="accounts" value="&lt;b&gt;Accounts&lt;/b&gt;&lt;br&gt;&lt;i&gt;extends ArrayList&amp;lt;Account&amp;gt;&lt;/i&gt;&lt;hr&gt;- pathFile : String&lt;hr&gt;+ add / delete&lt;br&gt;+ searchByUsername()&lt;br&gt;+ login(username, password) : Account&lt;br&gt;+ showAll()&lt;br&gt;+ readFromFile() / saveToFile()&lt;br&gt;- seedDefaultAccounts()" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=4;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="660" y="980" width="280" height="170" as="geometry" />
+        </mxCell>
+
+        <!-- Mountains -->
+        <mxCell id="mountains" value="&lt;b&gt;Mountains&lt;/b&gt;&lt;br&gt;&lt;i&gt;extends ArrayList&amp;lt;Mountain&amp;gt;&lt;/i&gt;&lt;hr&gt;- pathFile : String&lt;hr&gt;+ get(code) : Mountain&lt;br&gt;+ isValidMountainCode(code) : boolean&lt;br&gt;+ dataToObject(text) : Mountain&lt;br&gt;+ readFromFile() / showAll()" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=4;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="980" y="980" width="280" height="140" as="geometry" />
+        </mxCell>
+
+        <!-- Statistics -->
+        <mxCell id="statistics" value="&lt;b&gt;Statistics&lt;/b&gt;&lt;br&gt;&lt;i&gt;extends HashMap&amp;lt;String, StatisticalInfo&amp;gt;&lt;/i&gt;&lt;hr&gt;+ statisticalize(list, mountains) : void&lt;br&gt;+ show() : void" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=4;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1300" y="980" width="300" height="100" as="geometry" />
+        </mxCell>
+
+        <!-- StatisticalInfo -->
+        <mxCell id="statinfo" value="&lt;b&gt;StatisticalInfo&lt;/b&gt;&lt;hr&gt;- mountainCode : String&lt;br&gt;- mountainName : String&lt;br&gt;- numOfStudent : int&lt;br&gt;- totalCost : double&lt;hr&gt;+ addStudent(fee) : void&lt;br&gt;+ toString() : String" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=4;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1300" y="1120" width="300" height="140" as="geometry" />
+        </mxCell>
+
+        <!-- Serializable interface -->
+        <mxCell id="serializable" value="&lt;b&gt;Serializable&lt;/b&gt;&lt;br&gt;&lt;i&gt;&#171;interface&#187;&lt;/i&gt;" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=middle;align=center;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;fontStyle=2" vertex="1" parent="1">
+          <mxGeometry x="720" y="500" width="140" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Comparable interface -->
+        <mxCell id="comparable" value="&lt;b&gt;Comparable&amp;lt;T&amp;gt;&lt;/b&gt;&lt;br&gt;&lt;i&gt;&#171;interface&#187;&lt;/i&gt;&lt;hr&gt;+ compareTo(T) : int" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=4;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;fontStyle=2" vertex="1" parent="1">
+          <mxGeometry x="80" y="620" width="160" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- Inheritance edges -->
+        <mxCell id="e_person_serial" style="endArrow=block;endFill=0;dashed=1;html=1;strokeColor=#9673a6;strokeWidth=2;" edge="1" parent="1" source="person" target="serializable">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_student_person" style="endArrow=block;endFill=0;html=1;strokeColor=#6c8ebf;strokeWidth=2;" edge="1" parent="1" source="student" target="person">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_volunteer_person" style="endArrow=block;endFill=0;html=1;strokeColor=#6c8ebf;strokeWidth=2;" edge="1" parent="1" source="volunteer" target="person">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_account_person" style="endArrow=block;endFill=0;html=1;strokeColor=#6c8ebf;strokeWidth=2;" edge="1" parent="1" source="account" target="person">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_student_comp" style="endArrow=block;endFill=0;dashed=1;html=1;strokeColor=#9673a6;strokeWidth=2;" edge="1" parent="1" source="student" target="comparable">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_volunteer_skill" style="endArrow=open;endFill=0;html=1;strokeColor=#82b366;strokeWidth=1;" edge="1" parent="1" source="volunteer" target="skill">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_account_role" style="endArrow=open;endFill=0;html=1;strokeColor=#82b366;strokeWidth=1;" edge="1" parent="1" source="account" target="role">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_role_perm" style="endArrow=open;endFill=0;html=1;strokeColor=#9673a6;strokeWidth=1;" edge="1" parent="1" source="role" target="permission">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_menuitem_perm" style="endArrow=open;endFill=0;html=1;strokeColor=#9673a6;strokeWidth=1;" edge="1" parent="1" source="menuitem" target="permission">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Association edges -->
+        <mxCell id="e_main_menuitem" style="endArrow=open;endFill=0;html=1;strokeColor=#0e8088;strokeWidth=1;" edge="1" parent="1" source="main" target="menuitem">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_main_inputter" style="endArrow=open;endFill=0;html=1;strokeColor=#0e8088;strokeWidth=1;" edge="1" parent="1" source="main" target="inputter">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_inputter_acc" style="endArrow=open;endFill=0;dashed=1;html=1;strokeColor=#b85450;strokeWidth=1;" edge="1" parent="1" source="inputter" target="acceptable">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_students_student" style="endArrow=open;endFill=0;html=1;strokeColor=#d79b00;strokeWidth=1;" edge="1" parent="1" source="students" target="student">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_volunteers_vol" style="endArrow=open;endFill=0;html=1;strokeColor=#d79b00;strokeWidth=1;" edge="1" parent="1" source="volunteers" target="volunteer">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_accounts_acc" style="endArrow=open;endFill=0;html=1;strokeColor=#d79b00;strokeWidth=1;" edge="1" parent="1" source="accounts" target="account">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_mountains_mtn" style="endArrow=open;endFill=0;html=1;strokeColor=#d79b00;strokeWidth=1;" edge="1" parent="1" source="mountains" target="mountain">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_stats_info" style="endArrow=open;endFill=0;html=1;strokeColor=#d79b00;strokeWidth=1;" edge="1" parent="1" source="statistics" target="statinfo">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_students_stats" style="endArrow=open;endFill=0;dashed=1;html=1;strokeColor=#d79b00;strokeWidth=1;" edge="1" parent="1" source="students" target="statistics">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Legend -->
+        <mxCell id="legend" value="&lt;b&gt;Chú thích&lt;/b&gt;&lt;hr&gt;&#9654; Kế thừa (extends)&lt;br&gt;- - - &#9654; Triển khai (implements)&lt;br&gt;&#8594; Liên kết (association)&lt;hr&gt;&lt;font color=&quot;#0e8088&quot;&gt;&#9632;&lt;/font&gt; Presentation&#160;&#160;&lt;font color=&quot;#d79b00&quot;&gt;&#9632;&lt;/font&gt; Manager&#160;&#160;&lt;font color=&quot;#82b366&quot;&gt;&#9632;&lt;/font&gt; Model&#160;&#160;&lt;font color=&quot;#9673a6&quot;&gt;&#9632;&lt;/font&gt; Interface/Enum&#160;&#160;&lt;font color=&quot;#b85450&quot;&gt;&#9632;&lt;/font&gt; Utility" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=4;fillColor=#f5f5f5;strokeColor=#666666;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1300" y="70" width="300" height="120" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

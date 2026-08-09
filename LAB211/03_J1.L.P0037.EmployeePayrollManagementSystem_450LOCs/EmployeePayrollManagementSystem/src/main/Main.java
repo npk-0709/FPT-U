@@ -86,7 +86,7 @@ public class Main {
                 "Calculate monthly payroll",
                 "Display employee list",
                 "Save data to file",
-                "Meal allowance management (Phu cap an)",
+                "Meal allowance management",
                 "Quit program"
         };
         System.out.println("===== EMPLOYEE PAYROLL MANAGEMENT SYSTEM =====");

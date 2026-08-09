@@ -1,0 +1,72 @@
+5. Career Guidance Kiosk System for 
+High School Students at FPT 
+University 
+Open 
+Campus) 
+Context 
+Day 
+(HCM 
+University open day events play a crucial role in helping high school students explore 
+academic programs and make informed career decisions. At large-scale events such as 
+those organized by FPT University (Ho Chi Minh City campus), thousands of 
+students interact with booths, counselors, and informational materials within a limited 
+time.  
+Traditional consultation methods often rely on face-to-face interactions, which can 
+lead to long waiting times, inconsistent information delivery, and limited 
+personalization. A Career Guidance Kiosk System provides an interactive, self
+service platform where students can input their interests, academic strengths, and 
+career aspirations to receive personalized recommendations. The system integrates 
+structured data (programs, admission criteria) and semi-structured data (student 
+preferences, survey responses). It can also incorporate AI-based recommendation 
+models to suggest suitable majors and career paths.  
+This project offers a realistic scenario for designing a database system that supports 
+high-volume interactions, real-time querying, and data-driven decision support in an 
+educational environment. 
+Proposal Solution 
+The proposed solution is an interactive kiosk-based system supported by a centralized 
+database that manages student inputs, academic program data, and recommendation 
+results. It ensures efficient data processing and real-time response for high user 
+volumes. The system can be extended with AI-based recommendation algorithms and 
+analytics dashboards to enhance personalized guidance and support strategic decision
+making for university recruitment activities. 
+Actors & Features 
+• Student (High School Visitor) 
+• Interact with kiosk to input personal interests, skills, and academic 
+preferences.  
+• Browse university programs, majors, and career pathways.  
+• Receive personalized recommendations for suitable majors.  
+• View detailed program information (curriculum, career outcomes, admission 
+requirements).  
+• Save or export consultation results (QR code, email, or print).  
+• University Counselor 
+• Access student interaction data from kiosks.  
+• Review student profiles and recommendation results.  
+• Provide follow-up consultation based on system suggestions.  
+• Record feedback and consultation notes.  
+• System (AI/Data Processing Module) 
+• Analyze student input data and match with suitable programs.  
+• Generate recommendation scores based on predefined rules or AI models.  
+• Log interaction data for analytics and improvement.  
+• Administrator 
+• Manage academic program data (majors, descriptions, admission criteria).  
+• Configure recommendation rules and questionnaires.  
+• Monitor kiosk usage and system performance.  
+• Generate reports and analytics for event evaluation.  
+Business Rules 
+• Each student interaction session is uniquely identified and time-stamped.  
+• A student may complete multiple consultation sessions, but each session is 
+independent.  
+• Each recommendation result must be based on the student’s input responses.  
+• Academic programs must have clearly defined attributes (major, requirements, 
+career paths).  
+• Recommendation scores must follow predefined criteria or algorithmic logic.  
+• Student personal data must be handled securely and used only for consultation 
+purposes.  
+• Kiosk sessions automatically expire after a period of inactivity.  
+Reports / Statistics 
+• Number of student interactions per kiosk.  
+• Most recommended majors/programs.  
+• Student interest distribution (by field or career area).  
+• Peak usage time during the event.  
+• Conversion rate (students requesting further consultation).  
+• Feedback and satisfaction report. 

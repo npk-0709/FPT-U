@@ -1,0 +1,12 @@
+WMI/ManagementEventWatcher/Win32_ProcessStartTrace: All checks passed.
+Started WMI.
+WMI: Process 16112 (SafeExamBrowser.Service.exe): Inject result = D6800000
+WMI: Process 15064 (SafeExamBrowser.exe): Inject result = D6800000
+WMI: Process 16000 (SafeExamBrowser.Client.exe): Inject result = D6800000
+WMI: Process 6908 (SafeExamBrowser.Client.exe): Inject result = D6800000
+WMI: Process 5368 (SafeExamBrowser.exe): Inject result = D6800000
+WMI: Process 12580 (SafeExamBrowser.Client.exe): Inject result = D6800000
+WMI: Process 14920 (SafeExamBrowser.Client.exe): Inject result = D6800000
+WMI: Process 15720 (SafeExamBrowser.exe): Inject result = D6800000
+WMI: Process 7632 (SafeExamBrowser.Client.exe): Inject result = D6800000
+WMI: Process 2684 (SafeExamBrowser.Client.exe): Inject result = D6800000

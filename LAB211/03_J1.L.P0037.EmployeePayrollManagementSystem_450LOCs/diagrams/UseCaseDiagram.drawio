@@ -1,0 +1,147 @@
+<mxfile host="app.diagrams.net" type="device">
+  <diagram name="Use Case Diagram" id="usecase-diagram-epms">
+    <mxGraphModel dx="1422" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1500" pageHeight="1480" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="title" value="Employee Payroll Management System &#8211; Use Case Diagram" style="text;html=1;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;fontColor=#1f2933;" vertex="1" parent="1">
+          <mxGeometry x="380" y="10" width="760" height="36" as="geometry" />
+        </mxCell>
+
+        <mxCell id="boundary" value="System: Employee Payroll Management System" style="rounded=0;html=1;fillColor=#fbfbfb;strokeColor=#666666;verticalAlign=top;align=center;fontSize=14;fontStyle=1;fontColor=#444444;spacingTop=8;" vertex="1" parent="1">
+          <mxGeometry x="340" y="70" width="900" height="1360" as="geometry" />
+        </mxCell>
+
+        <mxCell id="legend" value="&lt;b&gt;Legend&lt;/b&gt;&lt;br&gt;&lt;font color=&quot;#6c8ebf&quot;&gt;&#9632;&lt;/font&gt; Shared (Admin &amp; Staff)&lt;br&gt;&lt;font color=&quot;#d79b00&quot;&gt;&#9632;&lt;/font&gt; Admin only&lt;br&gt;&lt;font color=&quot;#9673a6&quot;&gt;&#9632;&lt;/font&gt; Authentication&lt;br&gt;&lt;font color=&quot;#82b366&quot;&gt;&#9632;&lt;/font&gt; Meal CRUD (&#171;include&#187;)&lt;br&gt;&lt;font color=&quot;#1f6feb&quot;&gt;&#8212;&lt;/font&gt; Staff link&#160;&#160;&lt;font color=&quot;#b85450&quot;&gt;&#8212;&lt;/font&gt; Admin link" style="rounded=1;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacingLeft=8;spacingTop=6;fillColor=#ffffff;strokeColor=#999999;fontSize=11;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="30" y="80" width="250" height="150" as="geometry" />
+        </mxCell>
+
+        <mxCell id="staff" value="Staff" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fontSize=13;fontStyle=1;fillColor=#dae8fc;strokeColor=#1f6feb;" vertex="1" parent="1">
+          <mxGeometry x="80" y="660" width="60" height="120" as="geometry" />
+        </mxCell>
+
+        <mxCell id="admin" value="Admin" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fontSize=13;fontStyle=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="1360" y="660" width="60" height="120" as="geometry" />
+        </mxCell>
+
+        <mxCell id="uc_login" value="Login&#10;(authenticate)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;fontColor=#3d2952;" vertex="1" parent="1">
+          <mxGeometry x="590" y="110" width="200" height="64" as="geometry" />
+        </mxCell>
+        <mxCell id="uc_load" value="Load employee data&#10;from file" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontColor=#102a43;" vertex="1" parent="1">
+          <mxGeometry x="590" y="205" width="200" height="64" as="geometry" />
+        </mxCell>
+        <mxCell id="uc_add" value="Add a new employee" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;fontColor=#663d00;" vertex="1" parent="1">
+          <mxGeometry x="590" y="300" width="200" height="64" as="geometry" />
+        </mxCell>
+        <mxCell id="uc_update" value="Update employee&#10;information" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;fontColor=#663d00;" vertex="1" parent="1">
+          <mxGeometry x="590" y="395" width="200" height="64" as="geometry" />
+        </mxCell>
+        <mxCell id="uc_remove" value="Remove an employee&#10;by ID" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;fontColor=#663d00;" vertex="1" parent="1">
+          <mxGeometry x="590" y="490" width="200" height="64" as="geometry" />
+        </mxCell>
+        <mxCell id="uc_search" value="Search employees&#10;by attribute" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontColor=#102a43;" vertex="1" parent="1">
+          <mxGeometry x="590" y="585" width="200" height="64" as="geometry" />
+        </mxCell>
+        <mxCell id="uc_payroll" value="Calculate monthly&#10;payroll" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontColor=#102a43;" vertex="1" parent="1">
+          <mxGeometry x="590" y="680" width="200" height="64" as="geometry" />
+        </mxCell>
+        <mxCell id="uc_display" value="Display employee list" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontColor=#102a43;" vertex="1" parent="1">
+          <mxGeometry x="590" y="775" width="200" height="64" as="geometry" />
+        </mxCell>
+        <mxCell id="uc_save" value="Save data to file" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;fontColor=#663d00;" vertex="1" parent="1">
+          <mxGeometry x="590" y="870" width="200" height="64" as="geometry" />
+        </mxCell>
+        <mxCell id="uc_quit" value="Quit program" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontColor=#102a43;" vertex="1" parent="1">
+          <mxGeometry x="590" y="965" width="200" height="64" as="geometry" />
+        </mxCell>
+        <mxCell id="uc_meal" value="Meal allowance&#10;management" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1;fontColor=#102a43;" vertex="1" parent="1">
+          <mxGeometry x="590" y="1060" width="200" height="64" as="geometry" />
+        </mxCell>
+
+        <mxCell id="uc_meal_create" value="Create meal&#10;allowance" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;fontColor=#1e4620;" vertex="1" parent="1">
+          <mxGeometry x="380" y="1230" width="170" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="uc_meal_read" value="Read / list&#10;allowances" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;fontColor=#1e4620;" vertex="1" parent="1">
+          <mxGeometry x="600" y="1230" width="170" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="uc_meal_update" value="Update meal&#10;days" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;fontColor=#1e4620;" vertex="1" parent="1">
+          <mxGeometry x="820" y="1230" width="170" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="uc_meal_delete" value="Delete meal&#10;allowance" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;fontColor=#1e4620;" vertex="1" parent="1">
+          <mxGeometry x="1040" y="1230" width="170" height="56" as="geometry" />
+        </mxCell>
+
+        <mxCell id="s_login" style="endArrow=none;html=1;strokeColor=#1f6feb;strokeWidth=1.5;edgeStyle=none;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="staff" target="uc_login">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="s_load" style="endArrow=none;html=1;strokeColor=#1f6feb;strokeWidth=1.5;edgeStyle=none;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="staff" target="uc_load">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="s_search" style="endArrow=none;html=1;strokeColor=#1f6feb;strokeWidth=1.5;edgeStyle=none;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="staff" target="uc_search">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="s_payroll" style="endArrow=none;html=1;strokeColor=#1f6feb;strokeWidth=1.5;edgeStyle=none;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="staff" target="uc_payroll">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="s_display" style="endArrow=none;html=1;strokeColor=#1f6feb;strokeWidth=1.5;edgeStyle=none;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="staff" target="uc_display">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="s_quit" style="endArrow=none;html=1;strokeColor=#1f6feb;strokeWidth=1.5;edgeStyle=none;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="staff" target="uc_quit">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="s_meal" style="endArrow=none;html=1;strokeColor=#1f6feb;strokeWidth=1.5;edgeStyle=none;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="staff" target="uc_meal">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="a_login" style="endArrow=none;html=1;strokeColor=#b85450;strokeWidth=1.5;edgeStyle=none;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="admin" target="uc_login">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a_load" style="endArrow=none;html=1;strokeColor=#b85450;strokeWidth=1.5;edgeStyle=none;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="admin" target="uc_load">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a_add" style="endArrow=none;html=1;strokeColor=#b85450;strokeWidth=1.5;edgeStyle=none;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="admin" target="uc_add">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a_update" style="endArrow=none;html=1;strokeColor=#b85450;strokeWidth=1.5;edgeStyle=none;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="admin" target="uc_update">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a_remove" style="endArrow=none;html=1;strokeColor=#b85450;strokeWidth=1.5;edgeStyle=none;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="admin" target="uc_remove">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a_search" style="endArrow=none;html=1;strokeColor=#b85450;strokeWidth=1.5;edgeStyle=none;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="admin" target="uc_search">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a_payroll" style="endArrow=none;html=1;strokeColor=#b85450;strokeWidth=1.5;edgeStyle=none;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="admin" target="uc_payroll">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a_display" style="endArrow=none;html=1;strokeColor=#b85450;strokeWidth=1.5;edgeStyle=none;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="admin" target="uc_display">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a_save" style="endArrow=none;html=1;strokeColor=#b85450;strokeWidth=1.5;edgeStyle=none;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="admin" target="uc_save">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a_quit" style="endArrow=none;html=1;strokeColor=#b85450;strokeWidth=1.5;edgeStyle=none;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="admin" target="uc_quit">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a_meal" style="endArrow=none;html=1;strokeColor=#b85450;strokeWidth=1.5;edgeStyle=none;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="admin" target="uc_meal">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="inc_create" value="&#171;include&#187;" style="endArrow=open;html=1;dashed=1;strokeColor=#82b366;strokeWidth=1.5;fontColor=#1e4620;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="uc_meal" target="uc_meal_create">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="inc_read" value="&#171;include&#187;" style="endArrow=open;html=1;dashed=1;strokeColor=#82b366;strokeWidth=1.5;fontColor=#1e4620;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="uc_meal" target="uc_meal_read">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="inc_update" value="&#171;include&#187;" style="endArrow=open;html=1;dashed=1;strokeColor=#82b366;strokeWidth=1.5;fontColor=#1e4620;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="uc_meal" target="uc_meal_update">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="inc_delete" value="&#171;include&#187;" style="endArrow=open;html=1;dashed=1;strokeColor=#82b366;strokeWidth=1.5;fontColor=#1e4620;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="uc_meal" target="uc_meal_delete">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

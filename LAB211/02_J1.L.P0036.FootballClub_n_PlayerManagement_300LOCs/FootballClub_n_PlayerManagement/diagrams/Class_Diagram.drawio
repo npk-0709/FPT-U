@@ -1,0 +1,361 @@
+<mxfile host="app.diagrams.net" modified="2026-07-03T06:00:00.000Z" agent="Cursor" version="24.0.0">
+  <diagram id="class-diagram" name="Class Diagram">
+    <mxGraphModel dx="1600" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1400" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <!-- Package: model -->
+        <mxCell id="pkg_model" value="model" style="shape=folder;fontStyle=1;tabWidth=80;tabHeight=24;tabPosition=left;html=1;verticalAlign=top;align=left;spacingLeft=10;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="20" y="20" width="1320" height="620" as="geometry"/>
+        </mxCell>
+
+        <!-- Validatable -->
+        <mxCell id="valid" value="&lt;&lt;interface&gt;&gt;&#xa;Validatable" style="swimlane;fontStyle=3;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=#fff2cc;strokeColor=#d6b656;html=1;" vertex="1" parent="pkg_model">
+          <mxGeometry x="40" y="60" width="300" height="220" as="geometry"/>
+        </mxCell>
+        <mxCell id="valid_f1" value="+ CLUB_ID_REGEX: String" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontSize=11;" vertex="1" parent="valid">
+          <mxGeometry y="26" width="300" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="valid_f2" value="+ PLAYER_ID_REGEX: String" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontSize=11;" vertex="1" parent="valid">
+          <mxGeometry y="46" width="300" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="valid_f3" value="+ YOUTH_PLAYER_ID_REGEX: String" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontSize=11;" vertex="1" parent="valid">
+          <mxGeometry y="66" width="300" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="valid_f4" value="+ YOUTH_MIN_AGE / MAX_AGE / FIRST_TEAM_AGE: int" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontSize=11;" vertex="1" parent="valid">
+          <mxGeometry y="86" width="300" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="valid_f5" value="+ POSITIONS: Set&lt;String&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontSize=11;" vertex="1" parent="valid">
+          <mxGeometry y="106" width="300" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="valid_f6" value="+ isValid(value, pattern): boolean" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontSize=11;" vertex="1" parent="valid">
+          <mxGeometry y="126" width="300" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="valid_f7" value="+ isPosition(value): boolean" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontSize=11;" vertex="1" parent="valid">
+          <mxGeometry y="146" width="300" height="20" as="geometry"/>
+        </mxCell>
+
+        <!-- Person -->
+        <mxCell id="person" value="&lt;&lt;abstract&gt;&gt;&#xa;Person" style="swimlane;fontStyle=3;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=#dae8fc;strokeColor=#6c8ebf;html=1;" vertex="1" parent="pkg_model">
+          <mxGeometry x="400" y="60" width="280" height="160" as="geometry"/>
+        </mxCell>
+        <mxCell id="person_f1" value="# id: String" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontSize=11;" vertex="1" parent="person">
+          <mxGeometry y="26" width="280" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="person_f2" value="# name: String" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontSize=11;" vertex="1" parent="person">
+          <mxGeometry y="46" width="280" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="person_f3" value="+ getId(): String" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontSize=11;" vertex="1" parent="person">
+          <mxGeometry y="66" width="280" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="person_f4" value="+ getName() / setName(): String / void" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontSize=11;" vertex="1" parent="person">
+          <mxGeometry y="86" width="280" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="person_f5" value="+ getDisplayInfo(): String {abstract}" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontSize=11;" vertex="1" parent="person">
+          <mxGeometry y="106" width="280" height="20" as="geometry"/>
+        </mxCell>
+
+        <!-- Club -->
+        <mxCell id="club" value="Club" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=#d5e8d4;strokeColor=#82b366;html=1;" vertex="1" parent="pkg_model">
+          <mxGeometry x="740" y="60" width="280" height="200" as="geometry"/>
+        </mxCell>
+        <mxCell id="club_f1" value="- clubID, name, sponsor: String" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontSize=11;" vertex="1" parent="club">
+          <mxGeometry y="26" width="280" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="club_f2" value="- budget: double" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontSize=11;" vertex="1" parent="club">
+          <mxGeometry y="46" width="280" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="club_f3" value="+ getters / setters" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontSize=11;" vertex="1" parent="club">
+          <mxGeometry y="66" width="280" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="club_f4" value="+ compareTo(Club): int" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontSize=11;" vertex="1" parent="club">
+          <mxGeometry y="86" width="280" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="club_f5" value="+ toString(): String" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontSize=11;" vertex="1" parent="club">
+          <mxGeometry y="106" width="280" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="club_note" value="implements Serializable, Comparable&lt;Club&gt;" style="text;html=1;fontSize=10;fontStyle=2;align=center;" vertex="1" parent="club">
+          <mxGeometry y="126" width="280" height="20" as="geometry"/>
+        </mxCell>
+
+        <!-- Player -->
+        <mxCell id="player" value="Player" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=#dae8fc;strokeColor=#6c8ebf;html=1;" vertex="1" parent="pkg_model">
+          <mxGeometry x="320" y="300" width="300" height="200" as="geometry"/>
+        </mxCell>
+        <mxCell id="player_f1" value="- clubID: String" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontSize=11;" vertex="1" parent="player">
+          <mxGeometry y="26" width="300" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="player_f2" value="- position: String" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontSize=11;" vertex="1" parent="player">
+          <mxGeometry y="46" width="300" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="player_f3" value="- shirtNumber: int" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontSize=11;" vertex="1" parent="player">
+          <mxGeometry y="66" width="300" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="player_f4" value="+ getDisplayInfo(): String" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontSize=11;" vertex="1" parent="player">
+          <mxGeometry y="86" width="300" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="player_f5" value="+ compareTo(Player): int" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontSize=11;" vertex="1" parent="player">
+          <mxGeometry y="106" width="300" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="player_f6" value="+ toString(): String" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontSize=11;" vertex="1" parent="player">
+          <mxGeometry y="126" width="300" height="20" as="geometry"/>
+        </mxCell>
+
+        <!-- YouthPlayer -->
+        <mxCell id="youth" value="YouthPlayer" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=#dae8fc;strokeColor=#6c8ebf;html=1;" vertex="1" parent="pkg_model">
+          <mxGeometry x="680" y="300" width="300" height="200" as="geometry"/>
+        </mxCell>
+        <mxCell id="youth_f1" value="- clubId: String" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontSize=11;" vertex="1" parent="youth">
+          <mxGeometry y="26" width="300" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="youth_f2" value="- age: int" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontSize=11;" vertex="1" parent="youth">
+          <mxGeometry y="46" width="300" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="youth_f3" value="+ isEligibleForFirstTeam(): boolean" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontSize=11;" vertex="1" parent="youth">
+          <mxGeometry y="66" width="300" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="youth_f4" value="+ getDisplayInfo(): String" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontSize=11;" vertex="1" parent="youth">
+          <mxGeometry y="86" width="300" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="youth_f5" value="+ compareTo(YouthPlayer): int" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontSize=11;" vertex="1" parent="youth">
+          <mxGeometry y="106" width="300" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="youth_f6" value="+ toString(): String" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontSize=11;" vertex="1" parent="youth">
+          <mxGeometry y="126" width="300" height="20" as="geometry"/>
+        </mxCell>
+
+        <!-- Auth: Permission, Role, User -->
+        <mxCell id="perm" value="&lt;&lt;enumeration&gt;&gt;&#xa;Permission" style="swimlane;fontStyle=3;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=#f8cecc;strokeColor=#b85450;html=1;" vertex="1" parent="pkg_model">
+          <mxGeometry x="40" y="320" width="220" height="160" as="geometry"/>
+        </mxCell>
+        <mxCell id="perm_f1" value="CLUB_VIEW, CLUB_MANAGE" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontSize=11;" vertex="1" parent="perm">
+          <mxGeometry y="26" width="220" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="perm_f2" value="PLAYER_VIEW, PLAYER_MANAGE" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontSize=11;" vertex="1" parent="perm">
+          <mxGeometry y="46" width="220" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="perm_f3" value="YOUTH_VIEW, YOUTH_MANAGE" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontSize=11;" vertex="1" parent="perm">
+          <mxGeometry y="66" width="220" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="perm_f4" value="DATA_PERSIST" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontSize=11;" vertex="1" parent="perm">
+          <mxGeometry y="86" width="220" height="20" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="role" value="&lt;&lt;enumeration&gt;&gt;&#xa;Role" style="swimlane;fontStyle=3;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=#f8cecc;strokeColor=#b85450;html=1;" vertex="1" parent="pkg_model">
+          <mxGeometry x="1040" y="60" width="260" height="120" as="geometry"/>
+        </mxCell>
+        <mxCell id="role_f1" value="ADMIN, MANAGER, VIEWER" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontSize=11;" vertex="1" parent="role">
+          <mxGeometry y="26" width="260" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="role_f2" value="- permissions: Set&lt;Permission&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontSize=11;" vertex="1" parent="role">
+          <mxGeometry y="46" width="260" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="role_f3" value="+ can(Permission): boolean" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontSize=11;" vertex="1" parent="role">
+          <mxGeometry y="66" width="260" height="20" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="user" value="User" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=#f8cecc;strokeColor=#b85450;html=1;" vertex="1" parent="pkg_model">
+          <mxGeometry x="1040" y="220" width="260" height="140" as="geometry"/>
+        </mxCell>
+        <mxCell id="user_f1" value="- username, password: String" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontSize=11;" vertex="1" parent="user">
+          <mxGeometry y="26" width="260" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="user_f2" value="- role: Role" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontSize=11;" vertex="1" parent="user">
+          <mxGeometry y="46" width="260" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="user_f3" value="+ can(Permission): boolean" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontSize=11;" vertex="1" parent="user">
+          <mxGeometry y="66" width="260" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="user_f4" value="+ matches(username, password): boolean" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontSize=11;" vertex="1" parent="user">
+          <mxGeometry y="86" width="260" height="20" as="geometry"/>
+        </mxCell>
+
+        <!-- Package: business -->
+        <mxCell id="pkg_biz" value="business" style="shape=folder;fontStyle=1;tabWidth=80;tabHeight=24;tabPosition=left;html=1;verticalAlign=top;align=left;spacingLeft=10;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="20" y="660" width="900" height="340" as="geometry"/>
+        </mxCell>
+        <mxCell id="clubmgr" value="ClubsManager" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=#e1d5e7;strokeColor=#9673a6;html=1;" vertex="1" parent="pkg_biz">
+          <mxGeometry x="40" y="700" width="260" height="200" as="geometry"/>
+        </mxCell>
+        <mxCell id="clubmgr_f1" value="- list: List&lt;Club&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontSize=11;" vertex="1" parent="clubmgr">
+          <mxGeometry y="26" width="260" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="clubmgr_f2" value="- dirty: boolean" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontSize=11;" vertex="1" parent="clubmgr">
+          <mxGeometry y="46" width="260" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="clubmgr_f3" value="+ listAll / add / search / update" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontSize=11;" vertex="1" parent="clubmgr">
+          <mxGeometry y="66" width="260" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="clubmgr_f4" value="+ listByBudget / save / loadStrict" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontSize=11;" vertex="1" parent="clubmgr">
+          <mxGeometry y="86" width="260" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="clubmgr_f5" value="+ findById(id): Club" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontSize=11;" vertex="1" parent="clubmgr">
+          <mxGeometry y="106" width="260" height="20" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="plymgr" value="PlayersManager" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=#e1d5e7;strokeColor=#9673a6;html=1;" vertex="1" parent="pkg_biz">
+          <mxGeometry x="330" y="700" width="260" height="200" as="geometry"/>
+        </mxCell>
+        <mxCell id="plymgr_f1" value="- list: List&lt;Player&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontSize=11;" vertex="1" parent="plymgr">
+          <mxGeometry y="26" width="260" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="plymgr_f2" value="+ add / remove / update(clubs)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontSize=11;" vertex="1" parent="plymgr">
+          <mxGeometry y="46" width="260" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="plymgr_f3" value="+ listSortedByClubThenShirt(clubs)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontSize=11;" vertex="1" parent="plymgr">
+          <mxGeometry y="66" width="260" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="plymgr_f4" value="+ searchByPartialName / listByPosition" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontSize=11;" vertex="1" parent="plymgr">
+          <mxGeometry y="86" width="260" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="plymgr_f5" value="+ save / loadStrict(path, clubs)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontSize=11;" vertex="1" parent="plymgr">
+          <mxGeometry y="106" width="260" height="20" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="ythmgr" value="YouthPlayersManager" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=#e1d5e7;strokeColor=#9673a6;html=1;" vertex="1" parent="pkg_biz">
+          <mxGeometry x="620" y="700" width="260" height="200" as="geometry"/>
+        </mxCell>
+        <mxCell id="ythmgr_f1" value="- list: List&lt;YouthPlayer&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontSize=11;" vertex="1" parent="ythmgr">
+          <mxGeometry y="26" width="260" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="ythmgr_f2" value="+ add / update / remove(clubs)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontSize=11;" vertex="1" parent="ythmgr">
+          <mxGeometry y="46" width="260" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="ythmgr_f3" value="+ listEligibleForFirstTeam()" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontSize=11;" vertex="1" parent="ythmgr">
+          <mxGeometry y="66" width="260" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="ythmgr_f4" value="+ save / loadStrict(path, clubs)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontSize=11;" vertex="1" parent="ythmgr">
+          <mxGeometry y="86" width="260" height="20" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="authmgr" value="AuthManager" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=#e1d5e7;strokeColor=#9673a6;html=1;" vertex="1" parent="1">
+          <mxGeometry x="960" y="700" width="260" height="140" as="geometry"/>
+        </mxCell>
+        <mxCell id="authmgr_f1" value="- users: List&lt;User&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontSize=11;" vertex="1" parent="authmgr">
+          <mxGeometry y="26" width="260" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="authmgr_f2" value="+ login(): User" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontSize=11;" vertex="1" parent="authmgr">
+          <mxGeometry y="46" width="260" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="authmgr_f3" value="- authenticate(username, password): User" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontSize=11;" vertex="1" parent="authmgr">
+          <mxGeometry y="66" width="260" height="20" as="geometry"/>
+        </mxCell>
+
+        <!-- Package: dispatcher & tools -->
+        <mxCell id="menu" value="Menu" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=#ffe6cc;strokeColor=#d79b00;html=1;" vertex="1" parent="1">
+          <mxGeometry x="960" y="880" width="300" height="180" as="geometry"/>
+        </mxCell>
+        <mxCell id="menu_f1" value="- clubs, players, youthPlayers: *Manager" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontSize=11;" vertex="1" parent="menu">
+          <mxGeometry y="26" width="300" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="menu_f2" value="- auth: AuthManager" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontSize=11;" vertex="1" parent="menu">
+          <mxGeometry y="46" width="300" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="menu_f3" value="- currentUser: User" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontSize=11;" vertex="1" parent="menu">
+          <mxGeometry y="66" width="300" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="menu_f4" value="+ main(args) / start() / run()" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontSize=11;" vertex="1" parent="menu">
+          <mxGeometry y="86" width="300" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="menu_f5" value="+ saveAll() / reloadAll() / quit()" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontSize=11;" vertex="1" parent="menu">
+          <mxGeometry y="106" width="300" height="20" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="menuitem" value="MenuItem" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=#ffe6cc;strokeColor=#d79b00;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1280" y="880" width="260" height="140" as="geometry"/>
+        </mxCell>
+        <mxCell id="menuitem_f1" value="- label: String" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontSize=11;" vertex="1" parent="menuitem">
+          <mxGeometry y="26" width="260" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="menuitem_f2" value="- permission: Permission" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontSize=11;" vertex="1" parent="menuitem">
+          <mxGeometry y="46" width="260" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="menuitem_f3" value="- action: Runnable" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontSize=11;" vertex="1" parent="menuitem">
+          <mxGeometry y="66" width="260" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="menuitem_f4" value="+ run(): void" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontSize=11;" vertex="1" parent="menuitem">
+          <mxGeometry y="86" width="260" height="20" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="inputter" value="Inputter" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=#fff2cc;strokeColor=#d6b656;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1280" y="700" width="260" height="140" as="geometry"/>
+        </mxCell>
+        <mxCell id="inputter_f1" value="- sc: Scanner {static}" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontSize=11;" vertex="1" parent="inputter">
+          <mxGeometry y="26" width="260" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="inputter_f2" value="+ inputInt / inputLoop / inputNonEmpty" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontSize=11;" vertex="1" parent="inputter">
+          <mxGeometry y="46" width="260" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="inputter_f3" value="+ inputOptional / inputPositiveDouble" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontSize=11;" vertex="1" parent="inputter">
+          <mxGeometry y="66" width="260" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="inputter_f4" value="+ inputYesNo(prompt): boolean" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;html=1;fontSize=11;" vertex="1" parent="inputter">
+          <mxGeometry y="86" width="260" height="20" as="geometry"/>
+        </mxCell>
+
+        <!-- Relationships -->
+        <mxCell id="e1" value="" style="endArrow=block;endFill=0;html=1;strokeWidth=2;" edge="1" parent="1" source="player" target="person">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e1l" value="extends" style="edgeLabel;html=1;align=center;verticalAlign=middle;fontSize=10;" vertex="1" connectable="0" parent="e1">
+          <mxGeometry relative="1" x="-0.1" y="1" as="geometry"><mxPoint as="offset"/></mxGeometry>
+        </mxCell>
+        <mxCell id="e2" value="" style="endArrow=block;endFill=0;html=1;strokeWidth=2;" edge="1" parent="1" source="youth" target="person">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e2l" value="extends" style="edgeLabel;html=1;align=center;verticalAlign=middle;fontSize=10;" vertex="1" connectable="0" parent="e2">
+          <mxGeometry relative="1" as="geometry"><mxPoint as="offset"/></mxGeometry>
+        </mxCell>
+        <mxCell id="e3" value="" style="endArrow=open;endFill=0;html=1;strokeWidth=1;dashed=0;" edge="1" parent="1" source="player" target="club">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e3l" value="clubID" style="edgeLabel;html=1;align=center;verticalAlign=middle;fontSize=10;" vertex="1" connectable="0" parent="e3">
+          <mxGeometry relative="1" as="geometry"><mxPoint as="offset"/></mxGeometry>
+        </mxCell>
+        <mxCell id="e4" value="" style="endArrow=open;endFill=0;html=1;strokeWidth=1;" edge="1" parent="1" source="youth" target="club">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e4l" value="clubId" style="edgeLabel;html=1;align=center;verticalAlign=middle;fontSize=10;" vertex="1" connectable="0" parent="e4">
+          <mxGeometry relative="1" as="geometry"><mxPoint as="offset"/></mxGeometry>
+        </mxCell>
+        <mxCell id="e5" value="" style="endArrow=diamondThin;endFill=1;html=1;strokeWidth=1;" edge="1" parent="1" source="clubmgr" target="club">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e5l" value="1..*" style="edgeLabel;html=1;align=center;verticalAlign=middle;fontSize=10;" vertex="1" connectable="0" parent="e5">
+          <mxGeometry relative="1" as="geometry"><mxPoint as="offset"/></mxGeometry>
+        </mxCell>
+        <mxCell id="e6" value="" style="endArrow=diamondThin;endFill=1;html=1;strokeWidth=1;" edge="1" parent="1" source="plymgr" target="player">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e7" value="" style="endArrow=diamondThin;endFill=1;html=1;strokeWidth=1;" edge="1" parent="1" source="ythmgr" target="youth">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e8" value="" style="endArrow=open;endFill=0;html=1;strokeWidth=1;dashed=1;" edge="1" parent="1" source="menu" target="clubmgr">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e9" value="" style="endArrow=open;endFill=0;html=1;strokeWidth=1;dashed=1;" edge="1" parent="1" source="menu" target="authmgr">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e10" value="" style="endArrow=open;endFill=0;html=1;strokeWidth=1;" edge="1" parent="1" source="user" target="role">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e10l" value="has" style="edgeLabel;html=1;align=center;verticalAlign=middle;fontSize=10;" vertex="1" connectable="0" parent="e10">
+          <mxGeometry relative="1" as="geometry"><mxPoint as="offset"/></mxGeometry>
+        </mxCell>
+        <mxCell id="e11" value="" style="endArrow=open;endFill=0;html=1;strokeWidth=1;dashed=1;" edge="1" parent="1" source="role" target="perm">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e11l" value="uses" style="edgeLabel;html=1;align=center;verticalAlign=middle;fontSize=10;" vertex="1" connectable="0" parent="e11">
+          <mxGeometry relative="1" as="geometry"><mxPoint as="offset"/></mxGeometry>
+        </mxCell>
+        <mxCell id="e12" value="" style="endArrow=diamondThin;endFill=1;html=1;strokeWidth=1;" edge="1" parent="1" source="menu" target="menuitem">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e12l" value="items 0..*" style="edgeLabel;html=1;align=center;verticalAlign=middle;fontSize=10;" vertex="1" connectable="0" parent="e12">
+          <mxGeometry relative="1" as="geometry"><mxPoint as="offset"/></mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
