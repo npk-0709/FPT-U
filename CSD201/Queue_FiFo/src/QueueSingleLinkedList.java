@@ -1,13 +1,13 @@
-public class StackSingleLinkedList {
+public class QueueSingleLinkedList {
     private NodeSingle head;
     private NodeSingle tail;
 
-    public StackSingleLinkedList(NodeSingle head, NodeSingle tail) {
+    public QueueSingleLinkedList(NodeSingle head, NodeSingle tail) {
         this.head = head;
         this.tail = tail;
     }
 
-    public StackSingleLinkedList() {
+    public QueueSingleLinkedList() {
         this.head = null;
         this.tail = null;
     }
@@ -32,18 +32,18 @@ public class StackSingleLinkedList {
         return head == null;
     }
 
-    public void push(int value) {
-        NodeSingle newNodeSingle = new NodeSingle(value);
+    public void enqueue(int value) {
+        NodeSingle node = new NodeSingle(value);
         if (isEmpty()) {
-            head = newNodeSingle;
-            tail = newNodeSingle;
+            head = node;
+            tail = node;
         } else {
-            newNodeSingle.setNext(head);
-            head = newNodeSingle;
+            tail.setNext(node);
+            tail = node;
         }
     }
 
-    public NodeSingle pop() {
+    public NodeSingle dequeue() {
         if (isEmpty()) {
             return null;
         } else if (head == tail) {

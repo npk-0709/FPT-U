@@ -28,18 +28,19 @@ public class StackDoublyLinkedList {
         return head == null;
     }
 
-    public void push(int value) {
-        NodeDoubly newNodeDoubly = new NodeDoubly(value);
+    public void enqueue(int value) {
+        NodeDoubly newNode = new NodeDoubly(value);
         if (isEmpty()) {
-            head = newNodeDoubly;
-            tail = newNodeDoubly;
+            head = newNode;
+            tail = newNode;
         } else {
-            newNodeDoubly.setNext(head);
-            head = newNodeDoubly;
+            tail.setNext(newNode);
+            newNode.setPrev(tail);
+            tail = newNode;
         }
     }
 
-    public NodeDoubly pop() {
+    public NodeDoubly dequeue() {
         if (isEmpty()) {
             return null;
         } else if (head == tail) {
@@ -53,6 +54,8 @@ public class StackDoublyLinkedList {
             head = head.getNext();
             if (head == null) {
                 tail = null;
+            } else {
+                head.setPrev(null);
             }
             return temp;
         }
