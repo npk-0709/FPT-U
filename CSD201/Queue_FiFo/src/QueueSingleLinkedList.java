@@ -62,12 +62,12 @@ public class QueueSingleLinkedList {
         }
     }
 
-    public void clean() {
+    public void clear() {
         head = null;
         tail = null;
     }
 
-    public NodeSingle top() {
+    public NodeSingle peek() {
         return head;
     }
 }

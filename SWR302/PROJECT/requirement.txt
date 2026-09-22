@@ -1,0 +1,26 @@
+1. phân tích nhóm người dùng trên app
+2. những tính năng tương ứng với các nhóm người dùng này
+3. chỉ ra những hạn chế của ứng dụng
+
+
+FAP:
+1. 	- Admin / Vận hành , giảng viên , kế toán , sinh viên , dvsv , khảo thí, thư viện, kế toán , giảng viên , sinh viên 
+
+
+2
+
+3. 	- Trải nghiệm người dùng (UX) và Giao diện (UI) lỗi thời: 
+	- Quá tải hệ thống khi lượng truy cập tăng cao
+	- còn 1 số bug chưa fix
+
+
+
+Shoppe
+1. 	- Người mua, người bán , đội hỗ trợ , Admin / Vận hành 
+
+2. 
+
+3.	-Giao diện quá tải thông tin (Cluttered UI):
+	-Kiểm soát chất lượng sản phẩm chưa triệt để: 
+	-Thuật toán gợi ý đôi khi "spam":
+	-Gánh nặng chi phí cho Người bán:

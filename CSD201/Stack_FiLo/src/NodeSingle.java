@@ -1,19 +1,19 @@
-public class Node {
+public class NodeSingle {
     private int value;
-    private Node next;
+    private NodeSingle next;
 
-    public Node(int value) {
+    public NodeSingle(int value) {
         this.value = value;
         this.next = null;
     }
 
-    public Node(int value, Node next) {
+    public NodeSingle(int value, NodeSingle next) {
         this.value = value;
         this.next = next;
 
     }
 
-    public Node() {
+    public NodeSingle() {
         this.value = 0;
         this.next = null;
     }
@@ -26,11 +26,11 @@ public class Node {
         this.value = value;
     }
 
-    public Node getNext() {
+    public NodeSingle getNext() {
         return next;
     }
 
-    public void setNext(Node next) {
+    public void setNext(NodeSingle next) {
         this.next = next;
     }
 }
