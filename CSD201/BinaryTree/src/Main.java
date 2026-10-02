@@ -5,11 +5,12 @@ public class Main {
         System.out.println("Cây rỗng? " + tree.isEmpty());
 
         // Tạo cây
-        TNode root = tree.setRoot(10);
-        TNode n20 = tree.addLeft(root, 20);
-        TNode n30 = tree.addRight(root, 30);
-        tree.addLeft(n20, 40);
-        tree.addRight(n20, 50);
+        TNode root = tree.setRoot(5);
+        tree.addLeft(root, 7);
+        tree.addRight(root, 4);
+        tree.addLeft(root.getLeft(), 8);
+        tree.addRight(root.getLeft(), 10);
+        tree.addRight(root.getRight(), 6);
 
         System.out.println("Cây rỗng? " + tree.isEmpty());
 
