@@ -135,7 +135,7 @@ Dữ liệu thời tiết trở thành **input** cho hệ thống tự động:
 
 ## 4. Thành phần phần cứng (BOM)
 
-### 4.1. Danh sách linh kiện
+### 4.1. Danh sách linh kiện ( tham khảo giá thôi)
 
 | STT | Linh kiện | SL | Đơn giá (đ) | Thành tiền (đ) | Ghi chú |
 |-----|-----------|:--:|:-----------:|:--------------:|---------|
