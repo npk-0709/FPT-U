@@ -1,4 +1,3 @@
-package warehouse;
 
 public class Product {
     private String barcode;

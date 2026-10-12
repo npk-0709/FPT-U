@@ -1,0 +1,5 @@
+Quy trình thực hiện nghiên cứu (3 bước)
+Bước 1: Tìm kiếm các bài báo/paper liên quan (related work) đến topic đã chọn — phân tích tiêu đề để biết những gì đã được làm, những gì chưa.
+Bước 2: Xác định research gap (khoảng trống nghiên cứu) — tìm ra điều mà các nghiên cứu trước chưa làm.
+Bước 3: Đề xuất phương pháp (method) nghiên cứu của riêng nhóm.
+Sau khi hoàn thành 3 bước và present (trình bày) được giảng viên duyệt (approve) → chuyển sang giai đoạn viết bài (writing) → submit.

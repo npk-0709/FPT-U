@@ -131,8 +131,10 @@
 
         %>
         
-        <form action="mainController">
+        <form action="Maincontroller" method="POST">
             <h2 class="infor">Add New Invoice Information</h2>
+            
+            <input type="hidden" name="action" value="add" />
             
             <div class="box">
                 <label>Invoice ID</label>
@@ -152,8 +154,8 @@
             </div>
             
             <div class="action-buttons">
-                <input type="submit" name="action" value="Save" />
-                <button type="button"><a href="mainController?action=Cancel">Cancel</a></button>
+                <input type="submit" value="Save" />
+                <button type="button"><a href="Searchcontroller">Cancel</a></button>
             </div>
             
         </form>

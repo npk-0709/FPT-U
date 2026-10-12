@@ -155,6 +155,10 @@
         <div class="container">
             <h1>Search Page</h1>
 
+            <div style="text-align: center; margin-bottom: 20px;">
+                <a href="addInvoice.jsp" style="text-decoration: none; padding: 10px 20px; background-color: #27ae60; color: white; border-radius: 4px; font-weight: bold; font-size: 15px;">+ Add New Invoice</a>
+            </div>
+
             <form class="search-form" action="Searchcontroller" method="POST" >
                 <% String searchParam = (String) session.getAttribute("TXT_SEARCH");%>
                 <input type="text" name="txtsearch" placeholder="Enter keyword to search..." value="<%= searchParam != null ? searchParam : ""%>" />
@@ -172,6 +176,7 @@
                         <th>Invoice Date</th>
                         <th>Customer</th>
                         <th>User ID</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -183,6 +188,11 @@
                         <td><%= dto.getInvDate()%></td>
                         <td><%= dto.getCustomer()%></td>
                         <td><%= dto.getUserID()%></td>
+                        <td>
+                            <a href="Maincontroller?action=update&invID=<%=dto.getInvID()%>">Update</a>
+                            <a href="Maincontroller?action=delete&invID=<%=dto.getInvID()%>" onclick="return confirm('Are you sure you want to delete this invoice?');">Delete</a>
+                        </td>
+                    </tr>
                     </tr>
                     <%
                         }

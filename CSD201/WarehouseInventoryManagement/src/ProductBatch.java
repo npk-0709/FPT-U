@@ -1,4 +1,3 @@
-package warehouse;
 
 import java.time.LocalDate;
 

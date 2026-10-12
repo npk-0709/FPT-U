@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sơ Đồ Dự Án - Weather Station</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>
+        mermaid.initialize({ startOnLoad: true, theme: 'default' });
+    </script>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; color: #333; margin: 0; padding: 20px; }
+        .container { max-width: 1000px; margin: auto; }
+        h1 { text-align: center; color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; }
+        .diagram-section { background: white; border-radius: 8px; padding: 20px; margin-bottom: 30px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        h2 { color: #2980b9; margin-top: 0; }
+        .mermaid { display: flex; justify-content: center; margin-top: 15px; }
+        .description { font-size: 14px; color: #555; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📊 Các Sơ Đồ Dự Án - Weather Station</h1>
+        
+        <div class="diagram-section">
+            <h2>1. Sơ đồ khối hệ thống (System Block Diagram)</h2>
+            <div class="description">Sơ đồ tổng quan về kiến trúc 3 lớp của hệ thống quan trắc thời tiết.</div>
+            <div class="mermaid">
+                flowchart LR
+                    subgraph Khối Cảm Biến
+                        BME[BME280<br/>Nhiệt, Ẩm, Áp suất]
+                        DHT[DHT22<br/>Nhiệt, Ẩm]
+                        RAIN[Cảm biến mưa<br/>FC-37 / Gầu lật]
+                    end
+                    
+                    subgraph Khối LoRa Node (Ngoài trời)
+                        NODE[ESP8266 NodeMCU]
+                        LORA1[SX1278 433MHz]
+                        NODE <-->|SPI| LORA1
+                    end
+                    
+                    subgraph Khối Gateway (Trong nhà)
+                        GATEWAY[ESP8266 NodeMCU]
+                        LORA2[SX1278 433MHz]
+                        OLED[OLED SSD1306]
+                        BUZZER[Buzzer & LED]
+                        GATEWAY <-->|SPI| LORA2
+                        GATEWAY -->|I2C| OLED
+                        GATEWAY -->|GPIO| BUZZER
+                    end
+                    
+                    subgraph Cloud & App
+                        TS[ThingSpeak / Cloud]
+                        TELE[Telegram Bot]
+                    end
+                    
+                    BME -->|I2C| NODE
+                    DHT -->|GPIO| NODE
+                    RAIN -->|GPIO| NODE
+                    
+                    LORA1 -.->|Sóng LoRa 433MHz<br/>(SF9, 125kHz)| LORA2
+                    
+                    GATEWAY -->|Wi-Fi / HTTP| TS
+                    TS -->|Webhook / API| TELE
+            </div>
+        </div>
+
+        <div class="diagram-section">
+            <h2>2. Sơ đồ luồng hoạt động Gateway (Gateway Flowchart)</h2>
+            <div class="description">Thuật toán xử lý dữ liệu và gửi cảnh báo tại Gateway.</div>
+            <div class="mermaid">
+                flowchart TD
+                    A([Khởi động Gateway]) --> B[Kết nối Wi-Fi & Khởi tạo LoRa]
+                    B --> C{Nhận được gói<br/>tin LoRa?}
+                    C -- Không --> D{Mất kết nối<br/>> 3 phút?}
+                    D -- Có --> E[Gửi cảnh báo MẤT KẾT NỐI]
+                    E --> C
+                    D -- Không --> C
+                    
+                    C -- Có --> F[Phân tách dữ liệu CSV<br/>Nhiệt, Ẩm, Áp suất, Mưa]
+                    F --> G[Cập nhật màn hình OLED]
+                    G --> H[Gửi dữ liệu lên Cloud<br/>ThingSpeak / Blynk]
+                    H --> I{Giá trị vượt<br/>ngưỡng?}
+                    I -- Có --> J{Đã qua thời gian<br/>cooldown 15p?}
+                    J -- Có --> K[Gửi cảnh báo Telegram<br/>Bật Còi/LED]
+                    K --> C
+                    J -- Không --> C
+                    
+                    I -- Không --> L{Trước đó có<br/>cảnh báo?}
+                    L -- Có --> M[Gửi tin báo ĐÃ ỔN ĐỊNH<br/>Tắt Còi/LED]
+                    M --> C
+                    L -- Không --> C
+            </div>
+        </div>
+
+        <div class="diagram-section">
+            <h2>3. Sơ đồ đấu nối phần cứng LoRa Node</h2>
+            <div class="description">Cách thức đấu nối giữa ESP8266 và các cảm biến (Sử dụng biểu đồ lớp để thể hiện chân pin).</div>
+            <div class="mermaid">
+                classDiagram
+                    class ESP8266_Node {
+                        +3V3
+                        +GND
+                        +D1 (SCL)
+                        +D2 (SDA)
+                        +D3 (GPIO)
+                        +D4 (GPIO)
+                        +D5 (SCK)
+                        +D6 (MISO)
+                        +D7 (MOSI)
+                        +D8 (CS)
+                        +D0 (RST)
+                    }
+                    class LoRa_SX1278 {
+                        +VCC : Tới 3V3
+                        +GND : Tới GND
+                        +SCK : Tới D5
+                        +MISO : Tới D6
+                        +MOSI : Tới D7
+                        +NSS : Tới D8
+                        +RESET : Tới D0
+                    }
+                    class BME280 {
+                        +VIN : Tới 3V3
+                        +GND : Tới GND
+                        +SCL : Tới D1
+                        +SDA : Tới D2
+                    }
+                    class Rain_Sensor {
+                        +VCC : Tới 3V3
+                        +GND : Tới GND
+                        +DO : Tới D3
+                    }
+                    
+                    ESP8266_Node <|-- LoRa_SX1278 : Giao tiếp SPI
+                    ESP8266_Node <|-- BME280 : Giao tiếp I2C
+                    ESP8266_Node <|-- Rain_Sensor : Digital In (Ngắt)
+            </div>
+        </div>
+
+        <div class="diagram-section">
+            <h2>4. Lộ trình thực hiện dự án (Gantt Chart)</h2>
+            <div class="description">Bảng tiến độ công việc trong 3 tuần.</div>
+            <div class="mermaid">
+                gantt
+                    title Kế hoạch phát triển dự án Weather Station
+                    dateFormat  YYYY-MM-DD
+                    axisFormat  %d/%m
+                
+                    section Tuần 1: Phần cứng
+                    Mua linh kiện & Chuẩn bị   :hw1, 2026-10-05, 3d
+                    Đấu nối & Test linh kiện   :hw2, after hw1, 3d
+                    Viết Code Đọc Cảm biến     :fw1, after hw1, 4d
+                
+                    section Tuần 2: LoRa & Cloud
+                    Lập trình LoRa Node gửi    :fw2, 2026-10-12, 3d
+                    Lập trình Gateway nhận     :fw3, after fw2, 3d
+                    Cấu hình Cloud & Dashboard :cl1, 2026-10-12, 4d
+                    Đẩy dữ liệu từ Gateway lên Cloud :cl2, after fw3, 3d
+                
+                    section Tuần 3: Hoàn thiện
+                    Cảnh báo Telegram & Logic  :fw4, 2026-10-19, 3d
+                    Lắp hộp & Test ngoài trời  :hw3, 2026-10-21, 3d
+                    Viết Báo Cáo & Chuẩn bị Demo:doc1, 2026-10-19, 5d
+            </div>
+        </div>
+    </div>
+</body>
+</html>
