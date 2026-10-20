@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/D:/FPTU/4_FA26/CSD201/Project/WarehouseInventoryManagement/src/datastructure/BatchQueue.java</file>
+            <file>file:/D:/FPTU/4_FA26/CSD201/Project/WarehouseInventoryManagement/src/model/StockTransaction.java</file>
+            <file>file:/D:/FPTU/4_FA26/CSD201/Project/WarehouseInventoryManagement/src/controller/WarehouseManager.java</file>
+            <file>file:/D:/FPTU/4_FA26/CSD201/Project/WarehouseInventoryManagement/src/model/Batch.java</file>
+            <file>file:/D:/FPTU/4_FA26/CSD201/Project/WarehouseInventoryManagement/src/datastructure/ProductBST.java</file>
+            <file>file:/D:/FPTU/4_FA26/CSD201/Project/WarehouseInventoryManagement/src/controller/StatisticsManager.java</file>
+            <file>file:/D:/FPTU/4_FA26/CSD201/Project/WarehouseInventoryManagement/src/model/TransactionType.java</file>
+            <file>file:/D:/FPTU/4_FA26/CSD201/Project/WarehouseInventoryManagement/src/controller/ProductManager.java</file>
+            <file>file:/D:/FPTU/4_FA26/CSD201/Project/WarehouseInventoryManagement/src/datastructure/BatchNode.java</file>
+            <file>file:/D:/FPTU/4_FA26/CSD201/Project/WarehouseInventoryManagement/src/util/ResultCode.java</file>
+            <file>file:/D:/FPTU/4_FA26/CSD201/Project/WarehouseInventoryManagement/src/datastructure/TransactionNode.java</file>
+            <file>file:/D:/FPTU/4_FA26/CSD201/Project/WarehouseInventoryManagement/src/main/Main.java</file>
+            <file>file:/D:/FPTU/4_FA26/CSD201/Project/WarehouseInventoryManagement/src/util/InputValidator.java</file>
+            <file>file:/D:/FPTU/4_FA26/CSD201/Project/WarehouseInventoryManagement/src/model/Product.java</file>
+            <file>file:/D:/FPTU/4_FA26/CSD201/Project/WarehouseInventoryManagement/src/datastructure/Node.java</file>
+            <file>file:/D:/FPTU/4_FA26/CSD201/Project/WarehouseInventoryManagement/src/constants/StoreInfo.java</file>
+            <file>file:/D:/FPTU/4_FA26/CSD201/Project/WarehouseInventoryManagement/src/datastructure/TransactionLog.java</file>
+            <file>file:/D:/FPTU/4_FA26/CSD201/Project/WarehouseInventoryManagement/src/view/ConsoleView.java</file>
+        </group>
+    </open-files>
+</project-private>

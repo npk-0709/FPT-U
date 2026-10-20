@@ -31,11 +31,8 @@ public class Maincontroller extends HttpServlet {
                 rd.forward(request, response);
             }
             if (action.equals("logout")) {
-                HttpSession session = request.getSession(false); // Lấy session hiện tại, không tạo mới nếu không tồn tại
-                if (session != null) {
-                    session.invalidate(); // Hủy toàn bộ session và xóa mọi thuộc tính bên trong
-                    response.sendRedirect("/ServletWithDB");
-                }
+                RequestDispatcher rd = request.getRequestDispatcher("/LogoutController");
+                rd.forward(request, response);
 
             }
             if (action.equals("search")) {

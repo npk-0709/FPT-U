@@ -1,4 +1,5 @@
-
+<%@page import="dto.InvoiceDTO"%>
+<%@page import="dto.InvoiceError"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
@@ -128,7 +129,14 @@
     
     <body>
         <%
-
+            InvoiceDTO inv = (InvoiceDTO) request.getAttribute("INVOICE");
+            if (inv == null) {
+                inv = new InvoiceDTO("", "", "", "");
+            }
+            InvoiceError error = (InvoiceError) request.getAttribute("INVOICE_ERROR");
+            if (error == null) {
+                error = new InvoiceError();
+            }
         %>
         
         <form action="Maincontroller" method="POST">
@@ -138,20 +146,33 @@
             
             <div class="box">
                 <label>Invoice ID</label>
-                <input type="text" name="invId" required="true" placeholder="Enter Invoice ID" />
-
+                <input type="text" name="invId" value="<%= inv.getInvID() != null ? inv.getInvID() : "" %>" placeholder="Enter Invoice ID" />
+                <% if (error.getInvIDError() != null && !error.getInvIDError().isEmpty()) { %>
+                    <span><%= error.getInvIDError() %></span>
+                <% } %>
             </div>
             
             <div class="box">
                 <label>Invoice Date</label>
-                <input type="text" name="invDate" required="true" placeholder="yyyy-mm-dd" />
-
+                <input type="text" name="invDate" value="<%= inv.getInvDate() != null ? inv.getInvDate() : "" %>" placeholder="yyyy-mm-dd" />
+                <% if (error.getInvDateError() != null && !error.getInvDateError().isEmpty()) { %>
+                    <span><%= error.getInvDateError() %></span>
+                <% } %>
             </div>
             
             <div class="box">
                 <label>Customer</label>
-                <input type="text" name="customer" required="true" placeholder="Customer Name" />
+                <input type="text" name="customer" value="<%= inv.getCustomer() != null ? inv.getCustomer() : "" %>" placeholder="Customer Name" />
+                <% if (error.getCustomerError() != null && !error.getCustomerError().isEmpty()) { %>
+                    <span><%= error.getCustomerError() %></span>
+                <% } %>
             </div>
+
+            <% if (error.getMessageError() != null && !error.getMessageError().isEmpty()) { %>
+                <div style="color: #e74c3c; text-align: center; margin-bottom: 15px; font-size: 14px;">
+                    <%= error.getMessageError() %>
+                </div>
+            <% } %>
             
             <div class="action-buttons">
                 <input type="submit" value="Save" />

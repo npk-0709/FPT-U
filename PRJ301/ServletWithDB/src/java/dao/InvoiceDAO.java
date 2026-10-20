@@ -37,7 +37,7 @@ public class InvoiceDAO {
                 invID = rs.getString("invID");
                 invDate = rs.getString("invDate");
                 customer = rs.getString("customer");
-                InvoiceDTO invoice = new InvoiceDTO(invID, invDate, userId, customer);
+                InvoiceDTO invoice = new InvoiceDTO(invID, customer, userId, invDate);
                 invoiceList.add(invoice);
             }
         } catch (SQLException e) {
@@ -78,7 +78,7 @@ public class InvoiceDAO {
                 invID = rs.getString("invID");
                 invDate = rs.getString("invDate");
                 customer = rs.getString("customer");
-                InvoiceDTO invoice = new InvoiceDTO(invID, invDate, userId, customer);
+                InvoiceDTO invoice = new InvoiceDTO(invID, customer, userId, invDate);
                 invoiceList.add(invoice);
             }
         } catch (SQLException e) {

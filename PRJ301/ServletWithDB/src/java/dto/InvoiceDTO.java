@@ -15,11 +15,30 @@ public class InvoiceDTO {
     private String userID;
     private String invDate;
 
+    public InvoiceDTO() {
+    }
+
     public InvoiceDTO(String invID, String customer, String userID, String invDate) {
         this.invID = invID;
         this.customer = customer;
         this.userID = userID;
         this.invDate = invDate;
+    }
+
+    public String getInvId() {
+        return invID;
+    }
+
+    public void setInvId(String invId) {
+        this.invID = invId;
+    }
+
+    public String getUserId() {
+        return userID;
+    }
+
+    public void setUserId(String userId) {
+        this.userID = userId;
     }
 
     public String getInvID() {
