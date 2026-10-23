@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+    .tab-btn { transition: all 0.2s; }
+    .tab-btn.active { background: var(--primary); color: var(--primary-foreground); }
+    svg text { font-family: monospace; }
+    .node-bst { fill: var(--primary); }
+    .node-text { fill: var(--primary-foreground); font-size: 12px; font-weight: bold; }
+    .edge { stroke: var(--border); stroke-width: 2; }
+    .arrow { fill: var(--border); }
+    .highlight { fill: #f59e0b; }
+    .deleted { fill: #ef4444; }
+    .successor { fill: #10b981; }
+    pre { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 12px; font-size: 13px; overflow-x: auto; }
+    .kw { color: #7c3aed; font-weight: bold; }
+    .fn { color: #0ea5e9; }
+    .cm { color: #6b7280; font-style: italic; }
+    .str { color: #10b981; }
+    .num { color: #f59e0b; }
+    .badge { display:inline-block; padding: 2px 8px; border-radius: 12px; font-size: 12px; font-weight: 600; }
+    .badge-pass { background: #d1fae5; color: #065f46; }
+    .badge-fail { background: #fee2e2; color: #991b1b; }
+    .badge-warn { background: #fef3c7; color: #92400e; }
+    .queue-node { display:inline-flex; align-items:center; justify-content:center; min-width:80px; height:48px; border-radius:8px; border: 2px solid var(--border); background:var(--card); font-size:12px; font-weight:600; text-align:center; padding:4px; position:relative; }
+    .queue-arrow { display:inline-flex; align-items:center; padding: 0 4px; color: var(--muted-foreground); font-size:18px; }
+    .chain-label { font-size:11px; color:var(--muted-foreground); text-align:center; margin-top:2px; }
+    .class-box { border: 2px solid var(--primary); border-radius:8px; min-width:160px; }
+    .class-title { background:var(--primary); color:var(--primary-foreground); padding:6px 12px; font-weight:700; font-size:13px; border-radius:4px 4px 0 0; text-align:center; }
+    .class-fields { padding:8px 12px; font-size:12px; border-top:1px solid var(--border); }
+    .class-methods { padding:8px 12px; font-size:12px; border-top:1px solid var(--border); color: var(--muted-foreground); }
+    .compose-line { border-top: 3px solid var(--primary); width:32px; }
+    .compose-diamond { width:12px;height:12px; background:var(--primary); transform:rotate(45deg); }
+  </style>
+</head>
+<body class="bg-transparent text-[var(--foreground)] antialiased">
+<div class="p-4 space-y-4">
+
+  <!-- Header -->
+  <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-4">
+    <h1 class="text-lg font-bold text-[var(--foreground)]">📊 Visual Evidence — Pattern Recognition (Entries #021–#030)</h1>
+    <p class="text-sm text-[var(--muted-foreground)] mt-1">Warehouse Inventory Management · CSD201 · All diagrams grounded in actual source code</p>
+  </div>
+
+  <!-- Tabs -->
+  <div class="flex flex-wrap gap-2">
+    <button class="tab-btn active px-3 py-1.5 rounded-lg text-sm border border-[var(--border)] bg-[var(--card)]" onclick="showTab('t021','this')">E#021 BST vs HashMap</button>
+    <button class="tab-btn px-3 py-1.5 rounded-lg text-sm border border-[var(--border)] bg-[var(--card)]" onclick="showTab('t022','this')">E#022 Queue vs Stack</button>
+    <button class="tab-btn px-3 py-1.5 rounded-lg text-sm border border-[var(--border)] bg-[var(--card)]" onclick="showTab('t023','this')">E#023 Recursive Insert</button>
+    <button class="tab-btn px-3 py-1.5 rounded-lg text-sm border border-[var(--border)] bg-[var(--card)]" onclick="showTab('t024','this')">E#024 Class Diagram</button>
+    <button class="tab-btn px-3 py-1.5 rounded-lg text-sm border border-[var(--border)] bg-[var(--card)]" onclick="showTab('t025','this')">E#025 Traversals</button>
+    <button class="tab-btn px-3 py-1.5 rounded-lg text-sm border border-[var(--border)] bg-[var(--card)]" onclick="showTab('t026','this')">E#026 TxLog Chain</button>
+    <button class="tab-btn px-3 py-1.5 rounded-lg text-sm border border-[var(--border)] bg-[var(--card)]" onclick="showTab('t027','this')">E#027 BST Delete</button>
+    <button class="tab-btn px-3 py-1.5 rounded-lg text-sm border border-[var(--border)] bg-[var(--card)]" onclick="showTab('t028','this')">E#028 Expired Removal</button>
+    <button class="tab-btn px-3 py-1.5 rounded-lg text-sm border border-[var(--border)] bg-[var(--card)]" onclick="showTab('t029','this')">E#029 Chain Dequeue</button>
+    <button class="tab-btn px-3 py-1.5 rounded-lg text-sm border border-[var(--border)] bg-[var(--card)]" onclick="showTab('t030','this')">E#030 Orphan Risk</button>
+  </div>
+
+  <!-- ==================== E021 ==================== -->
+  <div id="t021" class="tab-content active space-y-3">
+    <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-4">
+      <h2 class="font-bold text-[var(--foreground)] mb-1">Entry #021 — Ordered Dictionary Pattern: BST vs HashMap</h2>
+      <p class="text-xs text-[var(--muted-foreground)] mb-3">AI suggested HashMap (O(1) lookup). Human recognized that sorted catalog display also requires order → chose BST.</p>
+
+      <div class="grid grid-cols-2 gap-4">
+        <!-- HashMap -->
+        <div class="border border-[var(--border)] rounded-lg p-3">
+          <div class="text-center text-sm font-bold text-[var(--muted-foreground)] mb-2">❌ AI Suggestion: HashMap</div>
+          <div class="space-y-1 text-xs font-mono">
+            <div class="bg-orange-100 text-orange-800 rounded p-1">"SP003" → Product(Banh mi)</div>
+            <div class="bg-orange-100 text-orange-800 rounded p-1">"SP001" → Product(Sua tuoi)</div>
+            <div class="bg-orange-100 text-orange-800 rounded p-1">"SP002" → Product(Mi goi)</div>
+          </div>
+          <div class="mt-2 text-xs text-[var(--muted-foreground)]">Iteration order: <strong>arbitrary</strong></div>
+          <div class="mt-1 space-y-0.5">
+            <div class="text-xs"><span class="badge badge-pass">O(1)</span> lookup by key</div>
+            <div class="text-xs"><span class="badge badge-fail">O(N log N)</span> to sort for display</div>
+            <div class="text-xs"><span class="badge badge-fail">No order</span> native traversal</div>
+          </div>
+        </div>
+
+        <!-- BST -->
+        <div class="border border-[var(--border)] rounded-lg p-3">
+          <div class="text-center text-sm font-bold text-[var(--foreground)] mb-2">✅ Human Decision: ProductBST</div>
+          <svg viewBox="0 0 220 160" width="100%" height="160">
+            <!-- SP001 root -->
+            <circle cx="110" cy="30" r="22" class="node-bst"/>
+            <text x="110" y="34" text-anchor="middle" class="node-text">SP001</text>
+            <!-- SP003 right -->
+            <line x1="130" y1="46" x2="158" y2="74" class="edge"/>
+            <circle cx="168" cy="85" r="22" class="node-bst"/>
+            <text x="168" y="89" text-anchor="middle" class="node-text">SP003</text>
+            <!-- SP002 left of SP003 -->
+            <line x1="148" y1="99" x2="118" y2="124" class="edge"/>
+            <circle cx="108" cy="135" r="22" class="node-bst"/>
+            <text x="108" y="139" text-anchor="middle" class="node-text">SP002</text>
+            <!-- labels -->
+            <text x="148" y="65" font-size="10" fill="#6b7280">right</text>
+            <text x="118" y="120" font-size="10" fill="#6b7280">left</text>
+            <!-- In-order arrow -->
+            <text x="5" y="158" font-size="10" fill="#10b981">In-order: SP001 → SP002 → SP003 ✓ sorted</text>
+          </svg>
+          <div class="mt-1 space-y-0.5">
+            <div class="text-xs"><span class="badge badge-warn">O(log N)</span> lookup by barcode</div>
+            <div class="text-xs"><span class="badge badge-pass">O(N)</span> in-order sorted display</div>
+            <div class="text-xs"><span class="badge badge-pass">Native</span> ordered enumeration</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-3 bg-[var(--accent)] rounded-lg p-2 text-xs">
+        <strong>Source:</strong> <code>ProductBST.java</code> → <code>inOrderList()</code> + <code>inOrderSupport()</code>; <code>ProductManager.java</code> → <code>getAllProducts()</code>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== E022 ==================== -->
+  <div id="t022" class="tab-content space-y-3">
+    <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-4">
+      <h2 class="font-bold mb-1">Entry #022 — Arrival-Order Processing Pattern: Queue vs Stack</h2>
+      <p class="text-xs text-[var(--muted-foreground)] mb-3">AI suggested Stack (LIFO). Human recognized batches must leave in the same order they arrived (FIFO).</p>
+
+      <div class="grid grid-cols-2 gap-4">
+        <div class="border border-red-300 rounded-lg p-3">
+          <div class="text-sm font-bold text-red-600 mb-2">❌ Stack (LIFO) — AI's Suggestion</div>
+          <div class="text-xs mb-2 text-[var(--muted-foreground)]">Import order: B001(exp+7d) → B002(exp+14d) → B003(exp+21d)</div>
+          <svg viewBox="0 0 160 120" width="100%">
+            <rect x="40" y="10" width="80" height="28" rx="6" fill="#ef4444" opacity="0.8"/>
+            <text x="80" y="28" text-anchor="middle" font-size="11" fill="white" font-weight="bold">B003 (newest)</text>
+            <rect x="40" y="45" width="80" height="28" rx="6" fill="#fca5a5"/>
+            <text x="80" y="62" text-anchor="middle" font-size="11" fill="#7f1d1d">B002</text>
+            <rect x="40" y="80" width="80" height="28" rx="6" fill="#fecaca"/>
+            <text x="80" y="97" text-anchor="middle" font-size="11" fill="#7f1d1d">B001 (oldest, exp soon!)</text>
+            <text x="145" y="25" font-size="10" fill="#ef4444">← POP</text>
+            <text x="3" y="100" font-size="9" fill="#ef4444">🚨 B001 never exits!</text>
+          </svg>
+        </div>
+
+        <div class="border border-green-300 rounded-lg p-3">
+          <div class="text-sm font-bold text-green-700 mb-2">✅ Queue (FIFO) — Human Decision</div>
+          <div class="text-xs mb-2 text-[var(--muted-foreground)]">Import order: B001(exp+7d) → B002(exp+14d) → B003(exp+21d)</div>
+          <div class="text-xs text-[var(--muted-foreground)] mb-1">front (DEQUEUE end)</div>
+          <div class="flex items-center gap-1 overflow-x-auto pb-1">
+            <div class="queue-node border-green-400" style="background:#d1fae5;color:#065f46">B001<br/><span style="font-size:10px">exp+7d</span></div>
+            <div class="queue-arrow">→</div>
+            <div class="queue-node" style="border-color:#6ee7b7">B002<br/><span style="font-size:10px">exp+14d</span></div>
+            <div class="queue-arrow">→</div>
+            <div class="queue-node" style="border-color:#a7f3d0">B003<br/><span style="font-size:10px">exp+21d</span></div>
+          </div>
+          <div class="text-xs text-right text-[var(--muted-foreground)] mt-0.5">rear (ENQUEUE end)</div>
+          <div class="text-xs text-green-700 mt-2 font-medium">B001 exits first → freshest stock always available ✓</div>
+        </div>
+      </div>
+
+      <div class="mt-3">
+        <div class="text-xs font-bold mb-1">Pseudocode (matches <code>BatchQueue.java</code>):</div>
+        <pre><span class="kw">PROCEDURE</span> <span class="fn">receiveStock</span>(batch):
+    batchQueue.<span class="fn">enqueue</span>(batch)   <span class="cm">// rear.next = newNode; rear = newNode</span>
+
+<span class="kw">PROCEDURE</span> <span class="fn">issueStock</span>(qty):
+    <span class="kw">WHILE</span> qty &gt; <span class="num">0</span> <span class="kw">AND NOT</span> queue.isEmpty():
+        front ← queue.<span class="fn">peek</span>()          <span class="cm">// inspect head</span>
+        <span class="kw">IF</span> front.qty &lt;= qty:
+            qty -= front.qty; queue.<span class="fn">dequeue</span>()  <span class="cm">// remove head</span>
+        <span class="kw">ELSE</span>:
+            front.<span class="fn">reduceQty</span>(qty); qty = <span class="num">0</span></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== E023 ==================== -->
+  <div id="t023" class="tab-content space-y-3">
+    <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-4">
+      <h2 class="font-bold mb-1">Entry #023 — Recursive Self-Similar Pattern: BST Insert</h2>
+      <p class="text-xs text-[var(--muted-foreground)] mb-3">AI suggested iterative while-loop. Human recognized BST is inherently recursive — each subtree is itself a valid BST.</p>
+
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <div class="text-sm font-semibold mb-2">Pseudocode → Source Code Mapping</div>
+          <pre><span class="cm">// Pseudocode (1-to-1 with insertSupport())</span>
+<span class="kw">FUNCTION</span> <span class="fn">insertSupport</span>(cur, product):
+  <span class="kw">IF</span> cur == <span class="kw">null</span>:
+    <span class="kw">RETURN</span> <span class="kw">new</span> <span class="fn">Node</span>(product)  <span class="cm">← base case</span>
+  
+  cmp ← cur.barcode
+         .<span class="fn">compareToIgnoreCase</span>(product.barcode)
+  
+  <span class="kw">IF</span> cmp &gt; <span class="num">0</span>:   <span class="cm">← go left (smaller)</span>
+    cur.left ← <span class="fn">insertSupport</span>(cur.left, product)
+  <span class="kw">ELSE IF</span> cmp &lt; <span class="num">0</span>: <span class="cm">← go right (larger)</span>
+    cur.right ← <span class="fn">insertSupport</span>(cur.right, product)
+  
+  <span class="kw">RETURN</span> cur</pre>
+        </div>
+
+        <div>
+          <div class="text-sm font-semibold mb-2">Insert SP002 into existing tree</div>
+          <svg viewBox="0 0 220 200" width="100%" height="200">
+            <!-- Step 1: root SP001 -->
+            <text x="5" y="15" font-size="10" fill="#6b7280">Call 1: cur=SP001, "SP002" &gt; "SP001"</text>
+            <circle cx="110" cy="40" r="22" fill="#7c3aed"/>
+            <text x="110" y="44" text-anchor="middle" font-size="12" fill="white" font-weight="bold">SP001</text>
+            <text x="115" y="55" font-size="9" fill="#6b7280">→ go right</text>
+
+            <!-- Arrow down-right -->
+            <line x1="128" y1="54" x2="155" y2="75" stroke="#7c3aed" stroke-width="2" marker-end="url(#arr)"/>
+
+            <!-- Step 2: SP003 -->
+            <text x="50" y="85" font-size="10" fill="#6b7280">Call 2: cur=SP003, "SP002" &lt; "SP003"</text>
+            <circle cx="172" cy="95" r="22" fill="#7c3aed"/>
+            <text x="172" y="99" text-anchor="middle" font-size="12" fill="white" font-weight="bold">SP003</text>
+            <text x="155" y="115" font-size="9" fill="#6b7280">→ go left</text>
+
+            <!-- Arrow down-left -->
+            <line x1="152" y1="108" x2="120" y2="130" stroke="#7c3aed" stroke-width="2" marker-end="url(#arr)"/>
+
+            <!-- Step 3: null → new node -->
+            <text x="10" y="145" font-size="10" fill="#10b981">Call 3: cur=null → return new Node(SP002)</text>
+            <circle cx="108" cy="165" r="22" fill="#10b981"/>
+            <text x="108" y="169" text-anchor="middle" font-size="12" fill="white" font-weight="bold">SP002</text>
+            <text x="50" y="195" font-size="10" fill="#10b981">✓ Inserted as left child of SP003</text>
+
+            <defs>
+              <marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L8,3 z" fill="#7c3aed"/>
+              </marker>
+            </defs>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== E024 ==================== -->
+  <div id="t024" class="tab-content space-y-3">
+    <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-4">
+      <h2 class="font-bold mb-1">Entry #024 — Whole-Part Composition Pattern: Class Diagram</h2>
+      <p class="text-xs text-[var(--muted-foreground)] mb-3">AI suggested external HashMap&lt;barcode, BatchQueue&gt;. Human embedded BatchQueue inside Product (Composition ◆).</p>
+
+      <!-- Full class diagram -->
+      <div class="overflow-x-auto">
+        <svg viewBox="0 0 680 260" width="100%" height="260">
+          <!-- ProductBST -->
+          <rect x="10" y="10" width="140" height="80" rx="6" fill="none" stroke="#7c3aed" stroke-width="2"/>
+          <rect x="10" y="10" width="140" height="26" rx="6" fill="#7c3aed"/>
+          <text x="80" y="27" text-anchor="middle" font-size="12" fill="white" font-weight="bold">ProductBST</text>
+          <text x="18" y="50" font-size="10" fill="#6b7280">- root: Node</text>
+          <text x="18" y="63" font-size="10" fill="#0ea5e9">+ insert(Product)</text>
+          <text x="18" y="76" font-size="10" fill="#0ea5e9">+ search(barcode)</text>
+          <text x="18" y="88" font-size="10" fill="#0ea5e9">+ inOrderList()</text>
+
+          <!-- Line BST --◆-- Product (aggregation) -->
+          <line x1="150" y1="50" x2="195" y2="50" stroke="#7c3aed" stroke-width="2"/>
+          <polygon points="190,44 202,50 190,56 178,50" fill="none" stroke="#7c3aed" stroke-width="2"/>
+          <text x="160" y="43" font-size="9" fill="#6b7280">0..*</text>
+
+          <!-- Product -->
+          <rect x="200" y="10" width="155" height="115" rx="6" fill="none" stroke="#7c3aed" stroke-width="2"/>
+          <rect x="200" y="10" width="155" height="26" rx="6" fill="#7c3aed"/>
+          <text x="277" y="27" text-anchor="middle" font-size="12" fill="white" font-weight="bold">Product</text>
+          <text x="208" y="50" font-size="10" fill="#6b7280">- barcode: String</text>
+          <text x="208" y="63" font-size="10" fill="#6b7280">- name: String</text>
+          <text x="208" y="76" font-size="10" fill="#6b7280">- category: String</text>
+          <text x="208" y="89" font-size="10" fill="#6b7280">- price: double</text>
+          <text x="208" y="102" font-size="11" fill="#ef4444" font-weight="bold">◆ batchQueue: BatchQueue</text>
+          <text x="208" y="118" font-size="10" fill="#0ea5e9">+ calculateTotalQty()</text>
+
+          <!-- Composition diamond line: Product --◆-- BatchQueue -->
+          <line x1="355" y1="65" x2="405" y2="65" stroke="#7c3aed" stroke-width="2.5"/>
+          <polygon points="400,59 412,65 400,71 388,65" fill="#7c3aed" stroke="#7c3aed"/>
+          <text x="358" y="58" font-size="9" fill="#ef4444" font-weight="bold">◆ Composition</text>
+          <text x="362" y="78" font-size="9" fill="#6b7280">1</text>
+          <text x="413" y="78" font-size="9" fill="#6b7280">1</text>
+
+          <!-- BatchQueue -->
+          <rect x="415" y="10" width="150" height="100" rx="6" fill="none" stroke="#7c3aed" stroke-width="2"/>
+          <rect x="415" y="10" width="150" height="26" rx="6" fill="#7c3aed"/>
+          <text x="490" y="27" text-anchor="middle" font-size="12" fill="white" font-weight="bold">BatchQueue</text>
+          <text x="423" y="50" font-size="10" fill="#6b7280">- front: BatchNode</text>
+          <text x="423" y="63" font-size="10" fill="#6b7280">- rear: BatchNode</text>
+          <text x="423" y="76" font-size="10" fill="#6b7280">- size: int</text>
+          <text x="423" y="89" font-size="10" fill="#0ea5e9">+ enqueue(Batch)</text>
+          <text x="423" y="102" font-size="10" fill="#0ea5e9">+ dequeue(): Batch</text>
+
+          <!-- BatchQueue ------ BatchNode -->
+          <line x1="565" y1="55" x2="600" y2="55" stroke="#7c3aed" stroke-width="2"/>
+          <line x1="600" y1="55" x2="600" y2="150" stroke="#7c3aed" stroke-width="2"/>
+          <line x1="600" y1="150" x2="570" y2="150" stroke="#7c3aed" stroke-width="2"/>
+          <text x="575" y="48" font-size="9" fill="#6b7280">front/rear</text>
+
+          <!-- BatchNode -->
+          <rect x="415" y="135" width="150" height="65" rx="6" fill="none" stroke="#0ea5e9" stroke-width="2"/>
+          <rect x="415" y="135" width="150" height="26" rx="6" fill="#0ea5e9"/>
+          <text x="490" y="152" text-anchor="middle" font-size="12" fill="white" font-weight="bold">BatchNode</text>
+          <text x="423" y="174" font-size="10" fill="#6b7280">- data: Batch</text>
+          <text x="423" y="187" font-size="10" fill="#6b7280">- next: BatchNode</text>
+          <text x="423" y="194" font-size="9" fill="#6b7280">(singly linked)</text>
+
+          <!-- BatchNode ------ Batch -->
+          <line x1="415" y1="168" x2="380" y2="168" stroke="#0ea5e9" stroke-width="2"/>
+
+          <!-- Batch -->
+          <rect x="200" y="145" width="175" height="110" rx="6" fill="none" stroke="#0ea5e9" stroke-width="2"/>
+          <rect x="200" y="145" width="175" height="26" rx="6" fill="#0ea5e9"/>
+          <text x="287" y="162" text-anchor="middle" font-size="12" fill="white" font-weight="bold">Batch</text>
+          <text x="208" y="183" font-size="10" fill="#6b7280">- batchId: String</text>
+          <text x="208" y="196" font-size="10" fill="#6b7280">- barcode: String</text>
+          <text x="208" y="209" font-size="10" fill="#6b7280">- quantity: int</text>
+          <text x="208" y="222" font-size="10" fill="#6b7280">- expiryDate: LocalDate</text>
+          <text x="208" y="235" font-size="10" fill="#0ea5e9">+ isExpired(today)</text>
+          <text x="208" y="248" font-size="10" fill="#0ea5e9">+ reduceQuantity(n)</text>
+
+          <!-- Legend -->
+          <rect x="10" y="180" width="185" height="75" rx="6" fill="none" stroke="#e5e7eb" stroke-width="1"/>
+          <text x="18" y="198" font-size="11" fill="#6b7280" font-weight="bold">Legend:</text>
+          <polygon points="30,215 42,221 30,227 18,221" fill="#7c3aed" stroke="#7c3aed"/>
+          <text x="50" y="225" font-size="10" fill="#6b7280">◆ Composition (lifecycle bound)</text>
+          <polygon points="30,240 42,246 30,252 18,246" fill="none" stroke="#7c3aed" stroke-width="2"/>
+          <text x="50" y="250" font-size="10" fill="#6b7280">◇ Aggregation (independent)</text>
+        </svg>
+      </div>
+
+      <div class="mt-2 bg-[var(--accent)] rounded-lg p-2 text-xs">
+        <strong>Key Decision:</strong> BatchQueue is a Composition (◆) inside Product — not an external HashMap. When Product is deleted, its BatchQueue is automatically cleaned up. No key synchronization risk.
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== E025 ==================== -->
+  <div id="t025" class="tab-content space-y-3">
+    <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-4">
+      <h2 class="font-bold mb-1">Entry #025 — Sorted Enumeration Pattern: Traversal Comparison</h2>
+      <p class="text-xs text-[var(--muted-foreground)] mb-3">AI claimed pre-order can also give sorted output. Human disproved with concrete trace.</p>
+
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <div class="text-sm font-semibold mb-2">BST after inserting: SP001 → SP003 → SP002</div>
+          <svg viewBox="0 0 200 170" width="100%" height="170">
+            <circle cx="100" cy="35" r="25" fill="#7c3aed"/>
+            <text x="100" y="40" text-anchor="middle" font-size="12" fill="white" font-weight="bold">SP001</text>
+            <text x="100" y="14" font-size="10" fill="#6b7280">root (1st inserted)</text>
+            <line x1="122" y1="52" x2="155" y2="80" stroke="#6b7280" stroke-width="1.5"/>
+            <circle cx="163" cy="95" r="25" fill="#7c3aed"/>
+            <text x="163" y="100" text-anchor="middle" font-size="12" fill="white" font-weight="bold">SP003</text>
+            <text x="178" y="82" font-size="9" fill="#6b7280">right</text>
+            <line x1="141" y1="110" x2="108" y2="135" stroke="#6b7280" stroke-width="1.5"/>
+            <circle cx="98" cy="150" r="25" fill="#7c3aed"/>
+            <text x="98" y="155" text-anchor="middle" font-size="12" fill="white" font-weight="bold">SP002</text>
+            <text x="108" y="128" font-size="9" fill="#6b7280">left</text>
+          </svg>
+        </div>
+
+        <div class="space-y-3">
+          <div class="border border-green-300 bg-green-50 rounded-lg p-3">
+            <div class="text-sm font-bold text-green-700">✅ In-Order (L→Root→R)</div>
+            <div class="text-xs mt-1 font-mono">SP001.left=null → <strong>SP001</strong> → SP003.left...</div>
+            <div class="text-xs font-mono">→ <strong>SP002</strong> → SP003.right=null → <strong>SP003</strong></div>
+            <div class="mt-2 text-sm font-bold text-green-700">Output: [SP001, SP002, SP003] ✓ Sorted!</div>
+            <div class="text-xs text-green-600 mt-1">Used in: <code>inOrderSupport()</code> → <code>getAllProducts()</code></div>
+          </div>
+
+          <div class="border border-red-300 bg-red-50 rounded-lg p-3">
+            <div class="text-sm font-bold text-red-700">❌ Pre-Order (Root→L→R) — AI's claim</div>
+            <div class="text-xs mt-1 font-mono"><strong>SP001</strong> → SP001.left=null → <strong>SP003</strong></div>
+            <div class="text-xs font-mono">→ <strong>SP002</strong> → SP003.right=null</div>
+            <div class="mt-2 text-sm font-bold text-red-700">Output: [SP001, SP003, SP002] ✗ NOT sorted!</div>
+            <div class="text-xs text-red-600 mt-1">AI Hallucination disproved ✓</div>
+          </div>
+
+          <div class="border border-orange-300 bg-orange-50 rounded-lg p-3">
+            <div class="text-sm font-bold text-orange-700">❌ Post-Order (L→R→Root)</div>
+            <div class="text-xs mt-1 font-mono"><strong>SP002</strong> → SP003.right=null → <strong>SP003</strong> → <strong>SP001</strong></div>
+            <div class="mt-1 text-sm font-bold text-orange-700">Output: [SP002, SP003, SP001] ✗ NOT sorted!</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== E026 ==================== -->
+  <div id="t026" class="tab-content space-y-3">
+    <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-4">
+      <h2 class="font-bold mb-1">Entry #026 — Append-Only Log Pattern: TransactionLog Linked List</h2>
+      <p class="text-xs text-[var(--muted-foreground)] mb-3">AI suggested Stack (most-recent-first). Human confirmed queries are oldest-first → Queue-style append-only log.</p>
+
+      <div class="space-y-4">
+        <div>
+          <div class="text-sm font-semibold mb-2">TransactionLog as Singly-Linked Chain (head → tail)</div>
+          <div class="flex items-start gap-1 overflow-x-auto pb-2">
+            <div class="text-xs text-[var(--muted-foreground)] self-center mr-1">head<br/>↓</div>
+            <div class="flex flex-col items-center">
+              <div class="queue-node" style="min-width:100px; background:var(--accent)">TX-IN-001<br/><span class="text-xs text-[var(--muted-foreground)]">SP001 +100 units</span><br/><span class="text-xs">2026-10-01</span></div>
+              <div class="chain-label">TransactionNode</div>
+            </div>
+            <div class="queue-arrow self-center">→</div>
+            <div class="flex flex-col items-center">
+              <div class="queue-node" style="min-width:100px; background:var(--accent)">TX-OUT-002<br/><span class="text-xs text-[var(--muted-foreground)]">SP001 -30 units</span><br/><span class="text-xs">2026-10-05</span></div>
+              <div class="chain-label">TransactionNode</div>
+            </div>
+            <div class="queue-arrow self-center">→</div>
+            <div class="flex flex-col items-center">
+              <div class="queue-node" style="min-width:100px; background:var(--accent)">TX-IN-003<br/><span class="text-xs text-[var(--muted-foreground)]">SP002 +200 units</span><br/><span class="text-xs">2026-10-08</span></div>
+              <div class="chain-label">TransactionNode</div>
+            </div>
+            <div class="queue-arrow self-center">→</div>
+            <div class="flex flex-col items-center">
+              <div class="queue-node" style="min-width:90px; border-color:#7c3aed">TX-EXP-004<br/><span class="text-xs text-[var(--muted-foreground)]">SP003 expired</span><br/><span class="text-xs">2026-10-10</span></div>
+              <div class="chain-label">TransactionNode</div>
+            </div>
+            <div class="queue-arrow self-center">→ null</div>
+            <div class="text-xs text-[var(--muted-foreground)] self-center ml-1">←<br/>tail</div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div class="border border-green-300 rounded-lg p-3">
+            <div class="text-xs font-bold text-green-700 mb-2">✅ recordTransaction() — APPEND TO TAIL</div>
+            <pre style="font-size:11px"><span class="cm">// TransactionLog.java</span>
+<span class="kw">void</span> <span class="fn">recordTransaction</span>(tx) {
+  newNode = <span class="kw">new</span> <span class="fn">TransactionNode</span>(tx);
+  tail.<span class="fn">setNext</span>(newNode);  <span class="cm">← tail.next</span>
+  tail = newNode;         <span class="cm">← move tail</span>
+  size++;
+}</pre>
+          </div>
+          <div class="border border-blue-300 rounded-lg p-3">
+            <div class="text-xs font-bold text-blue-700 mb-2">✅ getAllTransactions() — READ FROM HEAD</div>
+            <pre style="font-size:11px"><span class="cm">// TransactionLog.java</span>
+<span class="fn">getAllTransactions</span>() {
+  tmp = head;   <span class="cm">← start from oldest</span>
+  <span class="kw">WHILE</span> tmp != <span class="kw">null</span>:
+    result.<span class="fn">add</span>(tmp.getData())
+    tmp = tmp.<span class="fn">getNext</span>()  <span class="cm">→ newer</span>
+}</pre>
+          </div>
+        </div>
+
+        <div class="flex gap-3">
+          <div class="border border-red-300 bg-red-50 rounded-lg p-2 flex-1 text-xs">
+            <strong class="text-red-700">❌ Stack (AI suggestion):</strong> Would return TX-EXP-004 first (most recent). Reports would show newest events first — wrong for audit chronology.
+          </div>
+          <div class="border border-green-300 bg-green-50 rounded-lg p-2 flex-1 text-xs">
+            <strong class="text-green-700">✅ Queue-style (Human):</strong> TX-IN-001 returned first. Reports are chronological (oldest→newest). Correct for audit trails.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== E027 ==================== -->
+  <div id="t027" class="tab-content space-y-3">
+    <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-4">
+      <h2 class="font-bold mb-1">Entry #027 — In-Order Successor Pattern: BST Delete (2 children)</h2>
+      <p class="text-xs text-[var(--muted-foreground)] mb-3">AI suggested predecessor (max of left). Human confirmed code uses successor (min of right subtree).</p>
+
+      <div class="grid grid-cols-3 gap-3">
+        <!-- Before -->
+        <div class="border border-[var(--border)] rounded-lg p-2">
+          <div class="text-xs font-bold text-center mb-2">BEFORE: Delete SP003</div>
+          <svg viewBox="0 0 160 180" width="100%" height="180">
+            <circle cx="80" cy="30" r="22" fill="#7c3aed"/>
+            <text x="80" y="34" text-anchor="middle" font-size="11" fill="white" font-weight="bold">SP003</text>
+            <text x="60" y="16" font-size="9" fill="#ef4444">DELETE</text>
+            <!-- left: SP001 -->
+            <line x1="60" y1="44" x2="38" y2="74" stroke="#6b7280" stroke-width="1.5"/>
+            <circle cx="30" cy="88" r="22" fill="#7c3aed"/>
+            <text x="30" y="92" text-anchor="middle" font-size="11" fill="white" font-weight="bold">SP001</text>
+            <!-- right: SP005 -->
+            <line x1="100" y1="44" x2="122" y2="74" stroke="#6b7280" stroke-width="1.5"/>
+            <circle cx="130" cy="88" r="22" fill="#7c3aed"/>
+            <text x="130" y="92" text-anchor="middle" font-size="11" fill="white" font-weight="bold">SP005</text>
+            <!-- SP004 left of SP005 = SUCCESSOR -->
+            <line x1="110" y1="102" x2="90" y2="130" stroke="#6b7280" stroke-width="1.5"/>
+            <circle cx="82" cy="145" r="22" fill="#10b981"/>
+            <text x="82" y="149" text-anchor="middle" font-size="11" fill="white" font-weight="bold">SP004</text>
+            <text x="40" y="148" font-size="9" fill="#10b981">successor</text>
+            <!-- labels -->
+            <text x="38" y="68" font-size="9" fill="#6b7280">left</text>
+            <text x="108" y="68" font-size="9" fill="#6b7280">right</text>
+            <text x="92" y="124" font-size="9" fill="#6b7280">left</text>
+          </svg>
+        </div>
+
+        <!-- Step -->
+        <div class="border border-yellow-300 bg-yellow-50 rounded-lg p-2">
+          <div class="text-xs font-bold text-center mb-2">STEP: Find & Apply Successor</div>
+          <div class="text-xs space-y-1.5 mt-2">
+            <div class="flex items-start gap-1">
+              <span class="bg-yellow-400 text-white rounded px-1 shrink-0">1</span>
+              <span>Find min of right subtree of SP003: traverse left from SP005 → reach SP004 (no left child)</span>
+            </div>
+            <div class="flex items-start gap-1">
+              <span class="bg-yellow-400 text-white rounded px-1 shrink-0">2</span>
+              <span>Overwrite SP003's data with SP004's data</span>
+            </div>
+            <div class="flex items-start gap-1">
+              <span class="bg-yellow-400 text-white rounded px-1 shrink-0">3</span>
+              <span>Recursively delete SP004 from right subtree</span>
+            </div>
+          </div>
+          <pre style="font-size:10px" class="mt-3"><span class="cm">// ProductBST.deleteSupport()</span>
+Node min = cur.<span class="fn">getRight</span>();
+<span class="kw">while</span>(min.<span class="fn">getLeft</span>() != <span class="kw">null</span>)
+  min = min.<span class="fn">getLeft</span>();
+cur.<span class="fn">setData</span>(min.<span class="fn">getData</span>());
+cur.<span class="fn">setRight</span>(
+  <span class="fn">deleteSupport</span>(
+    cur.<span class="fn">getRight</span>(),
+    min.getData().<span class="fn">getBarcode</span>()));</pre>
+        </div>
+
+        <!-- After -->
+        <div class="border border-green-300 rounded-lg p-2">
+          <div class="text-xs font-bold text-center mb-2">AFTER: SP003 replaced by SP004</div>
+          <svg viewBox="0 0 160 145" width="100%" height="145">
+            <circle cx="80" cy="30" r="22" fill="#10b981"/>
+            <text x="80" y="34" text-anchor="middle" font-size="11" fill="white" font-weight="bold">SP004</text>
+            <text x="55" y="16" font-size="9" fill="#10b981">successor ✓</text>
+            <!-- left: SP001 -->
+            <line x1="60" y1="44" x2="38" y2="74" stroke="#6b7280" stroke-width="1.5"/>
+            <circle cx="30" cy="88" r="22" fill="#7c3aed"/>
+            <text x="30" y="92" text-anchor="middle" font-size="11" fill="white" font-weight="bold">SP001</text>
+            <!-- right: SP005 -->
+            <line x1="100" y1="44" x2="122" y2="74" stroke="#6b7280" stroke-width="1.5"/>
+            <circle cx="130" cy="88" r="22" fill="#7c3aed"/>
+            <text x="130" y="92" text-anchor="middle" font-size="11" fill="white" font-weight="bold">SP005</text>
+            <text x="38" y="68" font-size="9" fill="#6b7280">left</text>
+            <text x="108" y="68" font-size="9" fill="#6b7280">right</text>
+            <text x="5" y="130" font-size="9" fill="#10b981">BST property maintained ✓</text>
+            <text x="5" y="142" font-size="9" fill="#10b981">SP001 &lt; SP004 &lt; SP005 ✓</text>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== E028 ==================== -->
+  <div id="t028" class="tab-content space-y-3">
+    <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-4">
+      <h2 class="font-bold mb-1">Entry #028 — Single-Pass Midchain Removal Pattern: Expired Batch</h2>
+      <p class="text-xs text-[var(--muted-foreground)] mb-3">AI suggested dequeue-and-re-enqueue (O(N²)). Human used single-pass pointer relinking O(N) — already in BatchQueue.removeExpired().</p>
+
+      <div class="space-y-3">
+        <div>
+          <div class="text-sm font-semibold mb-1">Initial state: Queue = [B1-valid] → [B2-expired] → [B3-valid]</div>
+          <div class="flex items-center gap-1">
+            <div class="text-xs text-[var(--muted-foreground)]">front→</div>
+            <div class="queue-node border-green-400" style="background:#d1fae5;color:#065f46">B1<br/>valid</div>
+            <div class="queue-arrow">→</div>
+            <div class="queue-node border-red-400" style="background:#fee2e2;color:#991b1b">B2<br/>EXPIRED</div>
+            <div class="queue-arrow">→</div>
+            <div class="queue-node border-green-400" style="background:#d1fae5;color:#065f46">B3<br/>valid</div>
+            <div class="queue-arrow">→ null</div>
+            <div class="text-xs text-[var(--muted-foreground)]">←rear</div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div class="border border-red-300 rounded-lg p-3">
+            <div class="text-xs font-bold text-red-700 mb-2">❌ AI's Approach (O(N²) risk)</div>
+            <div class="text-xs space-y-1">
+              <div>1. dequeue B1 (valid) → re-enqueue to new queue</div>
+              <div>2. dequeue B2 (expired) → discard</div>
+              <div>3. dequeue B3 (valid) → re-enqueue to new queue</div>
+              <div class="text-red-600 font-semibold mt-1">⚠ New queue: [B1] → [B3] (relies on careful impl)</div>
+              <div class="text-red-600">⚠ If re-enqueue to SAME queue → B1 goes after B3!</div>
+              <div class="text-red-600">⚠ O(N²) for K scattered expired items</div>
+            </div>
+          </div>
+
+          <div class="border border-green-300 rounded-lg p-3">
+            <div class="text-xs font-bold text-green-700 mb-2">✅ Pointer Relinking — O(N) single pass</div>
+            <div class="text-xs space-y-1">
+              <div>prev=null, curr=B1 → B1 valid → <strong>prev=B1</strong>, curr=B2</div>
+              <div>curr=B2 expired → prev.setNext(B3) → <strong>B1.next = B3</strong></div>
+              <div>curr=B3 valid → <strong>prev=B3</strong>, curr=null</div>
+              <div class="text-green-700 font-semibold mt-1">Result: [B1] → [B3] ✓ Order preserved</div>
+              <div class="text-green-700">✓ O(N) single traversal, no extra queue</div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="text-sm font-semibold mb-1">Pointer relinking: step by step</div>
+          <div class="space-y-2">
+            <div class="flex items-center gap-2 text-xs">
+              <span class="bg-[var(--primary)] text-[var(--primary-foreground)] rounded px-1 shrink-0">Step 1</span>
+              <div class="flex items-center gap-1">
+                <div class="queue-node" style="min-width:60px;font-size:11px;background:#d1fae5;color:#065f46">B1 ✓</div>
+                <span>→</span><div class="queue-node" style="min-width:60px;font-size:11px;background:#fee2e2;color:#991b1b">B2 ✗</div>
+                <span>→</span><div class="queue-node" style="min-width:60px;font-size:11px;background:#d1fae5;color:#065f46">B3 ✓</div>
+              </div>
+              <span class="text-[var(--muted-foreground)]">prev=null, curr=B1 → B1 valid → prev=B1</span>
+            </div>
+            <div class="flex items-center gap-2 text-xs">
+              <span class="bg-[var(--primary)] text-[var(--primary-foreground)] rounded px-1 shrink-0">Step 2</span>
+              <div class="flex items-center gap-1">
+                <div class="queue-node" style="min-width:60px;font-size:11px;background:#d1fae5;color:#065f46">B1 ✓</div>
+                <span style="color:#ef4444;font-weight:bold">⟶</span><div class="queue-node" style="min-width:60px;font-size:11px;background:#fee2e2;color:#991b1b;opacity:0.4">B2 ✗</div>
+                <div class="queue-node" style="min-width:60px;font-size:11px;background:#d1fae5;color:#065f46">B3 ✓</div>
+              </div>
+              <span class="text-[var(--muted-foreground)]">curr=B2 expired → prev(B1).setNext(B3) → B2 bypassed</span>
+            </div>
+            <div class="flex items-center gap-2 text-xs">
+              <span class="bg-green-500 text-white rounded px-1 shrink-0">Result</span>
+              <div class="flex items-center gap-1">
+                <div class="queue-node" style="min-width:60px;font-size:11px;background:#d1fae5;color:#065f46">B1 ✓</div>
+                <span>→</span><div class="queue-node" style="min-width:60px;font-size:11px;background:#d1fae5;color:#065f46">B3 ✓</div>
+                <span>→ null</span>
+              </div>
+              <span class="text-green-700 font-semibold">FIFO order preserved ✓</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== E029 ==================== -->
+  <div id="t029" class="tab-content space-y-3">
+    <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-4">
+      <h2 class="font-bold mb-1">Entry #029 — Chained Dequeue Until Fulfilled Pattern</h2>
+      <p class="text-xs text-[var(--muted-foreground)] mb-3">AI said "stop at first batch if insufficient". Human confirmed chained multi-batch dequeue for seamless stock abstraction.</p>
+
+      <div class="space-y-3">
+        <div>
+          <div class="text-sm font-semibold mb-1">Scenario: Issue 250 units. Queue = [B1:100] → [B2:200] → [B3:150]</div>
+          <div class="flex items-center gap-1 mb-2">
+            <div class="text-xs text-[var(--muted-foreground)]">front→</div>
+            <div class="queue-node border-blue-400" style="min-width:70px;background:#dbeafe;color:#1e40af">B1<br/>100 units</div>
+            <div class="queue-arrow">→</div>
+            <div class="queue-node border-blue-400" style="min-width:70px;background:#dbeafe;color:#1e40af">B2<br/>200 units</div>
+            <div class="queue-arrow">→</div>
+            <div class="queue-node border-blue-400" style="min-width:70px;background:#dbeafe;color:#1e40af">B3<br/>150 units</div>
+            <div class="queue-arrow">→ null</div>
+          </div>
+        </div>
+
+        <div class="border border-[var(--border)] rounded-lg p-3 text-xs font-mono space-y-1">
+          <div class="font-bold text-sm font-sans text-[var(--foreground)] mb-2">Execution Trace (remaining=250)</div>
+          <div class="flex gap-3">
+            <span class="bg-blue-100 text-blue-800 rounded px-1">Iter 1</span>
+            <span>peek=B1(100), 100 ≤ 250 → <span class="text-green-700 font-bold">dequeue B1 fully</span>. remaining=150</span>
+          </div>
+          <div class="flex gap-3">
+            <span class="bg-blue-100 text-blue-800 rounded px-1">Iter 2</span>
+            <span>peek=B2(200), 200 &gt; 150 → <span class="text-yellow-700 font-bold">reduce B2 by 150</span> → B2.qty=50. remaining=0 → STOP</span>
+          </div>
+          <div class="flex gap-3 mt-1">
+            <span class="bg-green-100 text-green-800 rounded px-1">Result</span>
+            <span class="text-green-700 font-bold">250 units issued. Queue now: [B2:50] → [B3:150]</span>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div class="border border-red-300 bg-red-50 rounded-lg p-2 text-xs">
+            <div class="font-bold text-red-700 mb-1">❌ AI's Approach</div>
+            <div>Iter 1: peek=B1(100), 100 &lt; 250 → <strong>return "insufficient"</strong></div>
+            <div class="mt-1 text-red-600">User must know individual batch sizes and issue ≤100 at a time. Defeats queue abstraction!</div>
+          </div>
+          <div>
+            <pre style="font-size:11px"><span class="cm">// WarehouseManager.issueStock() pattern</span>
+<span class="kw">while</span> (remaining &gt; <span class="num">0</span>
+    &amp;&amp; !batchQueue.<span class="fn">isEmpty</span>()) {
+  Batch b = batchQueue.<span class="fn">peek</span>();
+  <span class="kw">if</span> (b.qty &lt;= remaining) {
+    remaining -= b.qty;
+    batchQueue.<span class="fn">dequeue</span>();     <span class="cm">// full</span>
+  } <span class="kw">else</span> {
+    b.<span class="fn">reduceQuantity</span>(remaining); <span class="cm">// partial</span>
+    remaining = <span class="num">0</span>;
+  }
+}</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== E030 ==================== -->
+  <div id="t030" class="tab-content space-y-3">
+    <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-4">
+      <h2 class="font-bold mb-1">Entry #030 — Orphaned Reference Pattern: Delete Safety</h2>
+      <p class="text-xs text-[var(--muted-foreground)] mb-3">AI confirmed zero-stock guard is sufficient. Human detected additional structural risk: orphaned StockTransaction records in TransactionLog.</p>
+
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <div class="text-sm font-semibold mb-2">What AI confirmed (correct but incomplete):</div>
+          <div class="border border-green-300 rounded-lg p-3 text-xs">
+            <div class="font-bold text-green-700 mb-1">✅ Zero-Stock Guard (works correctly)</div>
+            <pre style="font-size:11px"><span class="cm">// ProductManager.java</span>
+<span class="kw">boolean</span> <span class="fn">deleteProduct</span>(barcode) {
+  Product p = productTree.<span class="fn">search</span>(barcode);
+  <span class="kw">if</span>(p.<span class="fn">calculateTotalQuantity</span>() &gt; <span class="num">0</span>)
+    <span class="kw">return false</span>;  <span class="cm">← prevents inventory loss</span>
+  <span class="kw">return</span> productTree.<span class="fn">delete</span>(barcode);
+}</pre>
+            <div class="mt-2">Prevents: deleting SP001 while 500 units still in BatchQueue</div>
+          </div>
+        </div>
+
+        <div>
+          <div class="text-sm font-semibold mb-2">What AI missed (orphaned reference risk):</div>
+          <svg viewBox="0 0 240 200" width="100%" height="200">
+            <!-- ProductBST with SP001 -->
+            <rect x="5" y="10" width="100" height="50" rx="6" fill="#7c3aed" opacity="0.85"/>
+            <text x="55" y="28" text-anchor="middle" font-size="11" fill="white" font-weight="bold">ProductBST</text>
+            <text x="55" y="44" text-anchor="middle" font-size="10" fill="#e9d5ff">node: SP001 ✓</text>
+            <text x="55" y="54" text-anchor="middle" font-size="10" fill="#e9d5ff">qty=0 (all expired)</text>
+
+            <!-- Arrow delete -->
+            <path d="M55,60 L55,95" stroke="#ef4444" stroke-width="2" marker-end="url(#redarr)"/>
+            <text x="60" y="82" font-size="10" fill="#ef4444">delete()</text>
+
+            <!-- ProductBST after delete -->
+            <rect x="5" y="100" width="100" height="40" rx="6" fill="#6b7280" opacity="0.5"/>
+            <text x="55" y="118" text-anchor="middle" font-size="11" fill="white" font-weight="bold">ProductBST</text>
+            <text x="55" y="132" text-anchor="middle" font-size="10" fill="#d1d5db">SP001 → DELETED ✗</text>
+
+            <!-- TransactionLog chain -->
+            <rect x="130" y="10" width="108" height="50" rx="6" fill="none" stroke="#f59e0b" stroke-width="2"/>
+            <text x="184" y="28" text-anchor="middle" font-size="10" fill="#92400e" font-weight="bold">TransactionLog</text>
+            <text x="134" y="42" font-size="9" fill="#92400e">TX-001: SP001 +100</text>
+            <text x="134" y="54" font-size="9" fill="#92400e">TX-002: SP001 -30</text>
+
+            <!-- Arrow: TransactionLog still has SP001 refs -->
+            <path d="M184,60 L184,100" stroke="#f59e0b" stroke-width="2" stroke-dasharray="4"/>
+            <rect x="130" y="100" width="108" height="80" rx="6" fill="none" stroke="#f59e0b" stroke-width="2"/>
+            <text x="184" y="117" text-anchor="middle" font-size="10" fill="#92400e" font-weight="bold">TransactionLog</text>
+            <text x="134" y="131" font-size="9" fill="#ef4444">TX-001: barcode="SP001"</text>
+            <text x="134" y="143" font-size="9" fill="#ef4444">TX-002: barcode="SP001"</text>
+            <text x="134" y="155" font-size="10" fill="#ef4444">⚠ SP001 no longer</text>
+            <text x="134" y="167" font-size="10" fill="#ef4444">   exists in BST!</text>
+            <text x="134" y="179" font-size="9" fill="#ef4444">→ ORPHANED records</text>
+
+            <defs>
+              <marker id="redarr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L8,3 z" fill="#ef4444"/>
+              </marker>
+            </defs>
+          </svg>
+        </div>
+      </div>
+
+      <div class="mt-3 bg-yellow-50 border border-yellow-300 rounded-lg p-2 text-xs">
+        <strong class="text-yellow-800">⚠ Architectural Limitation Identified by Human (AI missed this):</strong>
+        <span class="text-yellow-700"> The zero-stock guard protects inventory but not audit trail integrity. When all batches expire and product is deleted, <code>TransactionLog</code> records for that barcode become orphaned (referencing a non-existent product). Production solution: soft-delete (archive) rather than hard-delete when TX records exist.</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  function showTab(id, btnElem) {
+    document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    document.querySelectorAll('.tab-btn').forEach(b => {
+      b.classList.remove('active');
+      b.style.background = '';
+      b.style.color = '';
+    });
+    // find the actual button
+    document.querySelectorAll('.tab-btn').forEach(b => {
+      if (b.getAttribute('onclick') && b.getAttribute('onclick').includes("'" + id + "'")) {
+        b.classList.add('active');
+      }
+    });
+  }
+</script>
+</body>
+</html>
