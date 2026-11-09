@@ -1,6 +1,6 @@
 #include "soc/soc.h"
 #include "soc/rtc_cntl_reg.h"
-#include "hal/brownout_ll.h"  // Thư viện can thiệp Brownout chuẩn cho ESP32-S3
+#include "hal/brownout_ll.h"
 #include <WiFi.h>
 #include <WiFiClientSecure.h>
 #include <HTTPClient.h>
@@ -8,14 +8,12 @@
 #include <LoRa.h>
 #include <ArduinoJson.h>
 
-// Thông tin cấu hình WiFi, Server PHP và Telegram Bot
-const char* WIFI_SSID = "KhuongSoSad";
+const char* WIFI_SSID = "KhuongSoSad2";
 const char* WIFI_PASS = "phukhuong";
 const char* PHP_API_URL = "https://iot102-group3-weather-station.phukhuong79.com/api.php";
 const char* TG_BOT_TOKEN = "8568608071:AAHDaQBp_nBVdHdrFJVl7wUahyxAO4j19yY";
 const char* TG_CHAT_ID = "1279015740";
 
-// Định nghĩa chân SPI LoRa trên ESP32-S3-WROOM
 #define LORA_SCK 12
 #define LORA_MISO 13
 #define LORA_MOSI 11
@@ -23,10 +21,9 @@ const char* TG_CHAT_ID = "1279015740";
 #define LORA_RST 9
 #define LORA_DIO0 4
 
-// Cấu hình chân LED & Còi cảnh báo tại Gateway
-#define LED_PIN 7
+#define LED_WATER_LOW 6
 #define LED_RAIN 7        
-#define BUZZER_GATEWAY 8  // Chân còi báo động tại Gateway
+#define BUZZER_GATEWAY 8
 
 struct NodeData {
   float temp = 0;
@@ -35,49 +32,45 @@ struct NodeData {
   int water = 0;
   int soil = 0;
   int rain = 0;
-  int pumpA = 0; // Máy bơm 2
-  int pumpB = 0; // Máy bơm 3
+  int pumpA = 0;
+  int pumpB = 0;
   int buzz = 0;
-  int mode = 1;  // 1 = AUTO, 0 = MANUAL
+  int mode = 1;
   int rssi = 0;
   unsigned long lastSeen = 0;
   bool online = false;
   bool offlineAlertSent = false;
 };
 
-NodeData node2; // Chỉ giữ lại Node 2
+NodeData node2;
 
-// Biến lưu lệnh điều khiển hiện tại cho Node 2
 int ctrlMode2 = 1, ctrlPump2 = 0, ctrlPump3 = 0, ctrlBuzz2 = 0;
 
 unsigned long lastServerSync = 0;
 unsigned long lastTelegramTime = 0;
-const unsigned long NODE_TIMEOUT_MS = 60000;  // 60 giây timeout mất kết nối
+const unsigned long NODE_TIMEOUT_MS = 20000;
 
 String pendingTelegramMsg = "";
 
-// Hàm đẩy tin nhắn vào hàng đợi
 void queueTelegramAlert(String message) {
   if (millis() - lastTelegramTime < 15000 && lastTelegramTime != 0) return;
   pendingTelegramMsg = message;
 }
 
-// Cập nhật LED báo mưa dựa trên Node 2
-void updateRainLED() {
+void updateGatewayAlerts() {
   bool isRaining = (node2.online && node2.rain == 1);
   digitalWrite(LED_RAIN, isRaining ? HIGH : LOW);
-}
 
-// Cập nhật Còi tại Gateway dựa trên trạng thái Node 2
-void updateGatewayBuzzer() {
+  bool isWaterLow = (node2.online && node2.water <= 20);
+  digitalWrite(LED_WATER_LOW, isWaterLow ? HIGH : LOW);
+
   bool needBuzz = false;
   if (node2.online && node2.water <= 20 && node2.soil <= 35) {
-    needBuzz = true; // Cạn nước bồn + đất khô khẩn cấp
+    needBuzz = true;
   }
   digitalWrite(BUZZER_GATEWAY, needBuzz ? HIGH : LOW);
 }
 
-// Xử lý gửi tin nhắn Telegram
 void processTelegramQueue() {
   if (pendingTelegramMsg == "") return;
   if (WiFi.status() != WL_CONNECTED) return;
@@ -102,8 +95,7 @@ void processTelegramQueue() {
     doc["text"] = message;
     String body;
     serializeJson(doc, body);
-    int httpCode = https.POST(body);
-    Serial.printf("[TELEGRAM] HTTP %d: %s\n", httpCode, message.c_str());
+    https.POST(body);
     https.end();
   }
 
@@ -111,7 +103,6 @@ void processTelegramQueue() {
   LoRa.receive();
 }
 
-// Gửi lệnh điều khiển Downlink xuống Node 2
 void sendLoRaCommand() {
   String cmd = "CMD,2," + String(ctrlMode2) + "," + String(ctrlPump2) + "," + String(ctrlPump3) + "," + String(ctrlBuzz2);
 
@@ -120,27 +111,23 @@ void sendLoRaCommand() {
   LoRa.print(cmd);
   LoRa.endPacket();
   delay(15);
-
-  Serial.println("[GATEWAY -> LORA DOWNLINK] " + cmd);
 }
 
-// Đánh giá cảnh báo thực tế cho Node 2
 void evaluateRealWorldAlerts() {
   if (node2.water <= 20) {
     if (node2.soil <= 35) {
-      queueTelegramAlert("⚠️ [KHẨN CẤP - NODE 2]\nĐất đang rất khô (" + String(node2.soil) + "%) nhưng BỒN CHỨA CẠN NƯỚC (" + String(node2.water) + "%)!\nĐã KHÓA Máy bơm 2 & 3 để chống cháy bơm.");
+      queueTelegramAlert("⚠️ [KHẨN CẤP - TRẠM CHÍNH]\nĐất đang rất khô (" + String(node2.soil) + "%) nhưng BỒN CHỨA CẠN NƯỚC (" + String(node2.water) + "%)!\nĐã KHÓA Máy bơm 2 & 3 để chống cháy bơm.");
     } else {
-      queueTelegramAlert("⚠️ [CẢNH BÁO CẠN BỒN - NODE 2]\nMực nước bồn tưới chỉ còn " + String(node2.water) + "%!\nĐã ngắt bảo vệ Máy bơm 2 & Máy bơm 3.");
+      queueTelegramAlert("⚠️ [CẢNH BÁO CẠN BỒN - TRẠM CHÍNH]\nMực nước bồn tưới chỉ còn " + String(node2.water) + "%!\nĐã ngắt bảo vệ Máy bơm 2 & Máy bơm 3.");
     }
   } else if (node2.soil <= 35 && node2.pumpA == 1) {
-    queueTelegramAlert("🌱 [TƯỚI TỰ ĐỘNG - NODE 2]\nĐộ ẩm đất xuống thấp (" + String(node2.soil) + "%).\nHệ thống đã tự động BẬT Máy bơm 2 tưới cây.");
+    queueTelegramAlert("🌱 [TƯỚI TỰ ĐỘNG - TRẠM CHÍNH]\nĐộ ẩm đất xuống thấp (" + String(node2.soil) + "%).\nHệ thống đã tự động BẬT Máy bơm 2 tưới cây.");
   }
   if (node2.temp >= 35.0 && node2.pumpB == 1) {
-    queueTelegramAlert("🌡 [CẢNH BÁO NẮNG NÓNG - NODE 2]\nNhiệt độ vườn đạt " + String(node2.temp, 1) + "°C, Ẩm KK " + String(node2.hum, 1) + "%.\nĐã bật Máy bơm 3 phun sương hạ nhiệt.");
+    queueTelegramAlert("🌡 [CẢNH BÁO NẮNG NÓNG - TRẠM CHÍNH]\nNhiệt độ vườn đạt " + String(node2.temp, 1) + "°C, Ẩm KK " + String(node2.hum, 1) + "%.\nĐã bật Máy bơm 3 phun sương hạ nhiệt.");
   }
 }
 
-// Giải mã gói tin LoRa từ Node 2
 void processLoRaPacket(String packet, int rssi) {
   if (!packet.startsWith("UP,")) return;
 
@@ -159,7 +146,7 @@ void processLoRaPacket(String packet, int rssi) {
   if (partIdx < 12) return;
 
   int id = parts[1].toInt();
-  if (id != 2) return; // Chỉ chấp nhận gói tin từ Node 2
+  if (id != 2) return;
 
   node2.temp = parts[2].toFloat();
   node2.hum = parts[3].toFloat();
@@ -182,12 +169,10 @@ void processLoRaPacket(String packet, int rssi) {
     ctrlBuzz2 = node2.buzz;
   }
 
-  updateRainLED();
-  updateGatewayBuzzer();
+  updateGatewayAlerts();
   evaluateRealWorldAlerts();
 }
 
-// Đồng bộ 1 chiều/2 chiều với Server PHP (Chỉ giữ lại cấu trúc cho Node 2)
 void syncWithPHPServer() {
   if (WiFi.status() != WL_CONNECTED) return;
 
@@ -243,19 +228,16 @@ void syncWithPHPServer() {
   https.end();
 }
 
-// Giám sát mất kết nối LoRa cho Node 2
 void checkNodeWatchdog() {
   unsigned long now = millis();
   if (node2.lastSeen > 0 && (now - node2.lastSeen > NODE_TIMEOUT_MS)) {
     node2.online = false;
     if (!node2.offlineAlertSent) {
       node2.offlineAlertSent = true;
-      queueTelegramAlert("❌ [MẤT KẾT NỐI LORA]\nTrạm Node 2 (Nông nghiệp) không phản hồi quá 60 giây! Vui lòng kiểm tra nguồn NLMT.");
+      queueTelegramAlert("❌ [MẤT KẾT NỐI LORA]\nTrạm chính (Nông nghiệp) không phản hồi quá 60 giây! Vui lòng kiểm tra nguồn NLMT.");
     }
   }
-
-  updateRainLED();
-  updateGatewayBuzzer();
+  updateGatewayAlerts();
 }
 
 void setup() {
@@ -263,20 +245,18 @@ void setup() {
   brownout_ll_ana_reset_enable(false);
   CLEAR_PERI_REG_MASK(RTC_CNTL_BROWN_OUT_REG, RTC_CNTL_BROWN_OUT_ENA);
 
-  pinMode(LED_PIN, OUTPUT);
-  digitalWrite(LED_PIN, LOW);
+  pinMode(LED_WATER_LOW, OUTPUT);
+  digitalWrite(LED_WATER_LOW, LOW);
+  pinMode(LED_RAIN, OUTPUT);
+  digitalWrite(LED_RAIN, LOW);
   pinMode(BUZZER_GATEWAY, OUTPUT);
   digitalWrite(BUZZER_GATEWAY, LOW);
 
   setCpuFrequencyMhz(160);
 
-  Serial.begin(115200);
-  delay(300);
-
   SPI.begin(LORA_SCK, LORA_MISO, LORA_MOSI, LORA_SS);
   LoRa.setPins(LORA_SS, LORA_RST, LORA_DIO0);
   if (!LoRa.begin(433E6)) {
-    Serial.println("Lỗi khởi tạo LoRa trên Gateway ESP32-S3!");
     while (1) { delay(1000); }
   }
   LoRa.setSpreadingFactor(7);
@@ -300,7 +280,7 @@ void setup() {
   }
 
   delay(300);
-  queueTelegramAlert("✅ [HỆ THỐNG KHỞI ĐỘNG]\nGateway ESP32-S3 (Node 2) đã kết nối WiFi và sẵn sàng thu phát LoRa 433MHz!");
+  queueTelegramAlert("✅ [HỆ THỐNG KHỞI ĐỘNG]\nGateway ESP32-S3 đã kết nối WiFi và sẵn sàng thu phát LoRa 433MHz!");
 }
 
 void loop() {
