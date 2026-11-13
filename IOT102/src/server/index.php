@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hệ Thống Quản Lý IoT LoRa Đa Năng Vùng Sâu Vùng Xa</title>
+    <title>Hệ Thống Quản Lý IoT LoRa Nông Nghiệp Thông Minh</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-slate-900 text-slate-100 min-h-screen p-4 md:p-8">
-    <div class="max-w-6xl mx-auto">
+    <div class="max-w-5xl mx-auto">
         <!-- Header -->
         <div class="flex flex-col md:flex-row justify-between items-start md:items-center bg-slate-800 p-6 rounded-2xl border border-slate-700 mb-6 shadow-lg">
             <div>
                 <h1 class="text-2xl md:text-3xl font-bold text-emerald-400">TRUNG TÂM ĐIỀU HÀNH IOT LORA 433MHz</h1>
-                <p class="text-slate-400 text-sm mt-1">Gateway ESP32-S3 &bull; 2 Trạm ESP8266 Năng Lượng Mặt Trời &bull; Tích Hợp Cảm Biến Độ Ẩm Đất</p>
+                <p class="text-slate-400 text-sm mt-1">Gateway ESP32-S3 &bull; Trạm Node ESP8266 Năng Lượng Mặt Trời &bull; Tích Hợp Cảm Biến Độ Ẩm Đất</p>
             </div>
             <div class="mt-4 md:mt-0 text-right">
                 <span class="text-xs text-slate-400 block">Đồng bộ lần cuối:</span>
@@ -20,122 +20,70 @@
             </div>
         </div>
 
-        <!-- 2 Node Cards -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-            <!-- NODE 1: TRẠM THỦY LỢI / CHỐNG NGẬP -->
-            <div class="bg-slate-800 rounded-2xl p-6 border border-slate-700 shadow-lg flex flex-col justify-between">
+        <!-- TRẠM NODE: VƯỜN NÔNG NGHIỆP THÔNG MINH (Nhận dữ liệu từ node2) -->
+        <div class="bg-slate-800 rounded-2xl p-6 border border-slate-700 shadow-lg mb-8">
+            <div class="flex justify-between items-center border-b border-slate-700 pb-4 mb-5">
                 <div>
-                    <div class="flex justify-between items-center border-b border-slate-700 pb-4 mb-4">
-                        <div>
-                            <h2 class="text-xl font-bold text-sky-400">TRẠM NODE 1: THỦY LỢI & CHỐNG NGẬP</h2>
-                            <p class="text-xs text-slate-400" id="n1-rssi">Sóng LoRa: -- dBm</p>
-                        </div>
-                        <span id="n1-status" class="px-3 py-1 rounded-full text-xs font-bold bg-slate-700 text-slate-300">KIỂM TRA...</span>
+                    <h2 class="text-xl font-bold text-emerald-400">TRẠM NODE: VƯỜN NÔNG NGHIỆP</h2>
+                    <div class="flex items-center gap-2 mt-0.5">
+                        <p class="text-xs text-slate-400" id="n2-rssi">Sóng LoRa: -- dBm</p>
+                        <span class="text-slate-600">&bull;</span>
+                        <span id="n2-sys-code" class="text-[11px] font-mono font-bold text-amber-400">STATUS: NORMAL</span>
                     </div>
+                </div>
+                <span id="n2-status" class="px-3 py-1 rounded-full text-xs font-bold bg-slate-700 text-slate-300">KIỂM TRA...</span>
+            </div>
 
-                    <!-- Thông số cảm biến Node 1 -->
-                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-6">
-                        <div class="bg-slate-900/70 p-3 rounded-xl border border-slate-700/60">
-                            <div class="text-xs text-slate-400">Mực nước Kênh/Hồ</div>
-                            <div id="n1-water" class="text-2xl font-bold text-sky-400 mt-1">--%</div>
-                        </div>
-                        <div class="bg-slate-900/70 p-3 rounded-xl border border-slate-700/60">
-                            <div class="text-xs text-slate-400">Trạng thái Mưa</div>
-                            <div id="n1-rain" class="text-lg font-bold text-amber-300 mt-1">--</div>
-                        </div>
-                        <div class="bg-slate-900/70 p-3 rounded-xl border border-slate-700/60">
-                            <div class="text-xs text-slate-400">Nhiệt độ / Ẩm KK</div>
-                            <div id="n1-th" class="text-lg font-bold text-emerald-300 mt-1">--°C / --%</div>
-                        </div>
-                        <div class="bg-slate-900/70 p-3 rounded-xl border border-slate-700/60 col-span-2 sm:col-span-3">
-                            <div class="text-xs text-slate-400">Áp suất khí quyển (BME280)</div>
-                            <div id="n1-pres" class="text-base font-semibold text-purple-300 mt-1">-- hPa</div>
-                        </div>
+            <!-- Thông số cảm biến Node -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+                <div class="bg-slate-900/70 p-4 rounded-xl border border-emerald-500/40 sm:col-span-3">
+                    <div class="flex justify-between items-center">
+                        <span class="text-xs md:text-sm text-slate-300 font-semibold">🌱 Độ ẩm đất canh tác </span>
+                        <span id="n2-soil" class="text-2xl font-bold text-emerald-400">--%</span>
+                    </div>
+                    <div class="w-full bg-slate-700 h-3 rounded-full mt-2.5 overflow-hidden">
+                        <div id="n2-soil-bar" class="bg-emerald-500 h-full rounded-full transition-all duration-300" style="width: 0%"></div>
                     </div>
                 </div>
 
-                <!-- Bảng điều khiển Node 1 -->
-                <div class="bg-slate-900 p-4 rounded-xl border border-slate-700">
-                    <div class="flex justify-between items-center mb-4">
-                        <span class="font-semibold text-sm">Chế độ vận hành Node 1:</span>
-                        <div class="flex gap-2">
-                            <button onclick="setCommand({mode1: 1})" id="btn-n1-auto" class="px-4 py-1.5 rounded-lg text-xs font-bold transition">TỰ ĐỘNG (AUTO)</button>
-                            <button onclick="setCommand({mode1: 0})" id="btn-n1-man" class="px-4 py-1.5 rounded-lg text-xs font-bold transition">THỦ CÔNG (MANUAL)</button>
-                        </div>
-                    </div>
-                    <div class="grid grid-cols-2 gap-3">
-                        <button onclick="toggleDevice('pump1', 'mode1')" id="btn-pump1" class="p-3 rounded-xl font-bold text-sm border transition flex flex-col items-center justify-center">
-                            <span>MÁY BƠM 1 (XẢ NGẬP)</span>
-                            <span id="txt-pump1" class="text-xs mt-1 font-normal">Đang Tắt</span>
-                        </button>
-                        <button onclick="toggleDevice('buzz1', 'mode1')" id="btn-buzz1" class="p-3 rounded-xl font-bold text-sm border transition flex flex-col items-center justify-center">
-                            <span>CÒI BÁO ĐỘNG 1</span>
-                            <span id="txt-buzz1" class="text-xs mt-1 font-normal">Đang Tắt</span>
-                        </button>
-                    </div>
+                <div class="bg-slate-900/70 p-4 rounded-xl border border-slate-700/60">
+                    <div class="text-xs text-slate-400">Mực nước Bồn Tưới</div>
+                    <div id="n2-water" class="text-2xl font-bold text-sky-400 mt-1">--%</div>
+                </div>
+
+                <div class="bg-slate-900/70 p-4 rounded-xl border border-slate-700/60">
+                    <div class="text-xs text-slate-400">Trạng thái Mưa</div>
+                    <div id="n2-rain" class="text-xl font-bold text-amber-300 mt-1">--</div>
+                </div>
+
+                <div class="bg-slate-900/70 p-4 rounded-xl border border-slate-700/60">
+                    <div class="text-xs text-slate-400">Nhiệt độ / Ẩm KK</div>
+                    <div id="n2-th" class="text-xl font-bold text-emerald-300 mt-1">--°C / --%</div>
                 </div>
             </div>
 
-            <!-- NODE 2: TRẠM NÔNG NGHIỆP THÔNG MINH -->
-            <div class="bg-slate-800 rounded-2xl p-6 border border-slate-700 shadow-lg flex flex-col justify-between">
-                <div>
-                    <div class="flex justify-between items-center border-b border-slate-700 pb-4 mb-4">
-                        <div>
-                            <h2 class="text-xl font-bold text-emerald-400">TRẠM NODE 2: VƯỜN NÔNG NGHIỆP</h2>
-                            <p class="text-xs text-slate-400" id="n2-rssi">Sóng LoRa: -- dBm</p>
-                        </div>
-                        <span id="n2-status" class="px-3 py-1 rounded-full text-xs font-bold bg-slate-700 text-slate-300">KIỂM TRA...</span>
-                    </div>
-
-                    <!-- Thông số cảm biến Node 2 (Có thanh tiến trình Độ ẩm đất) -->
-                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-6">
-                        <div class="bg-slate-900/70 p-3 rounded-xl border border-emerald-500/40 col-span-2 sm:col-span-3">
-                            <div class="flex justify-between items-center">
-                                <span class="text-xs text-slate-300 font-semibold">🌱 Độ ẩm đất canh tác (Ngưỡng tưới: 35% - 65%)</span>
-                                <span id="n2-soil" class="text-xl font-bold text-emerald-400">--%</span>
-                            </div>
-                            <div class="w-full bg-slate-700 h-2.5 rounded-full mt-2 overflow-hidden">
-                                <div id="n2-soil-bar" class="bg-emerald-500 h-full rounded-full transition-all duration-300" style="width: 0%"></div>
-                            </div>
-                        </div>
-                        <div class="bg-slate-900/70 p-3 rounded-xl border border-slate-700/60">
-                            <div class="text-xs text-slate-400">Mực nước Bồn Tưới</div>
-                            <div id="n2-water" class="text-xl font-bold text-sky-400 mt-1">--%</div>
-                        </div>
-                        <div class="bg-slate-900/70 p-3 rounded-xl border border-slate-700/60">
-                            <div class="text-xs text-slate-400">Trạng thái Mưa</div>
-                            <div id="n2-rain" class="text-base font-bold text-amber-300 mt-1">--</div>
-                        </div>
-                        <div class="bg-slate-900/70 p-3 rounded-xl border border-slate-700/60">
-                            <div class="text-xs text-slate-400">Nhiệt độ / Ẩm KK</div>
-                            <div id="n2-th" class="text-base font-bold text-emerald-300 mt-1">--°C / --%</div>
-                        </div>
+            <!-- Bảng điều khiển Node -->
+            <div class="bg-slate-900 p-4 rounded-xl border border-slate-700">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4">
+                    <span class="font-semibold text-sm">Chế độ vận hành Node:</span>
+                    <div class="flex gap-2">
+                        <button onclick="setCommand({mode2: 1})" id="btn-n2-auto" class="px-4 py-1.5 rounded-lg text-xs font-bold transition">TỰ ĐỘNG (AUTO)</button>
+                        <button onclick="setCommand({mode2: 0})" id="btn-n2-man" class="px-4 py-1.5 rounded-lg text-xs font-bold transition">THỦ CÔNG (MANUAL)</button>
                     </div>
                 </div>
-
-                <!-- Bảng điều khiển Node 2 -->
-                <div class="bg-slate-900 p-4 rounded-xl border border-slate-700">
-                    <div class="flex justify-between items-center mb-4">
-                        <span class="font-semibold text-sm">Chế độ vận hành Node 2:</span>
-                        <div class="flex gap-2">
-                            <button onclick="setCommand({mode2: 1})" id="btn-n2-auto" class="px-4 py-1.5 rounded-lg text-xs font-bold transition">TỰ ĐỘNG (AUTO)</button>
-                            <button onclick="setCommand({mode2: 0})" id="btn-n2-man" class="px-4 py-1.5 rounded-lg text-xs font-bold transition">THỦ CÔNG (MANUAL)</button>
-                        </div>
-                    </div>
-                    <div class="grid grid-cols-3 gap-2">
-                        <button onclick="toggleDevice('pump2', 'mode2')" id="btn-pump2" class="p-3 rounded-xl font-bold text-xs border transition flex flex-col items-center justify-center">
-                            <span>BƠM 2 (TƯỚI GỐC)</span>
-                            <span id="txt-pump2" class="text-xs mt-1 font-normal">Đang Tắt</span>
-                        </button>
-                        <button onclick="toggleDevice('pump3', 'mode2')" id="btn-pump3" class="p-3 rounded-xl font-bold text-xs border transition flex flex-col items-center justify-center">
-                            <span>BƠM 3 (PHUN SƯƠNG)</span>
-                            <span id="txt-pump3" class="text-xs mt-1 font-normal">Đang Tắt</span>
-                        </button>
-                        <button onclick="toggleDevice('buzz2', 'mode2')" id="btn-buzz2" class="p-3 rounded-xl font-bold text-xs border transition flex flex-col items-center justify-center">
-                            <span>CÒI BÁO 2</span>
-                            <span id="txt-buzz2" class="text-xs mt-1 font-normal">Đang Tắt</span>
-                        </button>
-                    </div>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <button onclick="toggleDevice('pump2', 'mode2')" id="btn-pump2" class="p-3.5 rounded-xl font-bold text-xs md:text-sm border transition flex flex-col items-center justify-center">
+                        <span>BƠM 1 (TƯỚI GỐC)</span>
+                        <span id="txt-pump2" class="text-xs mt-1 font-normal">Đang Tắt</span>
+                    </button>
+                    <button onclick="toggleDevice('pump3', 'mode2')" id="btn-pump3" class="p-3.5 rounded-xl font-bold text-xs md:text-sm border transition flex flex-col items-center justify-center">
+                        <span>BƠM 2 (PHUN SƯƠNG)</span>
+                        <span id="txt-pump3" class="text-xs mt-1 font-normal">Đang Tắt</span>
+                    </button>
+                    <button onclick="toggleDevice('buzz2', 'mode2')" id="btn-buzz2" class="p-3.5 rounded-xl font-bold text-xs md:text-sm border transition flex flex-col items-center justify-center">
+                        <span>CÒI BÁO ĐỘNG</span>
+                        <span id="txt-buzz2" class="text-xs mt-1 font-normal">Đang Tắt</span>
+                    </button>
                 </div>
             </div>
         </div>
@@ -148,11 +96,9 @@
                     <thead class="text-xs uppercase bg-slate-900 text-slate-400">
                         <tr>
                             <th class="p-3">Thời gian</th>
-                            <th class="p-3">Mực nước Hồ (Node 1)</th>
-                            <th class="p-3">Nhiệt độ (Node 1)</th>
-                            <th class="p-3">Độ ẩm đất (Node 2)</th>
-                            <th class="p-3">Mực nước Bồn (Node 2)</th>
-                            <th class="p-3">Nhiệt độ / Ẩm KK (Node 2)</th>
+                            <th class="p-3">Độ ẩm đất (Node)</th>
+                            <th class="p-3">Mực nước Bồn (Node)</th>
+                            <th class="p-3">Nhiệt độ / Ẩm KK (Node)</th>
                         </tr>
                     </thead>
                     <tbody id="history-body" class="divide-y divide-slate-700"></tbody>
@@ -167,11 +113,12 @@
         function styleButton(btnId, txtId, isActive) {
             const btn = document.getElementById(btnId);
             const txt = document.getElementById(txtId);
+            if (!btn || !txt) return;
             if (isActive == 1) {
-                btn.className = "p-3 rounded-xl font-bold text-xs md:text-sm border transition flex flex-col items-center justify-center bg-emerald-600 border-emerald-400 text-white shadow-lg";
+                btn.className = "p-3.5 rounded-xl font-bold text-xs md:text-sm border transition flex flex-col items-center justify-center bg-emerald-600 border-emerald-400 text-white shadow-lg";
                 txt.innerText = "ĐANG BẬT (ON)";
             } else {
-                btn.className = "p-3 rounded-xl font-bold text-xs md:text-sm border transition flex flex-col items-center justify-center bg-slate-800 border-slate-600 text-slate-300 hover:bg-slate-700";
+                btn.className = "p-3.5 rounded-xl font-bold text-xs md:text-sm border transition flex flex-col items-center justify-center bg-slate-800 border-slate-600 text-slate-300 hover:bg-slate-700";
                 txt.innerText = "ĐANG TẮT (OFF)";
             }
         }
@@ -179,6 +126,7 @@
         function styleModeButtons(autoBtnId, manBtnId, isAuto) {
             const autoBtn = document.getElementById(autoBtnId);
             const manBtn  = document.getElementById(manBtnId);
+            if (!autoBtn || !manBtn) return;
             if (isAuto == 1) {
                 autoBtn.className = "px-4 py-1.5 rounded-lg text-xs font-bold bg-sky-500 text-white";
                 manBtn.className  = "px-4 py-1.5 rounded-lg text-xs font-bold bg-slate-800 text-slate-400 border border-slate-600";
@@ -215,44 +163,33 @@
 
                 document.getElementById('last-update').innerText = st.updated_at;
 
-                // Cập nhật Node 1
-                document.getElementById('n1-water').innerText = st.node1.water + '%';
-                document.getElementById('n1-rain').innerText  = st.node1.rain == 1 ? 'ĐANG MƯA' : 'KHÔ RÁO';
-                document.getElementById('n1-th').innerText    = `${st.node1.temp}°C / ${st.node1.hum}%`;
-                document.getElementById('n1-pres').innerText  = `${st.node1.pres} hPa`;
-                document.getElementById('n1-rssi').innerText  = `Sóng LoRa: ${st.node1.rssi} dBm`;
-                const s1 = document.getElementById('n1-status');
-                s1.innerText = st.node1.online == 1 ? 'TRỰC TUYẾN' : 'MẤT KẾT NỐI';
-                s1.className = st.node1.online == 1 ? 'px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/40' : 'px-3 py-1 rounded-full text-xs font-bold bg-rose-500/20 text-rose-400 border border-rose-500/40';
-
-                // Cập nhật Node 2 (Gồm cả Độ ẩm đất)
+                // Cập nhật dữ liệu từ node2 lên giao diện Trạm Node
                 const soilVal = st.node2.soil !== undefined ? st.node2.soil : 0;
-                document.getElementById('n2-soil').innerText     = soilVal + '%';
+                document.getElementById('n2-soil').innerText       = soilVal + '%';
                 document.getElementById('n2-soil-bar').style.width = soilVal + '%';
-                document.getElementById('n2-water').innerText    = st.node2.water + '%';
-                document.getElementById('n2-rain').innerText     = st.node2.rain == 1 ? 'ĐANG MƯA' : 'KHÔ RÁO';
-                document.getElementById('n2-th').innerText       = `${st.node2.temp}°C / ${st.node2.hum}%`;
-                document.getElementById('n2-rssi').innerText     = `Sóng LoRa: ${st.node2.rssi} dBm`;
+                document.getElementById('n2-water').innerText      = st.node2.water + '%';
+                document.getElementById('n2-rain').innerText       = st.node2.rain == 1 ? 'ĐANG MƯA' : 'KHÔ RÁO';
+                document.getElementById('n2-th').innerText         = `${st.node2.temp}°C / ${st.node2.hum}%`;
+                document.getElementById('n2-rssi').innerText       = `Sóng LoRa: ${st.node2.rssi} dBm`;
+                document.getElementById('n2-sys-code').innerText   = `STATUS: ${st.node2.status_code || 'NORMAL'}`;
+
                 const s2 = document.getElementById('n2-status');
                 s2.innerText = st.node2.online == 1 ? 'TRỰC TUYẾN' : 'MẤT KẾT NỐI';
-                s2.className = st.node2.online == 1 ? 'px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/40' : 'px-3 py-1 rounded-full text-xs font-bold bg-rose-500/20 text-rose-400 border border-rose-500/40';
+                s2.className = st.node2.online == 1
+                    ? 'px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/40'
+                    : 'px-3 py-1 rounded-full text-xs font-bold bg-rose-500/20 text-rose-400 border border-rose-500/40';
 
-                // Nút điều khiển
-                styleModeButtons('btn-n1-auto', 'btn-n1-man', currentCommands.mode1);
+                // Cập nhật trạng thái nút điều khiển (pump2 -> Bơm 1, pump3 -> Bơm 2, buzz2 -> Còi báo động)
                 styleModeButtons('btn-n2-auto', 'btn-n2-man', currentCommands.mode2);
-                styleButton('btn-pump1', 'txt-pump1', currentCommands.pump1);
-                styleButton('btn-buzz1', 'txt-buzz1', currentCommands.buzz1);
                 styleButton('btn-pump2', 'txt-pump2', currentCommands.pump2);
                 styleButton('btn-pump3', 'txt-pump3', currentCommands.pump3);
                 styleButton('btn-buzz2', 'txt-buzz2', currentCommands.buzz2);
 
-                // Bảng lịch sử
+                // Cập nhật bảng lịch sử (chỉ hiển thị dữ liệu của Node)
                 const tbody = document.getElementById('history-body');
                 tbody.innerHTML = (data.history || []).slice(0, 8).map(row => `
                     <tr class="hover:bg-slate-700/40">
                         <td class="p-3 font-mono text-xs">${row.time}</td>
-                        <td class="p-3 font-semibold text-sky-400">${row.n1_water}%</td>
-                        <td class="p-3">${row.n1_temp}°C</td>
                         <td class="p-3 font-bold text-emerald-400">${row.n2_soil !== undefined ? row.n2_soil : '--'}%</td>
                         <td class="p-3 font-semibold text-sky-300">${row.n2_water}%</td>
                         <td class="p-3">${row.n2_temp}°C / ${row.n2_hum}%</td>
@@ -264,7 +201,7 @@
         }
 
         fetchDashboard();
-        setInterval(fetchDashboard, 2500);
+        setInterval(fetchDashboard, 1000);
     </script>
 </body>
 </html>
