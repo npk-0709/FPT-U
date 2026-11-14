@@ -2,22 +2,16 @@ package datastructure;
 
 import model.Batch;
 
-/**
- *
- * @author Group4_SE2023
- */
 public class BatchNode {
 
     private Batch data;
     private BatchNode next;
 
-    // TODO: Constructors, Getters & Setters
-
     public BatchNode() {
         this.data = null;
         this.next = null;
     }
-    
+
     public BatchNode(Batch data){
         this.data = data;
         this.next = null;
@@ -39,5 +33,4 @@ public class BatchNode {
         this.next = next;
     }
 
-    
 }

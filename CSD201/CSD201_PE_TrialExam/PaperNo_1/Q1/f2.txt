@@ -1,0 +1,9 @@
+--- Initial Playlist State ---
+--- Current Playlist ---
+Empty
+
+>>> Testing f2: Adding a new song to the playlist...
+
+--- Final Playlist State ---
+--- Current Playlist ---
+(S99, New_Song, Test_Artist)

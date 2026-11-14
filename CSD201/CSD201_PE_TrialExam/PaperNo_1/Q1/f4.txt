@@ -1,0 +1,11 @@
+--- Initial Library State ---
+--- Song Library (In-Order) ---
+(S01, Hey_Jude, The_Beatles)
+(S02, Eleanor_Rigby, The_Beatles)
+(S03, Yesterday, The_Beatles)
+(S04, Come_Together, The_Beatles)
+(S05, Let_It_Be, The_Beatles)
+
+>>> Testing f4: Counting songs between S02 and S04...
+
+Result: Found 3 songs in the specified range.

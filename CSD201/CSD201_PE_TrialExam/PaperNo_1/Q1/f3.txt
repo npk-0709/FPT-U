@@ -1,0 +1,9 @@
+>>> Testing f3: Inserting songs into the library...
+
+--- Final State of Library ---
+--- Song Library (In-Order) ---
+(S01, Hey_Jude, The_Beatles)
+(S02, Eleanor_Rigby, The_Beatles)
+(S03, Yesterday, The_Beatles)
+(S04, Come_Together, The_Beatles)
+(S05, Let_It_Be, The_Beatles)

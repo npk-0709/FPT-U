@@ -1,0 +1,6 @@
+>>> Testing f1: Counting songs in a playlist...
+--- Current Playlist ---
+(S03, Yesterday, The_Beatles)
+(S01, Hey_Jude, The_Beatles)
+
+Total songs in playlist: 2

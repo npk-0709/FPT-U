@@ -5,10 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import model.Batch;
 
-/**
- *
- * @author Group4_SE2023
- */
 public class BatchQueue {
 
     private BatchNode front;
@@ -52,7 +48,7 @@ public class BatchQueue {
     }
 
     public void enqueue(Batch batch) {
-        // addTail
+
         BatchNode newNode = new BatchNode(batch);
         if (isEmpty()) {
             front = newNode;
@@ -91,7 +87,7 @@ public class BatchQueue {
     }
 
     public int getTotalQuantityInQueue() {
-        // count tong so quantity co trong Queue
+
         int count = 0;
         if (isEmpty()) {
             return 0;
@@ -105,10 +101,10 @@ public class BatchQueue {
     }
 
     public List<Batch> removeExpired(LocalDate today) {
-        // Tra ve danh sach cac lo hang bi loai bo 
+
         List<Batch> removedList = new ArrayList<>();
         if (isEmpty()) {
-            return null;
+            return removedList;
         }
         BatchNode prev = null;
         BatchNode current = front;
@@ -132,5 +128,6 @@ public class BatchQueue {
             }
         }
         return removedList;
+
     }
 }

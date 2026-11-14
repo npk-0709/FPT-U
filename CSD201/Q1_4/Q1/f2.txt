@@ -1,0 +1,6 @@
+Current Luggage (Top -> Bottom):
+(L04,Dung,20)(L03,Chi,18)(L02,Binh,23)(L01,An,15)
+Unloading 2 luggage:
+Unloaded weight: 38
+Remaining Luggage (Top -> Bottom):
+(L02,Binh,23)(L01,An,15)

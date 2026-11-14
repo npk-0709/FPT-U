@@ -2,21 +2,15 @@ package model;
 
 import datastructure.BatchQueue;
 
-/**
- *
- * @author Group4_SE2023
- */
 public class Product {
 
-    private String barcode;          // Mã định danh (Khóa chính để so sánh trong BST)
-    private String name;             // Tên sản phẩm
-    private String category;         // Danh mục
-    private String unit;             // Đơn vị tính (Thùng, Hộp, Cái...)
-    private double price;            // Giá bán niêm yết
-    private BatchQueue batchQueue;   // Hàng đợi chứa các lô hàng của sản phẩm này
+    private String barcode;
+    private String name;
+    private String category;
+    private String unit;
+    private double price;
+    private BatchQueue batchQueue;
 
-    // TODO: Constructors (nhớ khởi tạo this.batchQueue = new BatchQueue()), Getters & Setters
-    
     public Product() {
         this.batchQueue = new BatchQueue();
     }
@@ -78,7 +72,6 @@ public class Product {
         this.batchQueue = batchQueue;
     }
 
-    // Hàm tính tổng tồn kho từ các lô hàng
     public int calculateTotalQuantity() {
         return batchQueue.getTotalQuantityInQueue();
     }

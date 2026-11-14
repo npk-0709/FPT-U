@@ -14,30 +14,16 @@ import model.StockTransaction;
 import model.TransactionType;
 import view.ConsoleView;
 
-/**
- * Controller managing inventory statistics, warnings, sorted views, and transaction reports.
- * 
- * @author Group4_SE2023
- */
 public class StatisticsManager {
 
     private ProductBST productTree;
     private TransactionLog transactionLog;
 
-    /**
-     * Default constructor.
-     */
     public StatisticsManager() {
         this.productTree = new ProductBST();
         this.transactionLog = new TransactionLog();
     }
 
-    /**
-     * Constructor injecting shared productTree and transactionLog instances.
-     *
-     * @param productTree    The shared product tree
-     * @param transactionLog The shared transaction log
-     */
     public StatisticsManager(ProductBST productTree, TransactionLog transactionLog) {
         this.productTree = (productTree != null) ? productTree : new ProductBST();
         this.transactionLog = (transactionLog != null) ? transactionLog : new TransactionLog();
@@ -59,10 +45,6 @@ public class StatisticsManager {
         this.transactionLog = (transactionLog != null) ? transactionLog : new TransactionLog();
     }
 
-    /**
-     * Generates and displays a comprehensive inventory summary report.
-     * Reads directly from productTree to aggregate quantities, values, and batch counts.
-     */
     public void generateInventorySummary() {
         List<Product> products = productTree.inOrderList();
 
@@ -85,7 +67,7 @@ public class StatisticsManager {
 
         int totalSku = 0;
         long totalStockQuantity = 0;
-        double totalInventoryValue = 0.0;
+        double totalInventoryValue = 0;
         int totalBatches = 0;
 
         for (Product product : products) {
@@ -119,10 +101,6 @@ public class StatisticsManager {
         System.out.println("=========================================================================================================\n");
     }
 
-    /**
-     * Checks and alerts for products with low stock levels (<= StoreInfo.LOW_STOCK_THRESHOLD)
-     * and batches that are expired or expiring within 30 days.
-     */
     public void checkExpiredOrLowStockBatches() {
         LocalDate today = LocalDate.now();
         List<Product> products = productTree.inOrderList();
@@ -137,7 +115,6 @@ public class StatisticsManager {
             return;
         }
 
-        // 1. Check low stock products
         System.out.println("[1] LOW STOCK PRODUCTS LIST (Warning Threshold: <= " + StoreInfo.LOW_STOCK_THRESHOLD + "):");
         List<Product> lowStockProducts = new ArrayList<>();
         for (Product product : products) {
@@ -161,7 +138,6 @@ public class StatisticsManager {
 
         System.out.println();
 
-        // 2. Check expired or expiring batches (within 30 days)
         System.out.println("[2] EXPIRED OR EXPIRING SOON BATCHES (<= 30 days):");
         boolean foundBatchWarning = false;
 
@@ -213,23 +189,16 @@ public class StatisticsManager {
         System.out.println("=========================================================================================================\n");
     }
 
-    /**
-     * Extracts all products from productTree and displays them sorted by total quantity.
-     * Uses QuickSort algorithm on the extracted list.
-     */
     public void displaySortedProductsByQuantity() {
-        List<Product> products = new ArrayList<>(productTree.inOrderList());
+        List<Product> products = getSortedProductsByQuantity(true);
 
         if (products.isEmpty()) {
             System.out.println(">> Notice: No products to sort.");
             return;
         }
 
-        // QuickSort in descending order by total quantity
-        quickSort(products, 0, products.size() - 1);
-
         System.out.println("\n======================================================================================");
-        System.out.println("                 PRODUCTS SORTED BY QUANTITY DESCENDING (QUICKSORT)");
+        System.out.println("                 PRODUCTS SORTED BY QUANTITY DESCENDING (BUBBLE SORT)");
         System.out.println("======================================================================================");
         System.out.printf("%-5s | %-14s | %-20s | %-12s | %-8s | %10s | %9s%n",
                 "Rank", "Barcode", "Product Name", "Category", "Unit", "Price", "Total Qty");
@@ -249,75 +218,38 @@ public class StatisticsManager {
         System.out.println("======================================================================================\n");
     }
 
-    /**
-     * Returns products sorted by quantity.
-     *
-     * @param descending true for highest to lowest stock, false for lowest to highest
-     * @return Sorted list of products
-     */
     public List<Product> getSortedProductsByQuantity(boolean descending) {
         List<Product> list = new ArrayList<>(productTree.inOrderList());
-        if (list.size() > 1) {
-            quickSort(list, 0, list.size() - 1);
-            if (!descending) {
-                // Reverse to ascending
-                int left = 0;
-                int right = list.size() - 1;
-                while (left < right) {
-                    Product temp = list.get(left);
-                    list.set(left, list.get(right));
-                    list.set(right, temp);
-                    left++;
-                    right--;
-                }
-            }
-        }
+        bubbleSort(list, descending);
         return list;
     }
 
-    /**
-     * QuickSort implementation sorting products descending by total quantity.
-     */
-    private void quickSort(List<Product> list, int low, int high) {
-        if (low < high) {
-            int pi = partition(list, low, high);
-            quickSort(list, low, pi - 1);
-            quickSort(list, pi + 1, high);
-        }
-    }
-
-    private int partition(List<Product> list, int low, int high) {
-        int pivot = list.get(high).calculateTotalQuantity();
-        int i = low - 1;
-
-        for (int j = low; j < high; j++) {
-            // Descending order: items with higher or equal quantity placed first
-            if (list.get(j).calculateTotalQuantity() >= pivot) {
-                i++;
-                Product temp = list.get(i);
-                list.set(i, list.get(j));
-                list.set(j, temp);
+    private void bubbleSort(List<Product> list, boolean descending){
+        int n = list.size();
+        for (int i = 0; i < n -1; i++){
+            for (int j = 0; j < n -1 - i ; j++){
+                if(descending){
+                    if(list.get(j).calculateTotalQuantity() < list.get(j+1).calculateTotalQuantity()){
+                        Product tmp = list.get(j);
+                        list.set(j, list.get(j+1));
+                        list.set(j+1, tmp);
+                    }
+                }else{
+                    if(list.get(j).calculateTotalQuantity() > list.get(j+1).calculateTotalQuantity()){
+                        Product tmp = list.get(j);
+                        list.set(j, list.get(j+1));
+                        list.set(j+1, tmp);
+                    }
+                }
             }
         }
-
-        Product temp = list.get(i + 1);
-        list.set(i + 1, list.get(high));
-        list.set(high, temp);
-
-        return i + 1;
     }
 
-    /**
-     * Generates a transaction report for a specific product or all products if barcode is blank.
-     * Calculates total INBOUND, OUTBOUND, and EXPIRED quantities, and prints transaction history.
-     *
-     * @param barcode The product barcode (or null/empty for all transactions)
-     */
     public void generateTransactionReport(String barcode) {
         ConsoleView view = new ConsoleView();
 
         if (barcode == null || barcode.trim().isEmpty() || barcode.trim().equalsIgnoreCase("ALL")) {
-            // Report for all transactions
+
             System.out.println("\n=========================================================================================");
             System.out.println("                        COMPLETE WAREHOUSE TRANSACTION REPORT");
             System.out.println("=========================================================================================");
@@ -372,6 +304,9 @@ public class StatisticsManager {
         if (text == null) {
             return "";
         }
-        return (text.length() <= maxLength) ? text : text.substring(0, maxLength - 3) + "...";
+        if(text.length() <= maxLength){
+            return text;
+        }
+        return text.substring(0, maxLength - 3) + "...";
     }
 }

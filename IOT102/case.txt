@@ -1,0 +1,7 @@
+Khi độ ẩm đất đo từ chân Analog A0 giảm xuống 48% (thấp hơn ngưỡng dưới SOIL_START_IRRIG = 55%), hệ thống tự động kích hoạt Bơm 1 (Tưới gốc), cập nhật lên trang Index và gửi thông báo tưới tự động về Telegram.
+Khi cảm biến BME280 ghi nhận nhiệt độ môi trường vượt ngưỡng 33.0°C (đạt 34.6°C) và độ ẩm đất chưa bão hòa (60% < 70%), hệ thống tự động kích hoạt Bơm 2 (Phun sương) để làm mát tán lá và gửi cảnh báo nắng nóng về Telegram.
+Dù đất đang khô (45%), nhưng khi mực nước bồn giảm dưới 20% (chân RX = LOW, tương ứng mức 15%), hệ thống lập tức bật cờ dryRunLocked = true, khóa cưỡng bức toàn bộ Bơm 1 & Bơm 2, phát còi nhắc nhở mỗi 5 giây và gửi cảnh báo khẩn cấp về Telegram.
+Khi trời mưa, cảm biến mưa tại chân D3 = LOW nhận diện có mưa. Dù bơm đang chạy hay đất đang khô (52%), hệ thống lập tức ngắt toàn bộ Bơm 1 & Bơm 2 (statusCode = STOP_BY_RAIN) để tránh lãng phí nước, bảo vệ cây trồng và báo ngay về Telegram.
+Sau khi Bơm 1 chạy liên tục 15 giây mà độ ẩm đất chỉ tăng từ 48% lên 49% (tức mức tăng < 3%), hệ thống nhận diện sự cố tắc nghẽn bơm hoặc vỡ ống dẫn nước, lập tức khóa vĩnh viễn cụm bơm (pumpFaultLock = true), hú còi báo động khẩn cấp và gửi cảnh báo đỏ về Telegram!
+Nếu Node 1 bị ngắt kết nối sau khoảng 10 giây thì sẽ gửi cảnh báo về tele
+Thực hiện thao tác thủ công trên website thay vì tự động dành cho trường hợp cảm biến hỏng và muốn thực hiện thao tác bằng tay từ xa

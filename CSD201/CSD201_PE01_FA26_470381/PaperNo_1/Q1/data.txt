@@ -1,0 +1,11 @@
+Luggage:
+L01 L02 L03 L04
+An Binh Chi Dung
+15 23 18 20
+Flights:
+VN210 VJ122 QH305 VN118 VJ450
+Ha_Noi Da_Nang Hue Da_Lat Phu_Quoc
+1500 900 1200 900 2100
+2
+VJ122
+1600

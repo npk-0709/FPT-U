@@ -2,10 +2,6 @@ package datastructure;
 
 import model.Product;
 
-/**
- *
- * @author Group4_SE2023
- */
 public class Node {
 
     private Product data;
