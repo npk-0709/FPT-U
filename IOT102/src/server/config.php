@@ -1,7 +1,7 @@
 <?php
 $configFile = __DIR__ . "/iot_config.json";
 
-// Thông số mặc định ban đầu
+// Initial default parameters
 $defaultConfig = [
     "TANK_EMPTY_LOCK_PCT" => 20,
     "SOIL_START_IRRIG" => 55,
@@ -26,17 +26,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         "PUMP_STALL_TIMEOUT"  => intval($_POST["PUMP_STALL_TIMEOUT"])
     ];
     file_put_contents($configFile, json_encode($newConfig, JSON_PRETTY_PRINT));
-    $message = "Đã lưu cấu hình thành công!";
+    $message = "Configuration saved successfully!";
 }
 
 $config = json_decode(file_get_contents($configFile), true);
 ?>
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cấu hình Ngưỡng Cảnh Báo</title>
+    <title>Alert Threshold Configuration</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = { darkMode: 'class' }
@@ -47,11 +47,11 @@ $config = json_decode(file_get_contents($configFile), true);
         <!-- Header -->
         <div class="flex justify-between items-center bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 mb-6 shadow-sm">
             <div>
-                <h1 class="text-2xl font-bold text-amber-600 dark:text-amber-400">CẤU HÌNH HỆ THỐNG</h1>
-                <p class="text-slate-500 dark:text-slate-400 text-sm mt-1">Cài đặt ngưỡng tự động & cảnh báo</p>
+                <h1 class="text-2xl font-bold text-amber-600 dark:text-amber-400">SYSTEM CONFIGURATION</h1>
+                <p class="text-slate-500 dark:text-slate-400 text-sm mt-1">Automatic threshold & alert settings</p>
             </div>
             <div class="flex gap-3">
-                <a href="/" class="px-4 py-2 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-lg text-sm font-medium hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors border border-slate-200 dark:border-slate-600">Trở về Panel</a>
+                <a href="/" class="px-4 py-2 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-lg text-sm font-medium hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors border border-slate-200 dark:border-slate-600">Return to Panel</a>
                 <button onclick="toggleDarkMode()" class="p-2 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors border border-slate-200 dark:border-slate-600">
                     <svg class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
                     <svg class="w-5 h-5 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
@@ -65,52 +65,52 @@ $config = json_decode(file_get_contents($configFile), true);
             </div>
         <?php endif; ?>
 
-        <!-- Form Cấu hình -->
+        <!-- Configuration Form -->
         <form method="POST" class="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-sm">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                <!-- Nước & Kẹt Bơm -->
+                <!-- Water & Pump Stall -->
                 <div class="space-y-4">
-                    <h2 class="font-bold text-lg text-emerald-600 dark:text-emerald-400 border-b border-slate-200 dark:border-slate-700 pb-2">Bảo vệ Máy Bơm</h2>
+                    <h2 class="font-bold text-lg text-emerald-600 dark:text-emerald-400 border-b border-slate-200 dark:border-slate-700 pb-2">Pump Protection</h2>
                     <div>
-                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Ngưỡng cạn bồn chứa (%)</label>
+                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Tank empty threshold (%)</label>
                         <input type="number" name="TANK_EMPTY_LOCK_PCT" value="<?= $config['TANK_EMPTY_LOCK_PCT'] ?>" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-emerald-500 outline-none">
-                        <p class="text-xs text-slate-500 mt-1">Khóa bơm nếu nước thấp hơn mức này</p>
+                        <p class="text-xs text-slate-500 mt-1">Lock pump if water is below this level</p>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Thời gian báo kẹt bơm (ms)</label>
+                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Pump stall timeout (ms)</label>
                         <input type="number" name="PUMP_STALL_TIMEOUT" value="<?= $config['PUMP_STALL_TIMEOUT'] ?>" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-emerald-500 outline-none">
-                        <p class="text-xs text-slate-500 mt-1">Mặc định: 180000 (3 phút)</p>
+                        <p class="text-xs text-slate-500 mt-1">Default: 180000 (3 minutes)</p>
                     </div>
                 </div>
 
-                <!-- Bơm 1: Tưới Gốc -->
+                <!-- Pump 1: Base Irrigation -->
                 <div class="space-y-4">
-                    <h2 class="font-bold text-lg text-sky-600 dark:text-sky-400 border-b border-slate-200 dark:border-slate-700 pb-2">Tưới Gốc (Bơm 1)</h2>
+                    <h2 class="font-bold text-lg text-sky-600 dark:text-sky-400 border-b border-slate-200 dark:border-slate-700 pb-2">Base Irrigation (Pump 1)</h2>
                     <div>
-                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Độ ẩm đất bắt đầu tưới (%)</label>
+                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Soil moisture to start irrigation (%)</label>
                         <input type="number" name="SOIL_START_IRRIG" value="<?= $config['SOIL_START_IRRIG'] ?>" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-sky-500 outline-none">
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Độ ẩm đất ngừng tưới (%)</label>
+                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Soil moisture to stop irrigation (%)</label>
                         <input type="number" name="SOIL_STOP_IRRIG" value="<?= $config['SOIL_STOP_IRRIG'] ?>" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-sky-500 outline-none">
                     </div>
                 </div>
 
-                <!-- Bơm 2: Phun Sương -->
+                <!-- Pump 2: Misting -->
                 <div class="space-y-4">
-                    <h2 class="font-bold text-lg text-amber-500 dark:text-amber-400 border-b border-slate-200 dark:border-slate-700 pb-2">Phun Sương (Bơm 2)</h2>
+                    <h2 class="font-bold text-lg text-amber-500 dark:text-amber-400 border-b border-slate-200 dark:border-slate-700 pb-2">Misting (Pump 2)</h2>
                     <div>
-                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Nhiệt độ BẬT phun sương (°C)</label>
+                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Temperature to turn ON misting (°C)</label>
                         <input type="number" step="0.1" name="TEMP_START_MIST" value="<?= $config['TEMP_START_MIST'] ?>" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-amber-500 outline-none">
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Nhiệt độ TẮT phun sương (°C)</label>
+                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Temperature to turn OFF misting (°C)</label>
                         <input type="number" step="0.1" name="TEMP_STOP_MIST" value="<?= $config['TEMP_STOP_MIST'] ?>" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-amber-500 outline-none">
                     </div>
                 </div>
             </div>
             <div class="pt-4 border-t border-slate-200 dark:border-slate-700 text-right">
-                <button type="submit" class="px-6 py-2.5 bg-emerald-500 hover:bg-emerald-600 text-white font-bold rounded-lg shadow-md transition-colors">LƯU CẤU HÌNH</button>
+                <button type="submit" class="px-6 py-2.5 bg-emerald-500 hover:bg-emerald-600 text-white font-bold rounded-lg shadow-md transition-colors">SAVE CONFIGURATION</button>
             </div>
         </form>
     </div>
@@ -119,8 +119,8 @@ $config = json_decode(file_get_contents($configFile), true);
         function toggleDarkMode() {
             document.documentElement.classList.toggle('dark');
         }
-        // Thêm nút đi tới config vào trang index.html:
-        // Bạn có thể chèn <a href="config.php" class="...">Cấu hình</a> vào HTML của trang index
+        // Add a button to go to config in the index.html page:
+        // You can insert <a href="config.php" class="...">Settings</a> into the HTML of the index page
     </script>
 </body>
 </html>

@@ -347,7 +347,7 @@ void syncWithPHPServer() {
           last_cfg_t_st = t_st; last_cfg_t_sp = t_sp; last_cfg_timeout = timeout;
 
           String configPayload = "CFG,2," + String(tnk) + "," + String(s_st) + "," + String(s_sp) + 
-                                 "," + String(t_st, 1) + "," + String(t_sp, 1) + "," + String(timeout);
+                                "," + String(t_st, 1) + "," + String(t_sp, 1) + "," + String(timeout);
           
           delay(20);
           LoRa.beginPacket();
