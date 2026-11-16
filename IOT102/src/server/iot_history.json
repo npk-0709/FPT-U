@@ -1,0 +1,272 @@
+[
+    {
+        "time": "03:41:07",
+        "n1_water": 35,
+        "n1_temp": 29,
+        "n2_soil": 49,
+        "n2_water": 85,
+        "n2_temp": 31.2,
+        "n2_hum": 49
+    },
+    {
+        "time": "03:40:58",
+        "n1_water": 35,
+        "n1_temp": 29,
+        "n2_soil": 52,
+        "n2_water": 85,
+        "n2_temp": 28.2,
+        "n2_hum": 52
+    },
+    {
+        "time": "03:40:54",
+        "n1_water": 35,
+        "n1_temp": 29,
+        "n2_soil": 45,
+        "n2_water": 15,
+        "n2_temp": 32,
+        "n2_hum": 45
+    },
+    {
+        "time": "03:40:43",
+        "n1_water": 35,
+        "n1_temp": 29,
+        "n2_soil": 60,
+        "n2_water": 85,
+        "n2_temp": 34.6,
+        "n2_hum": 60
+    },
+    {
+        "time": "03:40:36",
+        "n1_water": 35,
+        "n1_temp": 29,
+        "n2_soil": 48,
+        "n2_water": 85,
+        "n2_temp": 30.5,
+        "n2_hum": 48
+    },
+    {
+        "time": "14:27:49",
+        "n1_water": 35,
+        "n1_temp": 29,
+        "n2_soil": 60,
+        "n2_water": 85,
+        "n2_temp": 26.5,
+        "n2_hum": 60
+    },
+    {
+        "time": "06:15:32",
+        "n1_water": 35,
+        "n1_temp": 29,
+        "n2_soil": 62,
+        "n2_water": 85,
+        "n2_temp": 30,
+        "n2_hum": 62
+    },
+    {
+        "time": "06:14:36",
+        "n1_water": 35,
+        "n1_temp": 29,
+        "n2_soil": 62,
+        "n2_water": 85,
+        "n2_temp": 30,
+        "n2_hum": 62
+    },
+    {
+        "time": "06:13:06",
+        "n1_water": 35,
+        "n1_temp": 29,
+        "n2_soil": 49,
+        "n2_water": 85,
+        "n2_temp": 31.2,
+        "n2_hum": 49
+    },
+    {
+        "time": "06:12:42",
+        "n1_water": 35,
+        "n1_temp": 29,
+        "n2_soil": 0,
+        "n2_water": 85,
+        "n2_temp": 31,
+        "n2_hum": 0
+    },
+    {
+        "time": "06:11:54",
+        "n1_water": 35,
+        "n1_temp": 29,
+        "n2_soil": 49,
+        "n2_water": 85,
+        "n2_temp": 31.2,
+        "n2_hum": 49
+    },
+    {
+        "time": "06:09:22",
+        "n1_water": 35,
+        "n1_temp": 29,
+        "n2_soil": 0,
+        "n2_water": 85,
+        "n2_temp": 31,
+        "n2_hum": 0
+    },
+    {
+        "time": "06:08:21",
+        "n1_water": 35,
+        "n1_temp": 29,
+        "n2_soil": 49,
+        "n2_water": 85,
+        "n2_temp": 31.2,
+        "n2_hum": 49
+    },
+    {
+        "time": "06:07:09",
+        "n1_water": 35,
+        "n1_temp": 29,
+        "n2_soil": 0,
+        "n2_water": 85,
+        "n2_temp": 31,
+        "n2_hum": 0
+    },
+    {
+        "time": "06:05:40",
+        "n1_water": 35,
+        "n1_temp": 29,
+        "n2_soil": 49,
+        "n2_water": 85,
+        "n2_temp": 31.2,
+        "n2_hum": 49
+    },
+    {
+        "time": "06:04:23",
+        "n1_water": 35,
+        "n1_temp": 29,
+        "n2_soil": 0,
+        "n2_water": 85,
+        "n2_temp": 31,
+        "n2_hum": 0
+    },
+    {
+        "time": "06:03:20",
+        "n1_water": 35,
+        "n1_temp": 29,
+        "n2_soil": 49,
+        "n2_water": 85,
+        "n2_temp": 31.2,
+        "n2_hum": 49
+    },
+    {
+        "time": "06:01:50",
+        "n1_water": 35,
+        "n1_temp": 29,
+        "n2_soil": 0,
+        "n2_water": 85,
+        "n2_temp": 30.5,
+        "n2_hum": 0
+    },
+    {
+        "time": "05:59:56",
+        "n1_water": 35,
+        "n1_temp": 29,
+        "n2_soil": 48,
+        "n2_water": 85,
+        "n2_temp": 30.5,
+        "n2_hum": 48
+    },
+    {
+        "time": "05:59:35",
+        "n1_water": 35,
+        "n1_temp": 29,
+        "n2_soil": 48,
+        "n2_water": 85,
+        "n2_temp": 31,
+        "n2_hum": 48
+    },
+    {
+        "time": "05:59:19",
+        "n1_water": 35,
+        "n1_temp": 29,
+        "n2_soil": 49,
+        "n2_water": 85,
+        "n2_temp": 31.2,
+        "n2_hum": 49
+    },
+    {
+        "time": "05:58:38",
+        "n1_water": 35,
+        "n1_temp": 29,
+        "n2_soil": 52,
+        "n2_water": 85,
+        "n2_temp": 28.2,
+        "n2_hum": 52
+    },
+    {
+        "time": "05:56:46",
+        "n1_water": 35,
+        "n1_temp": 29,
+        "n2_soil": 68,
+        "n2_water": 85,
+        "n2_temp": 29.4,
+        "n2_hum": 68
+    },
+    {
+        "time": "05:56:14",
+        "n1_water": 35,
+        "n1_temp": 29,
+        "n2_soil": 52,
+        "n2_water": 85,
+        "n2_temp": 28.2,
+        "n2_hum": 52
+    },
+    {
+        "time": "05:55:37",
+        "n1_water": 35,
+        "n1_temp": 29,
+        "n2_soil": 43,
+        "n2_water": 85,
+        "n2_temp": 29.5,
+        "n2_hum": 43
+    },
+    {
+        "time": "05:52:10",
+        "n1_water": 35,
+        "n1_temp": 29,
+        "n2_soil": 60,
+        "n2_water": 85,
+        "n2_temp": 30.5,
+        "n2_hum": 60
+    },
+    {
+        "time": "05:51:49",
+        "n1_water": 35,
+        "n1_temp": 29,
+        "n2_soil": 45,
+        "n2_water": 15,
+        "n2_temp": 32,
+        "n2_hum": 45
+    },
+    {
+        "time": "05:47:23",
+        "n1_water": 35,
+        "n1_temp": 29,
+        "n2_soil": 45,
+        "n2_water": 85,
+        "n2_temp": 32,
+        "n2_hum": 45
+    },
+    {
+        "time": "05:40:06",
+        "n1_water": 35,
+        "n1_temp": 29,
+        "n2_soil": 45,
+        "n2_water": 15,
+        "n2_temp": 32,
+        "n2_hum": 45
+    },
+    {
+        "time": "05:34:35",
+        "n1_water": 35,
+        "n1_temp": 29,
+        "n2_soil": 66,
+        "n2_water": 85,
+        "n2_temp": 29.5,
+        "n2_hum": 66
+    }
+]

@@ -1,0 +1,33 @@
+{
+    "updated_at": "2026-11-16 10:05:20",
+    "node2": {
+        "temp": 31.2,
+        "hum": 49,
+        "pres": 1009,
+        "water": 85,
+        "soil": 49,
+        "rain": 0,
+        "pump2": 0,
+        "pump3": 0,
+        "buzz2": 0,
+        "mode": 0,
+        "rssi": -32,
+        "online": 1,
+        "status_code": "CRITICAL_PUMP_STALL"
+    },
+    "commands": {
+        "mode2": 0,
+        "pump2": 0,
+        "pump3": 0,
+        "buzz2": 0,
+        "mode1": 0,
+        "pump1": 0,
+        "buzz1": 0
+    },
+    "demo_lock": 1,
+    "node1": {
+        "mode": 0,
+        "pump1": 0,
+        "buzz1": 0
+    }
+}
